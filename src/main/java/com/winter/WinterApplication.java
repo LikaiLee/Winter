@@ -4,6 +4,8 @@
  */
 package com.winter;
 
+import com.winter.server.HttpServer;
+
 /**
  * Winter is named because it is written in winter.
  *
@@ -12,6 +14,7 @@ package com.winter;
  */
 public class WinterApplication {
     public static void main(String[] args) {
-
+        HttpServer server = new HttpServer();
+        server.start();
     }
 }
