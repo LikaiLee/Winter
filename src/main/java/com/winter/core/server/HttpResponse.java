@@ -4,10 +4,14 @@
  */
 package com.winter.core.server;
 
+import com.winter.core.exception.ErrorResponse;
 import com.winter.core.serialize.impl.JacksonSerializer;
 import io.netty.buffer.Unpooled;
 import io.netty.handler.codec.http.DefaultFullHttpResponse;
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
+
+import java.time.Instant;
 
 import static com.winter.core.common.HttpConstants.*;
 import static io.netty.handler.codec.http.HttpResponseStatus.INTERNAL_SERVER_ERROR;
@@ -39,12 +43,14 @@ public class HttpResponse {
     /**
      * 服务器异常
      *
+     * @param uri
      * @return
      */
-    public static FullHttpResponse internalServerError() {
-        byte[] content = SERIALIZER.serialize(INTERNAL_SERVER_ERROR.reasonPhrase());
+    public static FullHttpResponse internalServerError(String uri) {
+        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.code(), INTERNAL_SERVER_ERROR.reasonPhrase(), uri);
+        byte[] content = SERIALIZER.serialize(errorResponse);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, INTERNAL_SERVER_ERROR, Unpooled.wrappedBuffer(content));
-        response.headers().set(CONTENT_TYPE, APPLICATION_TEXT);
+        response.headers().set(CONTENT_TYPE, APPLICATION_JSON);
         response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
         return response;
     }
