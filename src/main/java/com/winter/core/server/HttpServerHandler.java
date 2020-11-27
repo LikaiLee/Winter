@@ -2,13 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.server;
+package com.winter.core.server;
 
-import com.winter.factory.RequestHandlerFactory;
-import com.winter.handler.GetRequestHandler;
-import com.winter.handler.PostRequestHandler;
-import com.winter.handler.RequestHandler;
-import com.winter.serialize.impl.JacksonSerializer;
+import com.winter.core.factory.RequestHandlerFactory;
+import com.winter.core.handler.RequestHandler;
+import com.winter.core.serialize.impl.JacksonSerializer;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -16,11 +14,8 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.HashMap;
-import java.util.Map;
 
-
-import static com.winter.common.HttpConstants.*;
+import static com.winter.core.common.HttpConstants.*;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
@@ -84,7 +79,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      */
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        super.channelReadComplete(ctx);
+        ctx.flush();
     }
 
     /**
@@ -96,6 +91,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        super.exceptionCaught(ctx, cause);
+        cause.printStackTrace();
+        ctx.close();
     }
 }

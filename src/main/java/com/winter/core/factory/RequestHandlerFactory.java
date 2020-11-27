@@ -2,11 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.factory;
+package com.winter.core.factory;
 
-import com.winter.handler.GetRequestHandler;
-import com.winter.handler.PostRequestHandler;
-import com.winter.handler.RequestHandler;
+import com.winter.core.handler.GetRequestHandler;
+import com.winter.core.handler.PostRequestHandler;
+import com.winter.core.handler.RequestHandler;
 import io.netty.handler.codec.http.HttpMethod;
 
 import java.util.HashMap;

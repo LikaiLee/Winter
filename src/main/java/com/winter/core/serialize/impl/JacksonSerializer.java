@@ -2,11 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.serialize.impl;
+package com.winter.core.serialize.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.winter.serialize.Serializer;
+import com.winter.core.serialize.Serializer;
 
 import java.io.IOException;
 

@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.common;
+package com.winter.core.common;
 
 import java.io.IOException;
 import java.net.URISyntaxException;

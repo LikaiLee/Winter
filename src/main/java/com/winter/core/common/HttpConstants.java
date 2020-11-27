@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.common;
+package com.winter.core.common;
 
 import io.netty.util.AsciiString;
 
@@ -19,7 +19,7 @@ public class HttpConstants {
     public static final AsciiString CONNECTION = AsciiString.cached("Connection");
     public static final AsciiString KEEP_ALIVE = AsciiString.cached("keep-alive");
 
-    public static final AsciiString APPLICATION_JSON = AsciiString.cached("application/json");
+    public static final String APPLICATION_JSON = "application/json";
 
     private HttpConstants() {
     }

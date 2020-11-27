@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.common;
+package com.winter.core.common;
 
 /**
  * 系统常量

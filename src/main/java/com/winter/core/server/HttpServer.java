@@ -2,9 +2,9 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.server;
+package com.winter.core.server;
 
-import com.winter.common.SystemConstants;
+import com.winter.core.common.SystemConstants;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -16,8 +16,6 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
-import io.netty.handler.logging.LogLevel;
-import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
 /**

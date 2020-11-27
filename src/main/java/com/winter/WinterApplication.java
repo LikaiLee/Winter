@@ -4,8 +4,9 @@
  */
 package com.winter;
 
-import com.winter.common.Banner;
-import com.winter.server.HttpServer;
+import com.winter.core.common.Banner;
+import com.winter.core.router.Router;
+import com.winter.core.server.HttpServer;
 
 /**
  * Winter is named because it is written in winter.
@@ -16,6 +17,8 @@ import com.winter.server.HttpServer;
 public class WinterApplication {
     public static void main(String[] args) {
         Banner.printBanner();
+        Router router = new Router();
+        router.loadRoutes("com.winter.demo");
         HttpServer server = new HttpServer();
         server.start();
     }

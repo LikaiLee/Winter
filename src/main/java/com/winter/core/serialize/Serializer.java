@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.serialize;
+package com.winter.core.serialize;
 
 /**
  * @author likailee.llk
