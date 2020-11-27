@@ -4,6 +4,7 @@
  */
 package com.winter.server;
 
+import com.winter.factory.RequestHandlerFactory;
 import com.winter.handler.GetRequestHandler;
 import com.winter.handler.PostRequestHandler;
 import com.winter.handler.RequestHandler;
@@ -32,14 +33,6 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 @Slf4j
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
-    private final Map<HttpMethod, RequestHandler> requestHandlers;
-
-    public HttpServerHandler() {
-        this.requestHandlers = new HashMap<>();
-        this.requestHandlers.put(HttpMethod.GET, new GetRequestHandler());
-        this.requestHandlers.put(HttpMethod.POST, new PostRequestHandler());
-    }
-
     /**
      * 处理请求
      *
@@ -55,7 +48,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             return;
         }
         // 获取对应的请求处理器
-        RequestHandler requestHandler = requestHandlers.get(fullHttpRequest.method());
+        RequestHandler requestHandler = RequestHandlerFactory.create(fullHttpRequest.method());
         Object result = requestHandler.handle(fullHttpRequest);
         // 生成响应数据
         FullHttpResponse response = buildHttpResponse(result);
