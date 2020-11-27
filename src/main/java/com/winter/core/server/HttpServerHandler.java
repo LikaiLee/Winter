@@ -48,7 +48,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             response = HttpResponse.ok(result);
         } catch (Exception e) {
             log.error("internal server error occurs", e);
-            response = HttpResponse.internalServerError(fullHttpRequest.uri());
+            response = HttpResponse.internalServerError(fullHttpRequest.uri(), e.toString());
         }
         boolean isKeepAlive = HttpUtil.isKeepAlive(fullHttpRequest);
         if (isKeepAlive) {

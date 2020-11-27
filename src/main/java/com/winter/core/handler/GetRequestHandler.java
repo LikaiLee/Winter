@@ -32,22 +32,22 @@ import java.util.Map;
 public class GetRequestHandler implements RequestHandler {
     @Override
     public Object handle(FullHttpRequest fullHttpRequest) {
-        QueryStringDecoder queryStringDecoder = new QueryStringDecoder(fullHttpRequest.uri(), Charsets.toCharset(CharEncoding.UTF_8));
+        String requestUri = fullHttpRequest.uri();
         // 根据 URL 从路由表中获取对应方法
-        String url = queryStringDecoder.path();
-        Method dispatchMethod = Router.getMappings.get(url);
+        String requestPath = UrlUtils.getRequestPath(requestUri);
+        Method dispatchMethod = Router.getMappings.get(requestPath);
         // 没有可以匹配该 URL 的方法
         if (dispatchMethod == null) {
             log.error("URL mapping failed!");
             return null;
         }
-        List<Object> dispatchMethodArgs = new ArrayList<>();
+        log.info("GET request on method [{}] with uri {}", dispatchMethod.getName(), requestUri);
         // 解析 URL 中的参数
-        Map<String, List<String>> uriAttributes = queryStringDecoder.parameters();
-        Map<String, String> queryParams = UrlUtils.getQueryParams(uriAttributes);
+        Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
         // 获取方法中的参数
         Parameter[] methodArgs = dispatchMethod.getParameters();
         // 只解析方法中带有 @RequestParam 的参数
+        List<Object> dispatchMethodArgs = new ArrayList<>();
         for (Parameter arg : methodArgs) {
             RequestParam requestParam = arg.getAnnotation(RequestParam.class);
             // TODO: @RequestParam 不存在时，或存在但值为空时，直接用方法参数名取值

@@ -20,15 +20,33 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ErrorResponse {
+    /**
+     * 发生错误的错误时间
+     */
     private String timeStamp;
+    /**
+     * 状态码
+     */
     private int status;
+    /**
+     * 错误原因
+     */
+    private String error;
+    /**
+     * 错误信息
+     */
     private String message;
+    /**
+     * 请求的 URL
+     */
     private String url;
 
-    public ErrorResponse(int status, String message, String url) {
+    public ErrorResponse(int status, String error, String message, String url) {
         this.status = status;
+        this.error = error;
         this.message = message;
         this.url = url;
         this.timeStamp = DateUtils.now();
     }
+
 }
