@@ -66,7 +66,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         JacksonSerializer serializer = new JacksonSerializer();
         byte[] content = serializer.serialize(result);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(content));
-        response.headers().set(CONTENT_TYPE, "application/json");
+        response.headers().set(CONTENT_TYPE, APPLICATION_JSON);
         response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
         return response;
     }

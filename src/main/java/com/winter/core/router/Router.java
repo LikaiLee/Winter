@@ -10,9 +10,7 @@ import com.winter.core.annotation.RestController;
 import com.winter.core.scanner.AnnotationClassScanner;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -33,7 +31,8 @@ public class Router {
         Set<Class<?>> classes = AnnotationClassScanner.scan(packageName, RestController.class);
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
-            String baseUrl = getBaseUrlIfPresent(clazz);
+            // TODO: baseUrl 转换成 Controller 上对应的 RequestMapping, GetMapping, PostMapping, 而不应该是 RestController 的 value
+            String baseUrl = clazz.getAnnotation(RestController.class).value();
             // 解析控制器下的所有方法
             Method[] methods = clazz.getMethods();
             mapMethods(baseUrl, methods);
@@ -41,25 +40,6 @@ public class Router {
             log.info("Get Mapping: {}", getMappings);
             log.info("Post Mapping: {}", postMappings);
         }
-    }
-
-    /**
-     * 获取 Controller 上的 URL
-     *
-     * @param clazz Controller
-     * @return Controller URL
-     */
-    private String getBaseUrlIfPresent(Class<?> clazz) {
-        // GET Controller
-        if (clazz.isAnnotationPresent(GetMapping.class)) {
-            return clazz.getAnnotation(GetMapping.class).value();
-        }
-        // POST Controller
-        else if (clazz.isAnnotationPresent(PostMapping.class)) {
-            return clazz.getAnnotation(GetMapping.class).value();
-        }
-        // No Mapping
-        return "";
     }
 
     /**
