@@ -4,6 +4,7 @@
  */
 package com.winter;
 
+import com.winter.common.Banner;
 import com.winter.server.HttpServer;
 
 /**
@@ -14,6 +15,7 @@ import com.winter.server.HttpServer;
  */
 public class WinterApplication {
     public static void main(String[] args) {
+        Banner.printBanner();
         HttpServer server = new HttpServer();
         server.start();
     }

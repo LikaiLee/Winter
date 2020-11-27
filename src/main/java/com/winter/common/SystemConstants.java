@@ -11,15 +11,9 @@ package com.winter.common;
  * @version SystemConstants.java 2020/11/26 Thu 3:52 PM likai
  */
 public class SystemConstants {
-    public static final String LOG_PORT_BANNER = "\n" +
-            "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-            "*                                                                                   *\n" +
-            "*                                                                                   *\n" +
-            "*                   Netty Http Server started on port {}.                         *\n" +
-            "*                                                                                   *\n" +
-            "*                                                                                   *\n" +
-            "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *\n";
+    public static final String LOG_PORT_BANNER = "Netty Http Server started on port {}.";
 
+    public static final String APPLICATION_BANNER_FILE = "banner.txt";
 
     private SystemConstants() {
     }
