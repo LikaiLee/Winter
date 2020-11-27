@@ -16,19 +16,18 @@ import lombok.extern.slf4j.Slf4j;
  * @version UserController.java 2020/11/27 Fri 1:04 PM likai
  */
 @RestController("/user")
-@GetMapping
 @Slf4j
 public class UserController {
 
     @GetMapping("/get")
     public User get(@RequestParam("name") String name,
-                    @RequestParam("age") Integer age
-    ) {
+                    @RequestParam("age") Integer age) {
         return new User(name, age);
     }
 
     @PostMapping("/add")
-    public void add() {
-
+    public User add(@RequestParam("name") String name,
+                    @RequestParam("age") Integer age) {
+        return new User(name, age);
     }
 }

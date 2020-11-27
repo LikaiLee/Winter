@@ -31,10 +31,9 @@ public class Router {
         Set<Class<?>> classes = AnnotationClassScanner.scan(packageName, RestController.class);
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
-            // TODO: baseUrl 转换成 Controller 上对应的 RequestMapping, GetMapping, PostMapping, 而不应该是 RestController 的 value
             String baseUrl = clazz.getAnnotation(RestController.class).value();
             // 解析控制器下的所有方法
-            Method[] methods = clazz.getMethods();
+            Method[] methods = clazz.getDeclaredMethods();
             mapMethods(baseUrl, methods);
 
             log.info("Get Mapping: {}", getMappings);

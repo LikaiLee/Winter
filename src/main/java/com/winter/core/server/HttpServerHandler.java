@@ -6,8 +6,6 @@ package com.winter.core.server;
 
 import com.winter.core.factory.RequestHandlerFactory;
 import com.winter.core.handler.RequestHandler;
-import com.winter.core.serialize.impl.JacksonSerializer;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -16,8 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 
 
 import static com.winter.core.common.HttpConstants.*;
-import static io.netty.handler.codec.http.HttpResponseStatus.OK;
-import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * 处理 HTTP 请求
@@ -44,9 +40,16 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         }
         // 获取对应的请求处理器
         RequestHandler requestHandler = RequestHandlerFactory.create(fullHttpRequest.method());
-        Object result = requestHandler.handle(fullHttpRequest);
-        // 生成响应数据
-        FullHttpResponse response = buildHttpResponse(result);
+        Object result;
+        FullHttpResponse response;
+        try {
+            // 生成响应数据
+            result = requestHandler.handle(fullHttpRequest);
+            response = HttpResponse.ok(result);
+        } catch (Exception e) {
+            log.error("internal server error occurs", e);
+            response = HttpResponse.internalServerError();
+        }
         boolean isKeepAlive = HttpUtil.isKeepAlive(fullHttpRequest);
         if (isKeepAlive) {
             response.headers().set(CONNECTION, KEEP_ALIVE);
@@ -54,21 +57,6 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         } else {
             ctx.write(response).addListener(ChannelFutureListener.CLOSE);
         }
-    }
-
-    /**
-     * 生成响应的 JSON 数据
-     *
-     * @param result
-     * @return
-     */
-    private FullHttpResponse buildHttpResponse(Object result) {
-        JacksonSerializer serializer = new JacksonSerializer();
-        byte[] content = serializer.serialize(result);
-        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, OK, Unpooled.wrappedBuffer(content));
-        response.headers().set(CONTENT_TYPE, APPLICATION_JSON);
-        response.headers().setInt(CONTENT_LENGTH, response.content().readableBytes());
-        return response;
     }
 
     /**

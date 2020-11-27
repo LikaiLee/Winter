@@ -21,6 +21,7 @@ public class PostRequestHandler implements RequestHandler {
     @Override
     public Object handle(FullHttpRequest fullHttpRequest) {
         String contentTypeStr = fullHttpRequest.headers().get(HttpConstants.CONTENT_TYPE);
+        log.info(contentTypeStr);
         String[] contentTypes = contentTypeStr.split(";");
         String contentType = contentTypes[0];
         if (HttpConstants.APPLICATION_JSON.equals(contentType)) {

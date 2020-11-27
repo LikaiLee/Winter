@@ -20,6 +20,7 @@ public class HttpConstants {
     public static final AsciiString KEEP_ALIVE = AsciiString.cached("keep-alive");
 
     public static final String APPLICATION_JSON = "application/json";
+    public static final String APPLICATION_TEXT = "application/text";
 
     private HttpConstants() {
     }

@@ -47,8 +47,6 @@ public class GetRequestHandler implements RequestHandler {
         Map<String, String> queryParams = UrlUtils.getQueryParams(uriAttributes);
         // 获取方法中的参数
         Parameter[] methodArgs = dispatchMethod.getParameters();
-        log.info("request url: {}, query params: {}", url, queryParams);
-        log.info("method required params: {}", Arrays.toString(methodArgs));
         // 只解析方法中带有 @RequestParam 的参数
         for (Parameter arg : methodArgs) {
             RequestParam requestParam = arg.getAnnotation(RequestParam.class);
@@ -62,14 +60,12 @@ public class GetRequestHandler implements RequestHandler {
             if (requestParameterVal == null) {
                 throw new IllegalArgumentException("The specified parameter " + requestParameter + " can not be null!");
             }
-            // log.info("param: {}, value: {}", requestParam, requestParameterVal);
             // 将参数转为 方法需要的类型
             Class<?> paramType = arg.getType();
             // TODO: 参数类型可能有基本类型，List, Map，Set 等
             Object paramVal = ObjectUtils.convertTo(requestParameterVal, paramType);
             dispatchMethodArgs.add(paramVal);
         }
-        log.info("parsed method args: {}", dispatchMethodArgs);
         // 调用 URL 对应的方法
         return ReflectionUtils.executeMethod(dispatchMethod, dispatchMethodArgs.toArray());
     }

@@ -22,7 +22,7 @@ public class ReflectionUtils {
             Object targetObject = method.getDeclaringClass().newInstance();
             // 调用方法
             result = method.invoke(targetObject, args);
-            log.info("invoke target method successfully, result: {}", result);
+            log.info("invoke target method [{}] successfully, result: {}", method.getName(), result);
         } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
             log.error("error occurs while invoke method [{}]", method.getName(), e);
         }
