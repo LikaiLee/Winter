@@ -89,6 +89,9 @@ public class UrlUtils {
         String[] urlParams = url.split("/");
         Map<String, String> urlParameterMappings = new HashMap<>();
         for (int i = 1; i < urlParams.length; i++) {
+            if (!urlParams[i].contains("{")) {
+                continue;
+            }
             urlParameterMappings.put(urlParams[i].replace("{", "").replace("}", ""), requestParams[i]);
         }
         return urlParameterMappings;
