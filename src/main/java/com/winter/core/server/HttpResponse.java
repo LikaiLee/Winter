@@ -44,11 +44,12 @@ public class HttpResponse {
      * 服务器异常
      *
      * @param uri
-     * @param error
+     * @param ex
      * @return
      */
-    public static FullHttpResponse internalServerError(String uri, String error) {
-        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.code(), error, INTERNAL_SERVER_ERROR.reasonPhrase(), uri);
+    public static FullHttpResponse internalServerError(String uri, Exception ex) {
+        // TODO: 返回不同的错误类型
+        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.code(), ex.toString(), ex.getMessage(), uri);
         byte[] content = SERIALIZER.serialize(errorResponse);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, INTERNAL_SERVER_ERROR, Unpooled.wrappedBuffer(content));
         response.headers().set(CONTENT_TYPE, APPLICATION_JSON);

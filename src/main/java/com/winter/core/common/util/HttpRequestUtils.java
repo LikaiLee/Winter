@@ -16,7 +16,7 @@ import java.util.Map;
  * @author likailee.llk
  * @version UrlUtils.java 2020/11/27 Fri 4:13 PM likai
  */
-public class UrlUtils {
+public class HttpRequestUtils {
     /**
      * 将 URL 中的参数转化为 键值对，
      * 如果参数有多个值，用 `,` 分隔，

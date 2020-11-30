@@ -4,10 +4,7 @@
  */
 package com.winter.demo.controller;
 
-import com.winter.core.annotation.GetMapping;
-import com.winter.core.annotation.PostMapping;
-import com.winter.core.annotation.RequestParam;
-import com.winter.core.annotation.RestController;
+import com.winter.core.annotation.*;
 import com.winter.demo.entity.User;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,8 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/add")
-    public User add(@RequestParam("name") String name,
-                    @RequestParam("age") Integer age) {
-        return new User(name, age);
+    public User add(@RequestBody User user) {
+        return new User(user.getName(), user.getAge());
     }
 }

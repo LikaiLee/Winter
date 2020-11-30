@@ -16,6 +16,7 @@ public interface RequestHandler {
      *
      * @param fullHttpRequest
      * @return
+     * @throws Exception
      */
-    Object handle(FullHttpRequest fullHttpRequest);
+    Object handle(FullHttpRequest fullHttpRequest) throws Exception;
 }
