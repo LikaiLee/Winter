@@ -49,7 +49,7 @@ public class HttpResponse {
      */
     public static FullHttpResponse internalServerError(String uri, Exception ex) {
         // TODO: 返回不同的错误类型
-        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.code(), ex.toString(), ex.getMessage(), uri);
+        ErrorResponse errorResponse = new ErrorResponse(INTERNAL_SERVER_ERROR.code(), INTERNAL_SERVER_ERROR.reasonPhrase(), ex.toString(), uri);
         byte[] content = SERIALIZER.serialize(errorResponse);
         FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, INTERNAL_SERVER_ERROR, Unpooled.wrappedBuffer(content));
         response.headers().set(CONTENT_TYPE, APPLICATION_JSON);

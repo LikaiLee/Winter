@@ -20,7 +20,7 @@ public class AnnotationClassScanner {
     public static Set<Class<?>> scan(String packageName, Class<? extends Annotation> annotation) {
         Reflections reflections = new Reflections(packageName, new TypeAnnotationsScanner());
         Set<Class<?>> annotatedClass = reflections.getTypesAnnotatedWith(annotation, true);
-        log.info("Number of class annotated with {}: {}", annotation.getName(), annotatedClass.size());
+        log.info("Number of class annotated with [{}]: {}", annotation.getName(), annotatedClass.size());
         return annotatedClass;
     }
 }
