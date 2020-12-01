@@ -29,15 +29,11 @@ public class RouterFactory {
     public static final Map<String, String> GET_URL_MAPPINGS = new HashMap<>();
     public static final Map<String, String> POST_URL_MAPPINGS = new HashMap<>();
 
-    static {
-        loadRoutes();
-    }
-
     /**
      * 加载路由
      */
-    private static void loadRoutes() {
-        Set<Class<?>> classes = ApplicationContext.CLASSES.get(RestController.class);
+    public static void loadRoutes() {
+        Set<Class<?>> classes = ClassFactory.CLASSES.get(RestController.class);
 
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
