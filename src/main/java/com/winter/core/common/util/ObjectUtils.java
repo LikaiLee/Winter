@@ -23,14 +23,13 @@ public class ObjectUtils {
      * @return 转换后的对象
      */
     public static Object convertTo(String str, Class<?> targetType) {
-        Object target = null;
         try {
             Constructor<?> constructor = targetType.getConstructor(String.class);
             constructor.setAccessible(true);
-            target = constructor.newInstance(str);
+            return constructor.newInstance(str);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
             log.error("can not convert [{}] to target method type [{}]", str, targetType, e);
         }
-        return target;
+        throw new IllegalArgumentException("can not convert [" + str + "] to target method type [" + targetType + "]");
     }
 }

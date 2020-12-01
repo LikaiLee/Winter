@@ -25,7 +25,7 @@ import java.util.regex.Pattern;
  */
 @Slf4j
 public class ApplicationContext {
-    private static final ApplicationContext CONTEXT = new ApplicationContext();
+    private static final ApplicationContext APPLICATION_CONTEXT = new ApplicationContext();
     private static final Map<String, Method> GET_MAPPINGS = new HashMap<>();
     private static final Map<String, Method> POST_MAPPINGS = new HashMap<>();
     private static final Map<String, String> GET_URL_MAPPINGS = new HashMap<>();
@@ -36,8 +36,8 @@ public class ApplicationContext {
     public ApplicationContext() {
     }
 
-    public static ApplicationContext getInstance() {
-        return CONTEXT;
+    public static ApplicationContext getApplicationContext() {
+        return APPLICATION_CONTEXT;
     }
 
     /**

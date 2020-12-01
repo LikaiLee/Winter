@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.core.factory;
+package com.winter.core.handler;
 
 import com.winter.core.handler.GetRequestHandler;
 import com.winter.core.handler.PostRequestHandler;

@@ -9,7 +9,7 @@ import com.winter.core.common.HttpConstants;
 import com.winter.core.common.util.UrlUtils;
 import com.winter.core.common.util.ReflectionUtils;
 import com.winter.core.entity.MethodDetail;
-import com.winter.core.factory.ParameterResolverFactory;
+import com.winter.core.resolver.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class PostRequestHandler implements RequestHandler {
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 从路由表中获取对应方法
         String requestPath = UrlUtils.getRequestPath(requestUri);
-        ApplicationContext context = ApplicationContext.getInstance();
+        ApplicationContext context = ApplicationContext.getApplicationContext();
         MethodDetail methodDetail = context.getMethodDetail(requestPath, HttpMethod.POST);
         // 没有可以匹配该 URL 的方法
         if (methodDetail == null) {

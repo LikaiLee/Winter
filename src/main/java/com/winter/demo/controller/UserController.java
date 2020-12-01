@@ -7,8 +7,11 @@ package com.winter.demo.controller;
 import com.winter.core.annotation.*;
 import com.winter.demo.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import sun.management.Agent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -19,17 +22,27 @@ import java.util.Map;
 @Slf4j
 public class UserController {
 
-    private static final Map<String, User> users = new HashMap<>();
+    private static final Map<Integer, User> users = new HashMap<>();
 
-    @GetMapping("/get/{name}")
-    public User get(@PathVariable("name") String name,
+    static {
+        users.put(0, new User("name1", 10));
+        users.put(1, new User("name2", 10));
+    }
+
+    @GetMapping("/{id}")
+    public User get(@PathVariable("id") Integer id) {
+        return users.get(id);
+    }
+
+    @GetMapping
+    public User get(@RequestParam("name") String name,
                     @RequestParam("age") Integer age) {
         return new User(name, age);
     }
 
-    @PostMapping("/add")
-    public Map<String, User> add(@RequestBody User user) {
-        users.put(user.getName(), user);
-        return users;
+    @PostMapping
+    public List<User> add(@RequestBody User user) {
+        users.put(users.size(), user);
+        return new ArrayList<>(users.values());
     }
 }

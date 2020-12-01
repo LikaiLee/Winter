@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package com.winter.core.factory;
+package com.winter.core.resolver;
 
 import com.winter.core.annotation.PathVariable;
 import com.winter.core.annotation.RequestBody;
@@ -66,6 +66,4 @@ public class ParameterResolverFactory {
         // 没有注解
         throw new IllegalArgumentException("Annotation for parameter [" + arg.getName() + "] is required for method " + methodDetail.getMethod().getName());
     }
-
-
 }

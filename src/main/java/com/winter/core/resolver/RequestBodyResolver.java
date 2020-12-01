@@ -15,17 +15,17 @@ import java.lang.reflect.Parameter;
  * @version RequestBodyResolver.java 2020/11/30 Mon 4:23 PM likai
  */
 public class RequestBodyResolver implements ParameterResolver {
-    private final ObjectMapper objectMapper;
+    private static final ObjectMapper OBJECT_MAPPER;
 
-    public RequestBodyResolver() {
-        objectMapper = new ObjectMapper();
+    static {
+        OBJECT_MAPPER = new ObjectMapper();
     }
 
     @Override
     public Object resolve(MethodDetail methodDetail, Parameter arg) {
         try {
             // 将请求体转为 Java 对象
-            return objectMapper.readValue(methodDetail.getRequestBodyJsonStr(), arg.getType());
+            return OBJECT_MAPPER.readValue(methodDetail.getRequestBodyJsonStr(), arg.getType());
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
