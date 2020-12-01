@@ -4,10 +4,10 @@
  */
 package site.likailee.winter.core.scanner;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import site.likailee.winter.annotation.RestController;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.Assert;
-import org.junit.Test;
 
 import java.util.Set;
 
@@ -20,6 +20,6 @@ public class AnnotationClassScannerTest {
     @Test
     public void test() {
         Set<Class<?>> classes = AnnotationClassScanner.scan("site.likailee.winter.core", RestController.class);
-        Assert.assertEquals(1, classes.size());
+        Assertions.assertEquals(1, classes.size());
     }
 }

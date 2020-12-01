@@ -27,8 +27,8 @@ public class UserController {
     private User user;
 
     static {
-        users.put(0, new User("name1", 10));
-        users.put(1, new User("name2", 10));
+        users.put(0, new User("name0", 10));
+        users.put(1, new User("name1", 10));
     }
 
     @GetMapping("/{id}")

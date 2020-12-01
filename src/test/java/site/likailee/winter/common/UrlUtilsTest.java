@@ -4,7 +4,7 @@
  */
 package site.likailee.winter.common;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import site.likailee.winter.common.util.UrlUtils;
 
 import java.util.Map;

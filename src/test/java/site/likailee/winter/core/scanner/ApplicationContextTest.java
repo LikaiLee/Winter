@@ -4,8 +4,8 @@
  */
 package site.likailee.winter.core.scanner;
 
+import org.junit.jupiter.api.Test;
 import site.likailee.winter.core.ApplicationContext;
-import org.junit.Test;
 
 /**
  * @author likailee.llk
