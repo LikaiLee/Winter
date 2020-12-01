@@ -23,6 +23,9 @@ public class UserController {
 
     private static final Map<Integer, User> users = new HashMap<>();
 
+    @Autowired
+    private User user;
+
     static {
         users.put(0, new User("name1", 10));
         users.put(1, new User("name2", 10));

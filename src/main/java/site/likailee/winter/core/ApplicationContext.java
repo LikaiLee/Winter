@@ -7,6 +7,8 @@ package site.likailee.winter.core;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.factory.ClassFactory;
 import site.likailee.winter.core.factory.RouterFactory;
+import site.likailee.winter.core.ioc.BeanFactory;
+import site.likailee.winter.core.ioc.DependencyInjection;
 
 /**
  * @author likailee.llk
@@ -33,6 +35,9 @@ public class ApplicationContext {
         ClassFactory.loadClass(packageName);
         // 加载路由
         RouterFactory.loadRoutes();
-
+        // 加载并实例化 Bean
+        BeanFactory.loadBeans();
+        // 为 Bean 注入依赖
+        DependencyInjection.inject(packageName);
     }
 }

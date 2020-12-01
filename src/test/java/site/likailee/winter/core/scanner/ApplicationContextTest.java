@@ -15,6 +15,6 @@ public class ApplicationContextTest {
     @Test
     public void testRouter() {
         ApplicationContext context = new ApplicationContext();
-        context.loadRoutes("com.winter.demo");
+        context.run("site.likailee.demo");
     }
 }
