@@ -17,8 +17,8 @@ import site.likailee.winter.server.HttpServer;
 public class WinterApplication {
     public static void main(String[] args) {
         Banner.printBanner();
-        ApplicationContext context = new ApplicationContext();
-        context.loadRoutes("site.likailee.demo");
+        ApplicationContext context = ApplicationContext.getApplicationContext();
+        context.loadClasses("site.likailee.demo");
         HttpServer server = new HttpServer();
         server.start();
     }

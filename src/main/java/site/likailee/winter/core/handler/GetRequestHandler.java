@@ -8,7 +8,8 @@ import site.likailee.winter.core.ApplicationContext;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.core.entity.MethodDetail;
-import site.likailee.winter.core.resolver.ParameterResolverFactory;
+import site.likailee.winter.core.factory.MethodDetailFactory;
+import site.likailee.winter.core.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
@@ -29,8 +30,7 @@ public class GetRequestHandler implements RequestHandler {
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 获取对应方法
         String requestPath = UrlUtils.getRequestPath(requestUri);
-        ApplicationContext context = ApplicationContext.getApplicationContext();
-        MethodDetail methodDetail = context.getMethodDetail(requestPath, HttpMethod.GET);
+        MethodDetail methodDetail = MethodDetailFactory.getMethodDetail(requestPath, HttpMethod.GET);
         // 没有可以匹配该 URL 的方法
         if (methodDetail == null) {
             log.error("Get request on URL [{}] mapping failed!", requestPath);
