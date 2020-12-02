@@ -4,14 +4,14 @@
  */
 package site.likailee.demo.controller;
 
+import site.likailee.demo.service.PrintService;
+import site.likailee.demo.service.ReadService;
+import site.likailee.demo.service.UserService;
 import site.likailee.winter.annotation.*;
 import site.likailee.demo.entity.User;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * @author likailee.llk
@@ -21,19 +21,23 @@ import java.util.Map;
 @Slf4j
 public class UserController {
 
-    private static final Map<Integer, User> users = new HashMap<>();
+    @Autowired
+    private ReadService readService;
 
     @Autowired
-    private User user;
+    private UserService userService;
 
-    static {
-        users.put(0, new User("name0", 10));
-        users.put(1, new User("name1", 10));
-    }
+    @Autowired
+    @Qualifier("bizPrintServiceImpl")
+    private PrintService bizPrintServiceImpl;
+
+    @Autowired
+    @Qualifier("sysPrintServiceImpl")
+    private PrintService sysPrintServiceImpl;
 
     @GetMapping("/{id}")
     public User get(@PathVariable("id") Integer id) {
-        return users.get(id);
+        return userService.getById(id);
     }
 
     @GetMapping
@@ -44,7 +48,13 @@ public class UserController {
 
     @PostMapping
     public List<User> add(@RequestBody User user) {
-        users.put(users.size(), user);
-        return new ArrayList<>(users.values());
+        return userService.createUser(user);
+    }
+
+    @GetMapping("/print")
+    public void print(@RequestParam("msg") String msg) {
+        readService.read();
+        sysPrintServiceImpl.print(msg);
+        bizPrintServiceImpl.print(msg);
     }
 }

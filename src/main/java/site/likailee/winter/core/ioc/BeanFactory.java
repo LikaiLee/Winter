@@ -29,6 +29,7 @@ public class BeanFactory {
      */
     public static void loadBeans() {
         ClassFactory.CLASSES.forEach((annotation, classes) -> {
+            // @Component 使用 name 或 类名标识
             if (annotation == Component.class) {
                 for (Class<?> clazz : classes) {
                     Component component = clazz.getDeclaredAnnotation(Component.class);
@@ -37,6 +38,7 @@ public class BeanFactory {
                     BEANS.put(beanName, bean);
                 }
             }
+            // @RestController 使用类名标识
             if (annotation == RestController.class) {
                 for (Class<?> clazz : classes) {
                     Object bean = ReflectionUtils.newInstance(clazz);

@@ -31,7 +31,7 @@ public class UserControllerTest {
     // test @PathVariable
     @Test
     void should_get_user_by_id() {
-        when().get("/user/{id}", 0)
+        when().get("/user/{id}", 1)
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("name0"));
@@ -59,5 +59,12 @@ public class UserControllerTest {
                 .statusCode(200);
     }
 
+    // test dependency injection
+    @Test
+    void should_inject_dependency() {
+        when().get("/user/print?msg=hello_from_test")
+                .then()
+                .statusCode(200);
+    }
 
 }

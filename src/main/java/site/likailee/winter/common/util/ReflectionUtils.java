@@ -5,6 +5,9 @@
 package site.likailee.winter.common.util;
 
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.annotation.Component;
+import site.likailee.winter.annotation.RestController;
+import site.likailee.winter.core.ioc.BeanFactory;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -26,12 +29,21 @@ public class ReflectionUtils {
     public static Object executeMethod(Method method, Object... args) {
         Object result = null;
         try {
-            // 生成 方法对应的类
-            Object targetObject = method.getDeclaringClass().newInstance();
+            // 获取方法对应的 Bean
+            Class<?> declaringClass = method.getDeclaringClass();
+            String beanName = "";
+            if (declaringClass.isAnnotationPresent(RestController.class)) {
+                beanName = declaringClass.getName();
+            }
+            if (declaringClass.isAssignableFrom(Component.class)) {
+                Component component = declaringClass.getDeclaredAnnotation(Component.class);
+                beanName = "".equals(component.name()) ? declaringClass.getName() : component.name();
+            }
+            Object targetObject = BeanFactory.BEANS.get(beanName);
             // 调用方法
             result = method.invoke(targetObject, args);
             // log.info("invoke target method [{}] successfully, result: {}", method.getName(), result);
-        } catch (IllegalAccessException | InstantiationException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException e) {
             log.error("error occurs while invoke method [{}]", method.getName(), e);
         }
         return result;
