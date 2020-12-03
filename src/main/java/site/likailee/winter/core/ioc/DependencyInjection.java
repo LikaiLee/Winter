@@ -14,6 +14,7 @@ import site.likailee.winter.exception.InterfaceNotImplementedException;
 import site.likailee.winter.exception.NoUniqueBeanDefinitionException;
 
 import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,6 +25,11 @@ import java.util.Set;
 @Slf4j
 public class DependencyInjection {
     /**
+     * 二级缓存
+     */
+    private static final Map<String, Object> singletonObjects = new HashMap<>();
+
+    /**
      * 为 BEANS 内的 Bean 注入属性
      *
      * @param packageName
@@ -31,15 +37,29 @@ public class DependencyInjection {
     public static void inject(String packageName) {
         Map<String, Object> beans = BeanFactory.BEANS;
         for (Map.Entry<String, Object> entry : beans.entrySet()) {
-            Field[] fields = entry.getValue().getClass().getDeclaredFields();
-            // 遍历所有属性，为 @Autowired 的属性注入依赖
-            for (Field field : fields) {
-                if (!field.isAnnotationPresent(Autowired.class)) {
-                    continue;
-                }
-                // 获取属性对应的类
-                Class<?> fieldClass = field.getType();
-                String beanName = getBeanName(fieldClass);
+            prepareBean(entry.getValue(), packageName);
+        }
+    }
+
+    private static void prepareBean(Object beanInstance, String packageName) {
+        // beanInstance 只是进行实例化，还未注入依赖
+        Field[] fields = beanInstance.getClass().getDeclaredFields();
+        // 遍历所有属性，为 @Autowired 的属性注入依赖
+        for (Field field : fields) {
+            if (!field.isAnnotationPresent(Autowired.class)) {
+                continue;
+            }
+            // 获取属性对应的类
+            Class<?> fieldClass = field.getType();
+            String beanName = getBeanName(fieldClass);
+            Object beanFieldInstance = null;
+            boolean newSingleton = true;
+            if (singletonObjects.containsKey(beanName)) {
+                beanFieldInstance = singletonObjects.get(beanName);
+                newSingleton = false;
+            }
+            // 二级缓存不存在，需要创建
+            if (beanFieldInstance == null) {
                 // 如果是接口获取实现类
                 if (fieldClass.isInterface()) {
                     Set<Class<?>> implClasses = getImplClasses(packageName, fieldClass);
@@ -60,13 +80,21 @@ public class DependencyInjection {
                         beanName = qualifier.value();
                     }
                 }
-                Object fieldInstance = beans.get(beanName);
-                if (fieldInstance == null) {
-                    throw new NoUniqueBeanDefinitionException("can not inject field " + field.getName());
+                beanFieldInstance = BeanFactory.BEANS.get(beanName);
+
+                if (beanFieldInstance == null) {
+                    throw new NoUniqueBeanDefinitionException("can not inject bean " + beanInstance.getClass().getSimpleName() + " field " + field.getName());
+                } else {
+                    singletonObjects.put(beanName, beanFieldInstance);
                 }
-                // 设置属性对应的实例
-                ReflectionUtils.setField(entry.getValue(), field, fieldInstance);
             }
+            if (newSingleton) {
+                prepareBean(beanFieldInstance, packageName);
+            }
+
+            log.info("inject [{}] with field [{}], value: [{}]", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance);
+            // 设置属性对应的实例
+            ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
     }
 

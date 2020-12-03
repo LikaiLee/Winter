@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.resolver;
+package site.likailee.winter.core.springmvc.resolver;
 
 import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.common.util.ObjectUtils;

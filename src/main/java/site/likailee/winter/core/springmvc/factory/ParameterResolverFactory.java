@@ -9,9 +9,9 @@ import site.likailee.winter.annotation.springmvc.RequestBody;
 import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.core.entity.MethodDetail;
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.core.resolver.PathVariableResolver;
-import site.likailee.winter.core.resolver.RequestBodyResolver;
-import site.likailee.winter.core.resolver.RequestParamResolver;
+import site.likailee.winter.core.springmvc.resolver.PathVariableResolver;
+import site.likailee.winter.core.springmvc.resolver.RequestBodyResolver;
+import site.likailee.winter.core.springmvc.resolver.RequestParamResolver;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
