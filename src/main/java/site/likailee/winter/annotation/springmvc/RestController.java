@@ -1,4 +1,4 @@
-package site.likailee.winter.annotation;
+package site.likailee.winter.annotation.springmvc;
 
 import java.lang.annotation.*;
 
@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Component {
-    String name() default "";
+public @interface RestController {
+    String value() default "";
 }

@@ -2,11 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.factory;
+package site.likailee.winter.core.springmvc.factory;
 
-import site.likailee.winter.annotation.PathVariable;
-import site.likailee.winter.annotation.RequestBody;
-import site.likailee.winter.annotation.RequestParam;
+import site.likailee.winter.annotation.springmvc.PathVariable;
+import site.likailee.winter.annotation.springmvc.RequestBody;
+import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.core.entity.MethodDetail;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.resolver.PathVariableResolver;

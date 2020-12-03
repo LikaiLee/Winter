@@ -1,4 +1,4 @@
-package site.likailee.winter.annotation;
+package site.likailee.winter.annotation.springmvc;
 
 import java.lang.annotation.*;
 

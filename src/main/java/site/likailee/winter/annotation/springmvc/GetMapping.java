@@ -1,17 +1,13 @@
-/**
- * https://likailee.site
- * CopyRight (c) 2020
- */
-package site.likailee.winter.annotation;
+package site.likailee.winter.annotation.springmvc;
 
 import java.lang.annotation.*;
 
 /**
- * @author likailee.llk
+ * @author likai
  */
 @Documented
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PostMapping {
+public @interface GetMapping {
     String value() default "";
 }

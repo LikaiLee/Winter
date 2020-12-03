@@ -1,4 +1,5 @@
-package site.likailee.winter.annotation;
+package site.likailee.winter.annotation.springmvc;
+
 
 import java.lang.annotation.*;
 
@@ -6,8 +7,8 @@ import java.lang.annotation.*;
  * @author likai
  */
 @Documented
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GetMapping {
+public @interface PathVariable {
     String value() default "";
 }

@@ -6,9 +6,11 @@ package site.likailee.winter.core.entity;
 
 import lombok.Data;
 import lombok.ToString;
+import site.likailee.winter.common.util.UrlUtils;
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 /**
  * 请求与方法的元数据
@@ -36,4 +38,26 @@ public class MethodDetail {
      */
     private String requestBodyJsonStr;
 
+    /**
+     * 根据 请求路径 寻找对应的方法
+     *
+     * @param requestPath
+     * @param methodMappings
+     * @param urlMappings
+     */
+    public boolean build(String requestPath, Map<String, Method> methodMappings, Map<String, String> urlMappings) {
+        for (Map.Entry<String, Method> entry : methodMappings.entrySet()) {
+            String patternUrl = entry.getKey();
+            Pattern pattern = Pattern.compile(patternUrl);
+            boolean match = pattern.matcher(requestPath).find();
+            if (match) {
+                this.setMethod(entry.getValue());
+                String url = urlMappings.get(patternUrl);
+                Map<String, String> urlParamMap = UrlUtils.getPathParameterMappings(requestPath, url);
+                this.setPathParamMap(urlParamMap);
+                return true;
+            }
+        }
+        return false;
+    }
 }

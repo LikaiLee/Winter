@@ -2,20 +2,19 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.handler;
+package site.likailee.winter.core.springmvc.handler;
 
-import site.likailee.winter.core.ApplicationContext;
 import site.likailee.winter.common.HttpConstants;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.core.entity.MethodDetail;
-import site.likailee.winter.core.factory.MethodDetailFactory;
-import site.likailee.winter.core.factory.ParameterResolverFactory;
+import site.likailee.winter.core.springmvc.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.codec.Charsets;
+import site.likailee.winter.core.springmvc.factory.RouteMethodMapper;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class PostRequestHandler implements RequestHandler {
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 从路由表中获取对应方法
         String requestPath = UrlUtils.getRequestPath(requestUri);
-        MethodDetail methodDetail = MethodDetailFactory.getMethodDetail(requestPath, HttpMethod.POST);
+        MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.POST);
         // 没有可以匹配该 URL 的方法
         if (methodDetail == null) {
             log.error("Post request on URL [{}] mapping failed!", requestPath);

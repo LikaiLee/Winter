@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.handler;
+package site.likailee.winter.core.springmvc.handler;
 
 import io.netty.handler.codec.http.FullHttpRequest;
 

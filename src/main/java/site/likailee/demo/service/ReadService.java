@@ -5,7 +5,7 @@
 package site.likailee.demo.service;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.annotation.Component;
+import site.likailee.winter.annotation.ioc.Component;
 
 /**
  * @author likailee.llk

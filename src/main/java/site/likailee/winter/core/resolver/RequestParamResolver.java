@@ -4,7 +4,7 @@
  */
 package site.likailee.winter.core.resolver;
 
-import site.likailee.winter.annotation.RequestParam;
+import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.core.entity.MethodDetail;
 

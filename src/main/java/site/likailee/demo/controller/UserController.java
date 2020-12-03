@@ -7,9 +7,11 @@ package site.likailee.demo.controller;
 import site.likailee.demo.service.PrintService;
 import site.likailee.demo.service.ReadService;
 import site.likailee.demo.service.UserService;
-import site.likailee.winter.annotation.*;
 import site.likailee.demo.entity.User;
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.annotation.ioc.Autowired;
+import site.likailee.winter.annotation.ioc.Qualifier;
+import site.likailee.winter.annotation.springmvc.*;
 
 import java.util.List;
 

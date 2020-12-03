@@ -2,16 +2,16 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.factory;
+package site.likailee.winter.core.springmvc.factory;
 
+import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.annotation.GetMapping;
-import site.likailee.winter.annotation.PostMapping;
-import site.likailee.winter.annotation.RestController;
+import site.likailee.winter.annotation.springmvc.GetMapping;
+import site.likailee.winter.annotation.springmvc.PostMapping;
+import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.common.util.UrlUtils;
-import site.likailee.winter.core.ApplicationContext;
 import site.likailee.winter.core.entity.MethodDetail;
-import site.likailee.winter.core.scanner.AnnotationClassScanner;
+import site.likailee.winter.core.factory.ClassFactory;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -23,7 +23,7 @@ import java.util.Set;
  * @version RouterFactory.java 2020/12/01 Tue 1:42 PM likai
  */
 @Slf4j
-public class RouterFactory {
+public class RouteMethodMapper {
     public static final Map<String, Method> GET_MAPPINGS = new HashMap<>();
     public static final Map<String, Method> POST_MAPPINGS = new HashMap<>();
     public static final Map<String, String> GET_URL_MAPPINGS = new HashMap<>();
@@ -62,5 +62,25 @@ public class RouterFactory {
             log.info("Get Mapping: {}", GET_URL_MAPPINGS);
             log.info("Post Mapping: {}", POST_URL_MAPPINGS);
         }
+    }
+
+
+    /**
+     * 根据请求路径和请求方法获取控制器的方法
+     *
+     * @param requestPath 请求路径
+     * @param httpMethod  请求方法
+     * @return
+     */
+    public static MethodDetail getMethodDetail(String requestPath, HttpMethod httpMethod) {
+        boolean success = false;
+        MethodDetail methodDetail = new MethodDetail();
+        if (HttpMethod.GET.equals(httpMethod)) {
+            success = methodDetail.build(requestPath, RouteMethodMapper.GET_MAPPINGS, RouteMethodMapper.GET_URL_MAPPINGS);
+        }
+        if (HttpMethod.POST.equals(httpMethod)) {
+            success = methodDetail.build(requestPath, RouteMethodMapper.POST_MAPPINGS, RouteMethodMapper.POST_URL_MAPPINGS);
+        }
+        return success ? methodDetail : null;
     }
 }

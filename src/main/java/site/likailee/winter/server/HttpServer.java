@@ -50,7 +50,7 @@ public class HttpServer {
                                     .addLast("decoder", new HttpRequestDecoder())
                                     .addLast("encoder", new HttpResponseEncoder())
                                     .addLast("aggregator", new HttpObjectAggregator(512 * 1024))
-                                    .addLast("handler", new HttpServerHandler());
+                                    .addLast("site/likailee/winter/core/handler", new HttpServerHandler());
 
                         }
                     });

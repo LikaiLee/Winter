@@ -6,7 +6,7 @@ package site.likailee.winter.core.scanner;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import site.likailee.winter.annotation.RestController;
+import site.likailee.winter.annotation.springmvc.RestController;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Set;

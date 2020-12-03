@@ -18,14 +18,14 @@ Netty served as default embedded web server, and Winter will start on default po
 * [x] `@PathVariable`: extract parameters from URI path.
 
 
-### IoC
+### 3. IoC
 
 * [x] `@Autowired`: inject a bean class configured as a property of another bean.
 * [x] `@Component`: mark beans as `IoC` managed components. 
 * [x] `@Qualifier`: determine which bean to inject when there are multiple beans of same type.
 
 
-### AOP
+### 4. AOP
 
 * [ ] `@Aspect`
 * [ ] `@Pointcut`

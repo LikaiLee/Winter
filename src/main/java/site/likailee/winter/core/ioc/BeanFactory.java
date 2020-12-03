@@ -5,8 +5,8 @@
 package site.likailee.winter.core.ioc;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.annotation.Component;
-import site.likailee.winter.annotation.RestController;
+import site.likailee.winter.annotation.ioc.Component;
+import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.core.factory.ClassFactory;
 

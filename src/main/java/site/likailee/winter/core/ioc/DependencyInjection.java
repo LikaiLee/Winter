@@ -6,9 +6,9 @@ package site.likailee.winter.core.ioc;
 
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
-import site.likailee.winter.annotation.Autowired;
-import site.likailee.winter.annotation.Component;
-import site.likailee.winter.annotation.Qualifier;
+import site.likailee.winter.annotation.ioc.Autowired;
+import site.likailee.winter.annotation.ioc.Component;
+import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.exception.InterfaceNotImplementedException;
 import site.likailee.winter.exception.NoUniqueBeanDefinitionException;

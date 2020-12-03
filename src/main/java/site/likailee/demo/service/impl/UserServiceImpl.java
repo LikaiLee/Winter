@@ -6,7 +6,7 @@ package site.likailee.demo.service.impl;
 
 import site.likailee.demo.entity.User;
 import site.likailee.demo.service.UserService;
-import site.likailee.winter.annotation.Component;
+import site.likailee.winter.annotation.ioc.Component;
 
 import java.util.ArrayList;
 import java.util.HashMap;

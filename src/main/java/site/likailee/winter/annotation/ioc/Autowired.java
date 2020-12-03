@@ -1,4 +1,4 @@
-package site.likailee.winter.annotation;
+package site.likailee.winter.annotation.ioc;
 
 import java.lang.annotation.*;
 
