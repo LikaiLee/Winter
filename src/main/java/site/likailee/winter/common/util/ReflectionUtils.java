@@ -5,6 +5,7 @@
 package site.likailee.winter.common.util;
 
 import lombok.extern.slf4j.Slf4j;
+import org.reflections.Reflections;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.core.ioc.BeanFactory;
@@ -12,6 +13,7 @@ import site.likailee.winter.core.ioc.BeanFactory;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * @author likailee.llk
@@ -78,5 +80,17 @@ public class ReflectionUtils {
         } catch (IllegalAccessException e) {
             log.error("set bean [{}] field [{}] failed", bean, field, e);
         }
+    }
+
+    /**
+     * 获取接口的实现类
+     *
+     * @param packageName
+     * @param interfaceClass
+     * @return
+     */
+    public static <T> Set<Class<? extends T>> getImplClasses(String packageName, Class<T> interfaceClass) {
+        Reflections reflections = new Reflections(packageName);
+        return reflections.getSubTypesOf(interfaceClass);
     }
 }

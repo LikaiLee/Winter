@@ -12,7 +12,7 @@ import site.likailee.winter.annotation.ioc.Component;
  * @author likailee.llk
  * @version CService.java 2020/12/03 Thu 8:45 PM likai
  */
-@Component
+@Component(name = "CService")
 @Slf4j
 public class CService {
     @Autowired

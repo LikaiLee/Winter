@@ -18,7 +18,7 @@ public class WinterApplication {
     public static void main(String[] args) {
         Banner.printBanner();
         ApplicationContext context = ApplicationContext.getApplicationContext();
-        context.run("site.likailee.demo.circular");
+        context.run("site.likailee.demo");
         HttpServer server = new HttpServer();
         server.start();
     }

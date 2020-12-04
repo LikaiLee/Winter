@@ -59,8 +59,8 @@ public class RouteMethodMapper {
                 }
             }
 
-            log.info("Get Mapping: {}", GET_URL_MAPPINGS);
-            log.info("Post Mapping: {}", POST_URL_MAPPINGS);
+            // log.info("Get Mapping: {}", GET_URL_MAPPINGS);
+            // log.info("Post Mapping: {}", POST_URL_MAPPINGS);
         }
     }
 

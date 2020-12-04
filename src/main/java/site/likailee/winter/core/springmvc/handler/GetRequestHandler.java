@@ -39,7 +39,7 @@ public class GetRequestHandler implements RequestHandler {
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
         methodDetail.setQueryParamMap(queryParams);
         Method dispatchMethod = methodDetail.getMethod();
-        log.info("GET request on method [{}] with uri {}, methodDetail: {}", dispatchMethod.getName(), requestUri, methodDetail);
+        log.info("GET request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 获取方法中的参数
         Object[] methodArgs = ParameterResolverFactory.getParameters(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法
