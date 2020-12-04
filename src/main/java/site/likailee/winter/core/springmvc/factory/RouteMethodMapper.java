@@ -58,9 +58,6 @@ public class RouteMethodMapper {
                     POST_URL_MAPPINGS.put(formattedUrl, url);
                 }
             }
-
-            // log.info("Get Mapping: {}", GET_URL_MAPPINGS);
-            // log.info("Post Mapping: {}", POST_URL_MAPPINGS);
         }
     }
 

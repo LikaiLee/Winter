@@ -9,6 +9,7 @@ import org.reflections.Reflections;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.ioc.Qualifier;
+import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.core.aop.JdkAopProxyBeanPostProcessor;
 import site.likailee.winter.exception.InterfaceNotImplementedException;
@@ -37,14 +38,11 @@ public class DependencyInjection {
      * @param packageName
      */
     public static void inject(String packageName) {
-        Map<String, Object> beans = BeanFactory.BEANS;
-        for (Map.Entry<String, Object> entry : beans.entrySet()) {
-            prepareBean(entry.getValue(), packageName);
-        }
+        BeanFactory.BEANS.values().forEach(bean -> prepareBean(bean, packageName));
     }
 
     private static void prepareBean(Object beanInstance, String packageName) {
-        // beanInstance 只是进行实例化，还未注入依赖
+        // beanInstance 已经实例化，但还未注入依赖
         Field[] fields = beanInstance.getClass().getDeclaredFields();
         // 遍历所有属性，为 @Autowired 的属性注入依赖
         for (Field field : fields) {
@@ -99,6 +97,7 @@ public class DependencyInjection {
             BeanPostProcessor beanPostProcessor = new JdkAopProxyBeanPostProcessor(packageName);
             beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance, beanFieldName);
             // 设置属性对应的实例
+            log.info("about to set field [{}.{}] = {}", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance.getClass().getSimpleName());
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
     }

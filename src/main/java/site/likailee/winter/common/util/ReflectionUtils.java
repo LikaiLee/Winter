@@ -44,7 +44,6 @@ public class ReflectionUtils {
             Object targetObject = BeanFactory.BEANS.get(beanName);
             // 调用方法
             result = method.invoke(targetObject, args);
-            // log.info("invoke target method [{}] successfully, result: {}", method.getName(), result);
         } catch (IllegalAccessException | InvocationTargetException e) {
             log.error("error occurs while invoke method [{}]", method.getName(), e);
         }

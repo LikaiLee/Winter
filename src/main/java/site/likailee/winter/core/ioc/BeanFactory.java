@@ -46,6 +46,6 @@ public class BeanFactory {
                 }
             }
         });
-        log.info("beans: {}", BEANS);
+        log.info("beans: {}", BEANS.keySet());
     }
 }

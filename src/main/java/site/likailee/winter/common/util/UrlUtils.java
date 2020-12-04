@@ -39,7 +39,6 @@ public class UrlUtils {
      */
     public static String getContentType(FullHttpRequest fullHttpRequest) {
         String contentTypeStr = fullHttpRequest.headers().get(HttpConstants.CONTENT_TYPE);
-        // 获取 Content-Type
         String[] contentTypes = contentTypeStr.split(";");
         return contentTypes[0];
     }

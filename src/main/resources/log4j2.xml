@@ -8,6 +8,8 @@
         </Console>
     </appenders>
     <loggers>
+        <!--    disable reflections console logging    -->
+        <logger name="org.reflections" level="OFF"/>
         <root level="info">
             <appender-ref ref="Console"/>
         </root>

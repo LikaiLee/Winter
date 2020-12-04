@@ -11,7 +11,7 @@ import site.likailee.winter.annotation.ioc.Component;
  * @author likailee.llk
  * @version ReadService.java 2020/12/02 Wed 3:13 PM likai
  */
-@Component
+@Component(name = "ReadService")
 @Slf4j
 public class ReadService {
     public void read() {

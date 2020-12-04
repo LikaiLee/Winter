@@ -21,6 +21,7 @@ public class WebLogInterceptor implements Interceptor {
     @Override
     public boolean supports(String beanName) {
         return "AopServiceImpl".equals(beanName);
+        // return true;
     }
 
     @Override
@@ -28,6 +29,7 @@ public class WebLogInterceptor implements Interceptor {
         log.info("-----> before WebLogInterceptor <----- ");
         log.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
         Object result = invocation.proceed();
+        result += " ## this is from WebLogInterceptor";
         log.info("-----> WebLogInterceptor after <----- ");
         return result;
     }
