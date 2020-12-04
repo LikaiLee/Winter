@@ -5,6 +5,7 @@
 package site.likailee.winter.core.aop;
 
 import lombok.Getter;
+import site.likailee.winter.common.util.ReflectionUtils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -16,7 +17,7 @@ import java.lang.reflect.Method;
  * @version Invocation.java 2020/12/04 Fri 10:48 AM likai
  */
 @Getter
-public class Invocation {
+public class MethodInvocation {
     /**
      * 被代理对象
      */
@@ -30,7 +31,7 @@ public class Invocation {
      */
     private final Object[] args;
 
-    public Invocation(Object target, Method method, Object[] args) {
+    public MethodInvocation(Object target, Method method, Object[] args) {
         this.target = target;
         this.method = method;
         this.args = args;
@@ -41,7 +42,7 @@ public class Invocation {
      *
      * @return 方法执行结果
      */
-    public Object proceed() throws InvocationTargetException, IllegalAccessException {
-        return method.invoke(target, args);
+    public Object proceed() {
+        return ReflectionUtils.executeMethod(target, method, args);
     }
 }

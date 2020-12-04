@@ -5,6 +5,7 @@
 package site.likailee.winter.core;
 
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.core.aop.InterceptorFactory;
 import site.likailee.winter.core.factory.ClassFactory;
 import site.likailee.winter.core.springmvc.factory.RouteMethodMapper;
 import site.likailee.winter.core.ioc.BeanFactory;
@@ -37,6 +38,8 @@ public class ApplicationContext {
         RouteMethodMapper.loadRoutes();
         // 加载并实例化 Bean
         BeanFactory.loadBeans();
+        // 加载拦截器
+        InterceptorFactory.loadInterceptors(packageName);
         // 为 Bean 注入依赖
         DependencyInjection.inject(packageName);
     }

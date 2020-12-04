@@ -6,16 +6,19 @@ package site.likailee.winter.core.ioc;
 
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.ioc.Autowired;
-import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.aop.BeanPostProcessor;
-import site.likailee.winter.core.aop.JdkAopProxyBeanPostProcessor;
+import site.likailee.winter.core.aop.Interceptor;
+import site.likailee.winter.core.aop.InterceptorFactory;
+import site.likailee.winter.core.aop.cglib.CglibAopProxyBeanPostProcessor;
+import site.likailee.winter.core.aop.jdk.JdkAopProxyBeanPostProcessor;
 import site.likailee.winter.exception.InterfaceNotImplementedException;
 import site.likailee.winter.exception.NoUniqueBeanDefinitionException;
 
 import java.lang.reflect.Field;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -59,7 +62,7 @@ public class DependencyInjection {
             }
             // 二级缓存不存在，需要创建
             if (beanFieldInstance == null) {
-                // 如果是接口获取实现类
+                // 如果是接口则获取其实现类
                 if (fieldClass.isInterface()) {
                     @SuppressWarnings("unchecked")
                     Set<Class<?>> implClasses = ReflectionUtils.getImplClasses(packageName, (Class<Object>) fieldClass);
@@ -81,22 +84,31 @@ public class DependencyInjection {
                     }
                 }
                 beanFieldInstance = BeanFactory.BEANS.get(beanFieldName);
-
                 if (beanFieldInstance == null) {
                     throw new NoUniqueBeanDefinitionException("can not inject bean " + beanInstance.getClass().getSimpleName() + " field " + field.getName());
-                } else {
-                    SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
                 }
+                SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
             }
             if (newSingleton) {
                 prepareBean(beanFieldInstance, packageName);
             }
 
             // 进行 AOP 代理
-            BeanPostProcessor beanPostProcessor = new JdkAopProxyBeanPostProcessor(packageName);
-            beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance, beanFieldName);
+            // TODO: 目前只能对属性对象中的方法进行代理
+            BeanPostProcessor beanPostProcessor;
+            // 获取所有拦截器
+            List<Interceptor> interceptors = InterceptorFactory.getInterceptors();
+            // 判断代理模式
+            if (fieldClass.isInterface()) {
+                beanPostProcessor = new JdkAopProxyBeanPostProcessor(interceptors);
+                // log.info("{} -> {} cglib", fieldClass.getSimpleName(), beanFieldInstance.getClass().getSimpleName());
+            } else {
+                beanPostProcessor = new CglibAopProxyBeanPostProcessor(interceptors);
+                // log.info("{} jdk", beanFieldInstance.getClass().getSimpleName());
+            }
+            beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
             // 设置属性对应的实例
-            log.info("about to set field [{}.{}] = {}", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance.getClass().getSimpleName());
+            // log.info("about to set field [{}.{}] = {}", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance.getClass().getSimpleName());
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
     }

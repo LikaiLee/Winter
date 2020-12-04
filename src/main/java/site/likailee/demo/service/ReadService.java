@@ -14,7 +14,8 @@ import site.likailee.winter.annotation.ioc.Component;
 @Component(name = "ReadService")
 @Slf4j
 public class ReadService {
-    public void read() {
+    public String read() {
         log.info("reading");
+        return "reading";
     }
 }

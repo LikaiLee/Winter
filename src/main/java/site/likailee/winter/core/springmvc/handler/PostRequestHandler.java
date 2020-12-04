@@ -7,7 +7,9 @@ package site.likailee.winter.core.springmvc.handler;
 import site.likailee.winter.common.HttpConstants;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
+import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.ioc.BeanFactory;
 import site.likailee.winter.core.springmvc.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
@@ -54,7 +56,9 @@ public class PostRequestHandler implements RequestHandler {
         // 获取方法中的参数
         Object[] methodArgs = ParameterResolverFactory.getParameters(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法
-        return ReflectionUtils.executeMethod(dispatchMethod, methodArgs);
+        String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
+        Object bean = BeanFactory.BEANS.get(beanName);
+        return ReflectionUtils.executeMethod(bean, dispatchMethod, methodArgs);
     }
 
 }

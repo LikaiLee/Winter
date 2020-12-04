@@ -4,7 +4,10 @@
  */
 package site.likailee.demo.aop;
 
+import site.likailee.demo.service.PrintService;
+import site.likailee.demo.service.ReadService;
 import site.likailee.winter.annotation.ioc.Autowired;
+import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.annotation.springmvc.GetMapping;
 import site.likailee.winter.annotation.springmvc.RestController;
 
@@ -17,8 +20,20 @@ public class AopController {
     @Autowired
     private AopService aopService;
 
-    @GetMapping
-    public String testGetAop() {
-        return aopService.get();
+    @Autowired
+    private ReadService readService;
+
+    @Autowired
+    @Qualifier("bizPrintServiceImpl")
+    private PrintService bizPrintServiceImpl;
+
+    @GetMapping("/test_jdk_qualifier")
+    public String testJdkQualifier() {
+        return bizPrintServiceImpl.print("test_jdk_qualifier");
+    }
+
+    @GetMapping("/test_cglib")
+    public String testCglib() {
+        return readService.read();
     }
 }

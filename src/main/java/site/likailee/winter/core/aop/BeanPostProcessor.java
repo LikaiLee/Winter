@@ -13,8 +13,7 @@ public interface BeanPostProcessor {
      * Bean 后置处理，进行 AOP 代理
      *
      * @param bean
-     * @param beanName
      * @return
      */
-    Object postProcessAfterInitialization(Object bean, String beanName);
+    Object postProcessAfterInitialization(Object bean);
 }

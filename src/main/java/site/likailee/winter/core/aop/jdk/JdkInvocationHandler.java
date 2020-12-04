@@ -2,7 +2,10 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop;
+package site.likailee.winter.core.aop.jdk;
+
+import site.likailee.winter.core.aop.Interceptor;
+import site.likailee.winter.core.aop.MethodInvocation;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -12,7 +15,7 @@ import java.lang.reflect.Proxy;
  * @author likailee.llk
  * @version ProxyFactory.java 2020/12/04 Fri 11:12 AM likai
  */
-public class ProxyFactory implements InvocationHandler {
+public class JdkInvocationHandler implements InvocationHandler {
     /**
      * 被代理对象
      */
@@ -22,7 +25,7 @@ public class ProxyFactory implements InvocationHandler {
      */
     private Interceptor interceptor;
 
-    public ProxyFactory(Object target, Interceptor interceptor) {
+    public JdkInvocationHandler(Object target, Interceptor interceptor) {
         this.target = target;
         this.interceptor = interceptor;
     }
@@ -35,13 +38,13 @@ public class ProxyFactory implements InvocationHandler {
      * @return
      */
     public static Object getProxy(Object target, Interceptor interceptor) {
-        ProxyFactory proxyFactory = new ProxyFactory(target, interceptor);
-        return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), proxyFactory);
+        JdkInvocationHandler handler = new JdkInvocationHandler(target, interceptor);
+        return Proxy.newProxyInstance(target.getClass().getClassLoader(), target.getClass().getInterfaces(), handler);
     }
 
     @Override
-    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        Invocation methodInvocation = new Invocation(target, method, args);
+    public Object invoke(Object proxy, Method method, Object[] args) {
+        MethodInvocation methodInvocation = new MethodInvocation(target, method, args);
         return interceptor.intercept(methodInvocation);
     }
 }

@@ -9,6 +9,7 @@ import org.reflections.Reflections;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.core.ioc.BeanFactory;
+import site.likailee.winter.exception.CanNotInvokeTargetMethodException;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -28,24 +29,14 @@ public class ReflectionUtils {
      * @param args
      * @return
      */
-    public static Object executeMethod(Method method, Object... args) {
+    public static Object executeMethod(Object targetObject, Method method, Object... args) {
         Object result = null;
         try {
-            // 获取方法对应的 Bean
-            Class<?> declaringClass = method.getDeclaringClass();
-            String beanName = "";
-            if (declaringClass.isAnnotationPresent(RestController.class)) {
-                beanName = declaringClass.getName();
-            }
-            if (declaringClass.isAssignableFrom(Component.class)) {
-                Component component = declaringClass.getDeclaredAnnotation(Component.class);
-                beanName = "".equals(component.name()) ? declaringClass.getName() : component.name();
-            }
-            Object targetObject = BeanFactory.BEANS.get(beanName);
             // 调用方法
             result = method.invoke(targetObject, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
             log.error("error occurs while invoke method [{}]", method.getName(), e);
+            throw new CanNotInvokeTargetMethodException(e.toString());
         }
         return result;
     }
