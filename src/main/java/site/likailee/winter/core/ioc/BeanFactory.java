@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.common.util.ReflectionUtils;
+import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.factory.ClassFactory;
 
 import java.util.Map;
@@ -32,8 +33,7 @@ public class BeanFactory {
             // @Component 使用 name 或 类名标识
             if (annotation == Component.class) {
                 for (Class<?> clazz : classes) {
-                    Component component = clazz.getDeclaredAnnotation(Component.class);
-                    String beanName = "".equals(component.name()) ? clazz.getName() : component.name();
+                    String beanName = WinterUtils.getBeanName(clazz);
                     Object bean = ReflectionUtils.newInstance(clazz);
                     BEANS.put(beanName, bean);
                 }

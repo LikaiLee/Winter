@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.ioc;
+package site.likailee.winter.core.aop;
 
 /**
  * @author likailee.llk

@@ -5,18 +5,17 @@
 package site.likailee.winter.core.ioc;
 
 import lombok.extern.slf4j.Slf4j;
-import org.reflections.Reflections;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.ioc.Qualifier;
-import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
+import site.likailee.winter.common.util.WinterUtils;
+import site.likailee.winter.core.aop.BeanPostProcessor;
 import site.likailee.winter.core.aop.JdkAopProxyBeanPostProcessor;
 import site.likailee.winter.exception.InterfaceNotImplementedException;
 import site.likailee.winter.exception.NoUniqueBeanDefinitionException;
 
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -51,7 +50,7 @@ public class DependencyInjection {
             }
             // 获取属性对应的类
             Class<?> fieldClass = field.getType();
-            String beanFieldName = getBeanName(fieldClass);
+            String beanFieldName = WinterUtils.getBeanName(fieldClass);
             Object beanFieldInstance = null;
             boolean newSingleton = true;
             if (SINGLETON_OBJECTS.containsKey(beanFieldName)) {
@@ -70,7 +69,7 @@ public class DependencyInjection {
                     // 只有一个实现类
                     if (implClasses.size() == 1) {
                         Class<?> implClass = implClasses.iterator().next();
-                        beanFieldName = getBeanName(implClass);
+                        beanFieldName = WinterUtils.getBeanName(implClass);
                     }
                     // 有多个实现类
                     else {
@@ -100,16 +99,6 @@ public class DependencyInjection {
             log.info("about to set field [{}.{}] = {}", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance.getClass().getSimpleName());
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
-    }
-
-    private static String getBeanName(Class<?> fieldClass) {
-        if (fieldClass.isAnnotationPresent(Component.class)) {
-            String componentName = fieldClass.getDeclaredAnnotation(Component.class).name();
-            if (!"".equals(componentName)) {
-                return componentName;
-            }
-        }
-        return fieldClass.getName();
     }
 
 }
