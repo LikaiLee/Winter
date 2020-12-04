@@ -16,7 +16,7 @@ import site.likailee.winter.annotation.ioc.Component;
 @Slf4j
 public class SysPrintServiceImpl implements PrintService {
     @Override
-    public void print(String msg) {
-        log.info("sys print: {}", msg);
+    public String print(String msg) {
+        return "SysPrintServiceImpl: " + msg;
     }
 }

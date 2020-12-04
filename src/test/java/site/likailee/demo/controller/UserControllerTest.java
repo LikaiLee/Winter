@@ -5,6 +5,9 @@
 package site.likailee.demo.controller;
 
 import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import lombok.extern.slf4j.Slf4j;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import site.likailee.demo.entity.User;
@@ -18,6 +21,7 @@ import static org.hamcrest.Matchers.equalTo;
  * @author likailee.llk
  * @version UserControllerTest.java 2020/12/01 Tue 3:56 PM likai
  */
+@Slf4j
 public class UserControllerTest {
     private static JacksonSerializer serializer;
 
@@ -59,12 +63,21 @@ public class UserControllerTest {
                 .statusCode(200);
     }
 
-    // test dependency injection
+    // test @Qualifier
     @Test
-    void should_inject_dependency() {
-        when().get("/user/print?msg=hello_from_test")
-                .then()
-                .statusCode(200);
+    void should_print_from_biz() {
+        Response response = with().when().get("/user/biz_print?msg=hello_from_biz_print");
+        Assertions.assertEquals(200, response.statusCode());
+        log.info(response.getBody().asString());
+        Assertions.assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: hello_from_biz_print"));
+    }
+    // test @Qualifier
+    @Test
+    void should_print_from_sys() {
+        Response response = with().when().get("/user/sys_print?msg=hello_from_sys_print");
+        Assertions.assertEquals(200, response.statusCode());
+        log.info(response.getBody().asString());
+        Assertions.assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
     }
 
 }

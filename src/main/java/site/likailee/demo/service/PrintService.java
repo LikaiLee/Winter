@@ -13,6 +13,7 @@ public interface PrintService {
      * print message
      *
      * @param msg
+     * @return
      */
-    void print(String msg);
+    String print(String msg);
 }

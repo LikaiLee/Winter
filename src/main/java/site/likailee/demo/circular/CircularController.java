@@ -15,7 +15,7 @@ import site.likailee.winter.annotation.springmvc.RestController;
  */
 @RestController("/test")
 @Slf4j
-public class TestController {
+public class CircularController {
     @Autowired
     private AService a;
     @Autowired

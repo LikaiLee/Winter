@@ -16,7 +16,7 @@ import site.likailee.winter.annotation.ioc.Component;
 @Slf4j
 public class BizPrintServiceImpl implements PrintService {
     @Override
-    public void print(String msg) {
-        log.info("biz print: {}", msg);
+    public String print(String msg) {
+        return "BizPrintServiceImpl: " + msg;
     }
 }

@@ -53,10 +53,13 @@ public class UserController {
         return userService.createUser(user);
     }
 
-    @GetMapping("/print")
-    public void print(@RequestParam("msg") String msg) {
-        readService.read();
-        sysPrintServiceImpl.print(msg);
-        bizPrintServiceImpl.print(msg);
+    @GetMapping("/biz_print")
+    public String bizPrint(@RequestParam("msg") String msg) {
+        return bizPrintServiceImpl.print(msg);
+    }
+
+    @GetMapping("/sys_print")
+    public String sysPrint(@RequestParam("msg") String msg) {
+        return sysPrintServiceImpl.print(msg);
     }
 }
