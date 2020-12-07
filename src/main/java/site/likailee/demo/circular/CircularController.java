@@ -13,20 +13,21 @@ import site.likailee.winter.annotation.springmvc.RestController;
  * @author likailee.llk
  * @version TestController.java 2020/12/03 Thu 8:48 PM likai
  */
-@RestController("/test")
+@RestController("/circular")
 @Slf4j
 public class CircularController {
     @Autowired
-    private AService a;
+    private AService aService;
     @Autowired
-    private BService b;
-    @Autowired
-    private CService c;
+    private BService bService;
+    // @Autowired
+    // private CService c;
 
     @GetMapping
-    public void test() {
-        a.test();
-        b.test();
-        c.test();
+    public String test() {
+        aService.test();
+        bService.test();
+        // c.test();
+        return "circular controller";
     }
 }

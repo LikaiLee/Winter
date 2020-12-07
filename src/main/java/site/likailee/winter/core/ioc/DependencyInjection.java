@@ -51,6 +51,7 @@ public class DependencyInjection {
             if (!field.isAnnotationPresent(Autowired.class)) {
                 continue;
             }
+            // log.info("prepare bean field: {}.{}", beanInstance.getClass().getSimpleName(), field.getName());
             // 获取属性对应的类
             Class<?> fieldClass = field.getType();
             String beanFieldName = WinterUtils.getBeanName(fieldClass);
@@ -101,14 +102,11 @@ public class DependencyInjection {
             // 判断代理模式
             if (fieldClass.isInterface()) {
                 beanPostProcessor = new JdkAopProxyBeanPostProcessor(interceptors);
-                // log.info("{} -> {} cglib", fieldClass.getSimpleName(), beanFieldInstance.getClass().getSimpleName());
             } else {
                 beanPostProcessor = new CglibAopProxyBeanPostProcessor(interceptors);
-                // log.info("{} jdk", beanFieldInstance.getClass().getSimpleName());
             }
             beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
             // 设置属性对应的实例
-            // log.info("about to set field [{}.{}] = {}", beanInstance.getClass().getSimpleName(), field.getName(), beanFieldInstance.getClass().getSimpleName());
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
     }

@@ -4,8 +4,6 @@
  */
 package site.likailee.winter.core.aop;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * 方法拦截器
  *
@@ -29,8 +27,8 @@ public abstract class Interceptor {
     /**
      * 控制代理对象的方法
      *
-     * @param methodInvocation 被代理对象的元数据
+     * @param invocation 被代理对象的方法
      * @return 方法执行结果
      */
-    public abstract Object intercept(MethodInvocation methodInvocation);
+    public abstract Object intercept(MethodInvocation invocation);
 }

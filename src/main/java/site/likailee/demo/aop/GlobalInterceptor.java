@@ -6,33 +6,32 @@ package site.likailee.demo.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.demo.service.PrintService;
-import site.likailee.demo.service.ReadService;
 import site.likailee.winter.core.aop.Interceptor;
 import site.likailee.winter.core.aop.MethodInvocation;
 
 /**
  * @author likailee.llk
- * @version CheckInterceptor.java 2020/12/04 Fri 12:06 PM likai
+ * @version GlobalInterceptor.java 2020/12/04 Fri 6:24 PM likai
  */
 @Slf4j
-public class CheckInterceptor extends Interceptor {
+public class GlobalInterceptor extends Interceptor {
     @Override
     public int getOrder() {
-        return 0;
+        return Integer.MIN_VALUE;
     }
 
     @Override
     public boolean supports(Object bean) {
-        return true;
         // return bean instanceof PrintService;
+        return true;
     }
 
     @Override
     public Object intercept(MethodInvocation invocation) {
-        log.info("-----> before CheckInterceptor");
+        log.info("---> global before");
         log.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
-        Object result = invocation.proceed();
-        log.info("CheckInterceptor after <----- ");
-        return result;
+        Object res = invocation.proceed();
+        log.info("global after <---");
+        return res;
     }
 }

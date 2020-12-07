@@ -11,18 +11,21 @@ import site.likailee.demo.service.ReadService;
 import site.likailee.winter.core.aop.Interceptor;
 import site.likailee.winter.core.aop.MethodInvocation;
 
-import java.lang.reflect.InvocationTargetException;
-
 /**
  * @author likailee.llk
  * @version WebLogInterceptor.java 2020/12/04 Fri 10:45 AM likai
  */
 @Slf4j
 public class WebLogInterceptor extends Interceptor {
+    @Override
+    public int getOrder() {
+        return 1;
+    }
 
     @Override
     public boolean supports(Object bean) {
-        return bean instanceof PrintService || bean instanceof ReadService;
+        // return bean instanceof PrintService;
+        return false;
     }
 
     @Override

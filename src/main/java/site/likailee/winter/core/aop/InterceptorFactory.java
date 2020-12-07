@@ -4,6 +4,7 @@
  */
 package site.likailee.winter.core.aop;
 
+import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.exception.CannotInitializeConstructorException;
 
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
  * @author likailee.llk
  * @version InterceptorFactory.java 2020/12/04 Fri 4:24 PM likai
  */
+@Slf4j
 public class InterceptorFactory {
     private static List<Interceptor> interceptors = new ArrayList<>();
 
@@ -31,6 +33,7 @@ public class InterceptorFactory {
             }
         }
         interceptors = interceptors.stream().sorted(Comparator.comparing(Interceptor::getOrder)).collect(Collectors.toList());
+        log.info("Number of interceptors: {}", interceptors.size());
     }
 
     public static List<Interceptor> getInterceptors() {

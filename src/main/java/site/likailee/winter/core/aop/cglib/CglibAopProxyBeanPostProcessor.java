@@ -28,7 +28,7 @@ public class CglibAopProxyBeanPostProcessor implements BeanPostProcessor {
         Object wrapperProxyBean = bean;
         for (Interceptor interceptor : interceptors) {
             if (interceptor.supports(bean)) {
-                log.info("cglib proxy: {}", bean.getClass().getSimpleName());
+                // log.info("cglib proxy: {}", bean.getClass().getSimpleName());
                 wrapperProxyBean = CglibMethodInterceptor.getProxy(wrapperProxyBean, interceptor);
             }
         }

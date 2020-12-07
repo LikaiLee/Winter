@@ -32,7 +32,7 @@ public class JdkAopProxyBeanPostProcessor implements BeanPostProcessor {
         Object wrapperProxyBean = bean;
         for (Interceptor interceptor : interceptors) {
             if (interceptor.supports(bean)) {
-                log.info("jdk proxy: {}", bean.getClass().getSimpleName());
+                // log.info("jdk proxy: {}", bean.getClass().getSimpleName());
                 wrapperProxyBean = JdkInvocationHandler.getProxy(wrapperProxyBean, interceptor);
             }
         }

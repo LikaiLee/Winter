@@ -16,7 +16,7 @@ import site.likailee.winter.annotation.ioc.Component;
 @Slf4j
 public class BService {
     @Autowired
-    private CService cService;
+    private AService aService;
 
     public void test() {
         log.info("BBBB test()");
