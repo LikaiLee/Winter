@@ -32,7 +32,9 @@ public class AopControllerTest {
 
     @Test
     void should_get_aop_cglib() {
-
+        Response response = with().when().get("/aop/test_cglib");
+        Assertions.assertEquals(200, response.getStatusCode());
+        log.info(response.getBody().asString());
     }
 
 }

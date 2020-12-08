@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
+import site.likailee.winter.core.aop.lang.JoinPoint;
 import site.likailee.winter.core.ioc.BeanFactory;
 import site.likailee.winter.exception.CanNotInvokeTargetMethodException;
 
@@ -23,7 +24,7 @@ import java.util.Set;
 @Slf4j
 public class ReflectionUtils {
     /**
-     * 执行方法
+     * 执行方法并返回结果
      *
      * @param method
      * @param args
@@ -39,6 +40,23 @@ public class ReflectionUtils {
             throw new CanNotInvokeTargetMethodException(e.toString());
         }
         return result;
+    }
+
+    /**
+     * 执行方法无返回值
+     *
+     * @param targetObject
+     * @param method
+     * @param args
+     */
+    public static void executeMethodNoResult(Object targetObject, Method method, Object... args) {
+        try {
+            // 调用方法
+            method.invoke(targetObject, args);
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            log.error("error occurs while invoke method [{}]", method.getName(), e);
+            throw new CanNotInvokeTargetMethodException(e.toString());
+        }
     }
 
     /**
@@ -83,4 +101,5 @@ public class ReflectionUtils {
         Reflections reflections = new Reflections(packageName);
         return reflections.getSubTypesOf(interfaceClass);
     }
+
 }

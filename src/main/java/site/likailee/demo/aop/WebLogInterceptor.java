@@ -8,6 +8,7 @@ package site.likailee.demo.aop;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.demo.service.PrintService;
 import site.likailee.demo.service.ReadService;
+import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.core.aop.Interceptor;
 import site.likailee.winter.core.aop.MethodInvocation;
 
@@ -16,6 +17,7 @@ import site.likailee.winter.core.aop.MethodInvocation;
  * @version WebLogInterceptor.java 2020/12/04 Fri 10:45 AM likai
  */
 @Slf4j
+// @Component(name = "WebLogInterceptor")
 public class WebLogInterceptor extends Interceptor {
     @Override
     public int getOrder() {
@@ -24,8 +26,8 @@ public class WebLogInterceptor extends Interceptor {
 
     @Override
     public boolean supports(Object bean) {
-        // return bean instanceof PrintService;
-        return false;
+        return bean instanceof PrintService || bean instanceof ReadService;
+        // return false;
     }
 
     @Override

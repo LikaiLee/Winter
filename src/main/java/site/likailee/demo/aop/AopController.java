@@ -25,11 +25,11 @@ public class AopController {
 
     @Autowired
     @Qualifier("bizPrintServiceImpl")
-    private PrintService bizPrintServiceImpl;
+    private PrintService bizPrintService;
 
     @GetMapping("/test_jdk_qualifier")
     public String testJdkQualifier() {
-        return bizPrintServiceImpl.print("test_jdk_qualifier");
+        return bizPrintService.print("test_jdk_qualifier");
     }
 
     @GetMapping("/test_cglib")

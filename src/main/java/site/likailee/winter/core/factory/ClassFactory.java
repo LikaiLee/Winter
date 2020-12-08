@@ -4,6 +4,7 @@
  */
 package site.likailee.winter.core.factory;
 
+import site.likailee.winter.annotation.aop.Aspect;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.core.scanner.AnnotationClassScanner;
@@ -25,8 +26,11 @@ public class ClassFactory {
         Set<Class<?>> restControllers = AnnotationClassScanner.scan(packageName, RestController.class);
         // 获取所有带有 @Component 的类
         Set<Class<?>> components = AnnotationClassScanner.scan(packageName, Component.class);
+        // 获取所有带有 @Aspect 的类
+        Set<Class<?>> aspects = AnnotationClassScanner.scan(packageName, Aspect.class);
 
         CLASSES.put(RestController.class, restControllers);
         CLASSES.put(Component.class, components);
+        CLASSES.put(Aspect.class, aspects);
     }
 }

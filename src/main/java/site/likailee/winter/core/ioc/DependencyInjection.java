@@ -10,6 +10,7 @@ import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.aop.BeanPostProcessor;
+import site.likailee.winter.core.aop.BeanPostProcessorFactory;
 import site.likailee.winter.core.aop.Interceptor;
 import site.likailee.winter.core.aop.InterceptorFactory;
 import site.likailee.winter.core.aop.cglib.CglibAopProxyBeanPostProcessor;
@@ -96,15 +97,7 @@ public class DependencyInjection {
 
             // 进行 AOP 代理
             // TODO: 目前只能对属性对象中的方法进行代理
-            BeanPostProcessor beanPostProcessor;
-            // 获取所有拦截器
-            List<Interceptor> interceptors = InterceptorFactory.getInterceptors();
-            // 判断代理模式
-            if (fieldClass.isInterface()) {
-                beanPostProcessor = new JdkAopProxyBeanPostProcessor(interceptors);
-            } else {
-                beanPostProcessor = new CglibAopProxyBeanPostProcessor(interceptors);
-            }
+            BeanPostProcessor beanPostProcessor = BeanPostProcessorFactory.getBeanPostProcessor(beanFieldInstance);
             beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
             // 设置属性对应的实例
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
