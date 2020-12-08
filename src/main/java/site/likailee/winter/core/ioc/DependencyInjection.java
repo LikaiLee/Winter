@@ -96,8 +96,8 @@ public class DependencyInjection {
             }
 
             // 进行 AOP 代理
-            // TODO: 目前只能对属性对象中的方法进行代理
-            BeanPostProcessor beanPostProcessor = BeanPostProcessorFactory.getBeanPostProcessor(beanFieldInstance);
+            // TODO: 目前只能对属性对象进行代理
+            BeanPostProcessor beanPostProcessor = BeanPostProcessorFactory.getBeanPostProcessor(fieldClass);
             beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
             // 设置属性对应的实例
             ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
