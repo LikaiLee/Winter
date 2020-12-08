@@ -6,7 +6,7 @@ package site.likailee.winter.core.springmvc.resolver;
 
 import site.likailee.winter.annotation.springmvc.PathVariable;
 import site.likailee.winter.common.util.ObjectUtils;
-import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.springmvc.entity.MethodDetail;
 
 import java.lang.reflect.Parameter;
 

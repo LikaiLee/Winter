@@ -7,7 +7,7 @@ package site.likailee.winter.core.springmvc.handler;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
-import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.ioc.BeanFactory;
 import site.likailee.winter.core.springmvc.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;

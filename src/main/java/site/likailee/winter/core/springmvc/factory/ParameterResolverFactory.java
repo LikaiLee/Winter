@@ -7,7 +7,7 @@ package site.likailee.winter.core.springmvc.factory;
 import site.likailee.winter.annotation.springmvc.PathVariable;
 import site.likailee.winter.annotation.springmvc.RequestBody;
 import site.likailee.winter.annotation.springmvc.RequestParam;
-import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.springmvc.resolver.PathVariableResolver;
 import site.likailee.winter.core.springmvc.resolver.RequestBodyResolver;

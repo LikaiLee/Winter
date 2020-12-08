@@ -6,7 +6,7 @@ package site.likailee.winter.core.springmvc.resolver;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.springmvc.entity.MethodDetail;
 
 import java.lang.reflect.Parameter;
 

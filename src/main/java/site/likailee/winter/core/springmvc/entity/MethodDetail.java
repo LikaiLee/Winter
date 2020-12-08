@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.entity;
+package site.likailee.winter.core.springmvc.entity;
 
 import lombok.Data;
 import lombok.ToString;

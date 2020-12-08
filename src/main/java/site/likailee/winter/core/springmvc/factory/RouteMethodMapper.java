@@ -10,7 +10,7 @@ import site.likailee.winter.annotation.springmvc.GetMapping;
 import site.likailee.winter.annotation.springmvc.PostMapping;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.common.util.UrlUtils;
-import site.likailee.winter.core.entity.MethodDetail;
+import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.factory.ClassFactory;
 
 import java.lang.reflect.Method;
