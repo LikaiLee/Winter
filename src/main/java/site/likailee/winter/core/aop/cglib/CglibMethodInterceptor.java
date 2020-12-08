@@ -27,9 +27,9 @@ public class CglibMethodInterceptor implements MethodInterceptor {
 
     public static Object getProxy(Object target, Interceptor interceptor) {
         Class<?> superClass = target.getClass();
-        // if (superClass.getName().contains("$$")) {
-        //     superClass = superClass.getSuperclass();
-        // }
+        if (superClass.getName().contains("$$")) {
+            superClass = superClass.getSuperclass();
+        }
         Enhancer enhancer = new Enhancer();
         enhancer.setClassLoader(target.getClass().getClassLoader());
         enhancer.setSuperclass(superClass);
