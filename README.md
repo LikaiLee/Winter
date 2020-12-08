@@ -27,10 +27,10 @@ Netty served as default embedded web server, and Winter will start on default po
 
 ### 4. AOP
 
-* [ ] `@Aspect`
-* [ ] `@Pointcut`
+* [x] `@Aspect`: declare a class as `aspect`
+* [x] `@Pointcut`: Pointcut is expressions that are matched with join points to determine whether `advice` needs to be executed or not
 * [ ] `@Around`
-* [ ] `@Before`
-* [ ] `@After`
+* [x] `@Before`: annotated methods run exactly `before` the all methods matching with pointcut expression
+* [x] `@After`: annotated methods run exactly `after` the all methods matching with pointcut expression
 * [ ] `@AfterReturning`
 * [ ] `@AfterThrowing`
