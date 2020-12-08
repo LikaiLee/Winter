@@ -2,10 +2,11 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop;
+package site.likailee.winter.core.aop.factory;
 
-import site.likailee.winter.core.aop.jdk.JdkAopProxyBeanPostProcessor;
-import site.likailee.winter.core.aop.cglib.CglibAopProxyBeanPostProcessor;
+import site.likailee.winter.core.aop.intercept.BeanPostProcessor;
+import site.likailee.winter.core.aop.intercept.JdkAopProxyBeanPostProcessor;
+import site.likailee.winter.core.aop.intercept.CglibAopProxyBeanPostProcessor;
 
 /**
  * @author likailee.llk

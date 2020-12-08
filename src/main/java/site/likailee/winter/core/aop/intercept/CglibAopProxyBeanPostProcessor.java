@@ -2,11 +2,10 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop.cglib;
+package site.likailee.winter.core.aop.intercept;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.core.aop.AbstractAopProxyBeanPostProcessor;
-import site.likailee.winter.core.aop.Interceptor;
+import site.likailee.winter.core.aop.proxy.CglibAspectProxy;
 
 /**
  * @author likailee.llk
@@ -17,7 +16,7 @@ public class CglibAopProxyBeanPostProcessor extends AbstractAopProxyBeanPostProc
 
     @Override
     protected Object doWrapBean(Object bean, Interceptor interceptor) {
-        return CglibMethodInterceptor.getProxy(bean, interceptor);
+        return CglibAspectProxy.getProxy(bean, interceptor);
     }
 
 }

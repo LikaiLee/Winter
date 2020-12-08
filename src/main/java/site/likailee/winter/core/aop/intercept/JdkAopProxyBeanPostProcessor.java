@@ -2,11 +2,12 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop.jdk;
+package site.likailee.winter.core.aop.intercept;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.core.aop.AbstractAopProxyBeanPostProcessor;
-import site.likailee.winter.core.aop.Interceptor;
+import site.likailee.winter.core.aop.intercept.AbstractAopProxyBeanPostProcessor;
+import site.likailee.winter.core.aop.intercept.Interceptor;
+import site.likailee.winter.core.aop.proxy.JdkAspectProxy;
 
 /**
  * @author likailee.llk
@@ -17,6 +18,6 @@ public class JdkAopProxyBeanPostProcessor extends AbstractAopProxyBeanPostProces
 
     @Override
     protected Object doWrapBean(Object bean, Interceptor interceptor) {
-        return JdkInvocationHandler.getProxy(bean, interceptor);
+        return JdkAspectProxy.getProxy(bean, interceptor);
     }
 }

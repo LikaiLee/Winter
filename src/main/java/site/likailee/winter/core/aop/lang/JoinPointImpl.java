@@ -11,9 +11,9 @@ import java.util.Arrays;
  * @version JoinPointImpl.java 2020/12/08 Tue 2:20 PM likai
  */
 public class JoinPointImpl implements JoinPoint {
-    private Object adviceBean;
-    private Object target;
-    private Object[] args;
+    private final Object adviceBean;
+    private final Object target;
+    private final Object[] args;
 
     public JoinPointImpl(Object adviceBean, Object target, Object[] args) {
         this.adviceBean = adviceBean;

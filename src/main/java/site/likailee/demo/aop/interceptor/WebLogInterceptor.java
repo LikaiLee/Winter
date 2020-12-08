@@ -2,32 +2,31 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.demo.aop;
+package site.likailee.demo.aop.interceptor;
 
 
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.demo.service.PrintService;
 import site.likailee.demo.service.ReadService;
-import site.likailee.winter.annotation.ioc.Component;
-import site.likailee.winter.core.aop.Interceptor;
-import site.likailee.winter.core.aop.MethodInvocation;
+import site.likailee.winter.core.aop.intercept.Interceptor;
+import site.likailee.winter.core.aop.intercept.MethodInvocation;
 
 /**
  * @author likailee.llk
  * @version WebLogInterceptor.java 2020/12/04 Fri 10:45 AM likai
  */
 @Slf4j
-// @Component(name = "WebLogInterceptor")
 public class WebLogInterceptor extends Interceptor {
     @Override
     public int getOrder() {
-        return 1;
+        return 0;
     }
 
     @Override
     public boolean supports(Object bean) {
-        return bean instanceof PrintService || bean instanceof ReadService;
-        // return false;
+        // return bean instanceof PrintService || bean instanceof ReadService;
+        return false;
+        // return true;
     }
 
     @Override

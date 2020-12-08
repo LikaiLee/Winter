@@ -8,10 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import site.likailee.demo.aop.WebLogInterceptor;
 import site.likailee.winter.annotation.aop.Aspect;
-import site.likailee.winter.core.aop.Interceptor;
-import site.likailee.winter.core.aop.MethodInvocation;
+import site.likailee.winter.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.factory.ClassFactory;
 
 import java.util.Map;

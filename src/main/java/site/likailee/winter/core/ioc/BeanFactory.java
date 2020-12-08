@@ -35,32 +35,14 @@ public class BeanFactory {
      * 实例化 Component，RestController
      */
     public static void loadBeans() {
-        ClassFactory.CLASSES.forEach((annotation, classes) -> {
-            // @Component 使用 name 或 类名标识
-            if (annotation == Component.class) {
-                for (Class<?> clazz : classes) {
-                    String beanName = WinterUtils.getBeanName(clazz);
-                    Object bean = ReflectionUtils.newInstance(clazz);
-                    BEANS.put(beanName, bean);
-                }
-            }
-            // @RestController 使用类名标识
-            if (annotation == RestController.class) {
-                for (Class<?> clazz : classes) {
-                    Object bean = ReflectionUtils.newInstance(clazz);
-                    BEANS.put(clazz.getName(), bean);
-                }
-            }
-            // @Aspect 使用类名标识
-            if (annotation == Aspect.class) {
-                List<String> beanNamesList = new ArrayList<>();
-                for (Class<?> clazz : classes) {
-                    Object bean = ReflectionUtils.newInstance(clazz);
-                    BEANS.put(clazz.getName(), bean);
-                    beanNamesList.add(clazz.getName());
-                }
-                singletonBeanNamesTypeMap.put(Aspect.class.getName(), beanNamesList.toArray(new String[0]));
-            }
+        ClassFactory.CLASSES.get(Component.class).forEach(componentCls -> {
+            String beanName = WinterUtils.getBeanName(componentCls);
+            Object bean = ReflectionUtils.newInstance(componentCls);
+            BEANS.put(beanName, bean);
+        });
+        ClassFactory.CLASSES.get(RestController.class).forEach(ctrlClass -> {
+            Object bean = ReflectionUtils.newInstance(ctrlClass);
+            BEANS.put(ctrlClass.getName(), bean);
         });
         log.info("Load [{}] beans: {}", BEANS.size(), BEANS.keySet());
     }

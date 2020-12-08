@@ -9,6 +9,7 @@ import site.likailee.demo.service.ReadService;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.annotation.springmvc.GetMapping;
+import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.annotation.springmvc.RestController;
 
 /**
@@ -28,8 +29,8 @@ public class AopController {
     private PrintService bizPrintService;
 
     @GetMapping("/test_jdk_qualifier")
-    public String testJdkQualifier() {
-        return bizPrintService.print("test_jdk_qualifier");
+    public String testJdkQualifier(@RequestParam("name") String name) {
+        return bizPrintService.print(name + " test_jdk_qualifier");
     }
 
     @GetMapping("/test_cglib")

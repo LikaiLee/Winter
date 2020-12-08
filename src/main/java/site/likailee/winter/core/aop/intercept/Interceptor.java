@@ -2,7 +2,10 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop;
+package site.likailee.winter.core.aop.intercept;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * 方法拦截器
@@ -10,18 +13,13 @@ package site.likailee.winter.core.aop;
  * @author likailee.llk
  * @version Interceptor.java 2020/12/04 Fri 10:47 AM likai
  */
+@Getter
+@Setter
 public abstract class Interceptor {
-    /**
-     * 获取优先级
-     *
-     * @return
-     */
-    public int getOrder() {
-        return -1;
-    }
+    private int order = -1;
 
     public boolean supports(Object bean) {
-        return true;
+        return false;
     }
 
     /**
@@ -31,4 +29,5 @@ public abstract class Interceptor {
      * @return 方法执行结果
      */
     public abstract Object intercept(MethodInvocation invocation);
+
 }

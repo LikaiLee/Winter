@@ -5,10 +5,7 @@
 package site.likailee.demo.aop.aspect;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.annotation.aop.After;
-import site.likailee.winter.annotation.aop.Aspect;
-import site.likailee.winter.annotation.aop.Before;
-import site.likailee.winter.annotation.aop.Pointcut;
+import site.likailee.winter.annotation.aop.*;
 import site.likailee.winter.core.aop.lang.JoinPoint;
 
 /**
@@ -16,6 +13,7 @@ import site.likailee.winter.core.aop.lang.JoinPoint;
  * @version WebLogAspect.java 2020/12/07 Mon 3:18 PM likai
  */
 @Aspect
+@Order(2)
 @Slf4j
 public class WebLogAspect {
     @Pointcut("site.likailee.demo.*.*Service*")
