@@ -7,6 +7,7 @@ package site.likailee.demo.aop.aspect;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.aop.*;
 import site.likailee.winter.core.aop.lang.JoinPoint;
+import site.likailee.winter.core.aop.lang.ProceedingJoinPoint;
 
 /**
  * @author likailee.llk
@@ -28,5 +29,13 @@ public class WebLogAspect {
     @After
     public void after(Object result, JoinPoint joinPoint) {
         log.info("after web log aspect");
+    }
+
+    @Around
+    public Object around(ProceedingJoinPoint proceedingJoinPoint) {
+        log.info("around begin");
+        Object result = proceedingJoinPoint.proceed();
+        log.info("around end");
+        return result;
     }
 }

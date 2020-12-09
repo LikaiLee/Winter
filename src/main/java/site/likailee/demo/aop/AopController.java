@@ -4,6 +4,7 @@
  */
 package site.likailee.demo.aop;
 
+import lombok.extern.slf4j.Slf4j;
 import site.likailee.demo.service.PrintService;
 import site.likailee.demo.service.ReadService;
 import site.likailee.winter.annotation.ioc.Autowired;
@@ -17,6 +18,7 @@ import site.likailee.winter.annotation.springmvc.RestController;
  * @version AopController.java 2020/12/04 Fri 12:01 PM likai
  */
 @RestController("/aop")
+@Slf4j
 public class AopController {
     @Autowired
     private AopService aopService;

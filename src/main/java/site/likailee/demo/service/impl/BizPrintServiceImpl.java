@@ -17,6 +17,7 @@ import site.likailee.winter.annotation.ioc.Component;
 public class BizPrintServiceImpl implements PrintService {
     @Override
     public String print(String msg) {
+        log.info("### request on BizPrintServiceImpl.print() ###");
         return "BizPrintServiceImpl: " + msg;
     }
 }
