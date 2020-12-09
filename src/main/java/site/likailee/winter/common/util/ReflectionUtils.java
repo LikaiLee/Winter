@@ -95,24 +95,24 @@ public class ReflectionUtils {
     /**
      * 获取接口的实现类
      *
-     * @param packageName
+     * @param packageNames
      * @param interfaceClass
      * @return
      */
-    public static <T> Set<Class<? extends T>> getImplClasses(String packageName, Class<T> interfaceClass) {
-        Reflections reflections = new Reflections(packageName);
+    public static <T> Set<Class<? extends T>> getImplClasses(Object[] packageNames, Class<T> interfaceClass) {
+        Reflections reflections = new Reflections(packageNames);
         return reflections.getSubTypesOf(interfaceClass);
     }
 
     /**
      * 扫描包下拥有特定注解的类
      *
-     * @param packageName
+     * @param packageNames
      * @param annotation
      * @return
      */
-    public static Set<Class<?>> scan(String packageName, Class<? extends Annotation> annotation) {
-        Reflections reflections = new Reflections(packageName, new TypeAnnotationsScanner());
+    public static Set<Class<?>> scanAnnotatedClass(String[] packageNames, Class<? extends Annotation> annotation) {
+        Reflections reflections = new Reflections(packageNames, new TypeAnnotationsScanner());
         Set<Class<?>> annotatedClass = reflections.getTypesAnnotatedWith(annotation, true);
         log.info("Number of class annotated with [@{}]: {}", annotation.getSimpleName(), annotatedClass.size());
         return annotatedClass;

@@ -5,6 +5,7 @@
 package site.likailee.winter.core.scanner;
 
 import org.junit.jupiter.api.Test;
+import site.likailee.winter.WinterApplication;
 import site.likailee.winter.core.ApplicationContext;
 
 /**
@@ -15,6 +16,6 @@ public class ApplicationContextTest {
     @Test
     public void testRouter() {
         ApplicationContext context = new ApplicationContext();
-        context.run("site.likailee.demo");
+        context.run(WinterApplication.class);
     }
 }

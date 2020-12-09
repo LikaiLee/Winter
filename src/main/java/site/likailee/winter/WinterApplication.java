@@ -4,9 +4,9 @@
  */
 package site.likailee.winter;
 
+import site.likailee.winter.annotation.boot.ComponentScan;
+import site.likailee.winter.annotation.boot.SpringBootApplication;
 import site.likailee.winter.core.ApplicationContext;
-import site.likailee.winter.common.Banner;
-import site.likailee.winter.server.HttpServer;
 
 /**
  * Winter is named because it is written in winter.
@@ -14,12 +14,15 @@ import site.likailee.winter.server.HttpServer;
  * @author likailee.llk
  * @version WinterApplication.java 2020/11/25 Wed 4:20 PM likai
  */
+@SpringBootApplication
+@ComponentScan({"site.likailee.demo", "site.likailee.demo.aop"})
 public class WinterApplication {
     public static void main(String[] args) {
-        Banner.printBanner();
+        WinterApplication.run(WinterApplication.class, args);
+    }
+
+    private static void run(Class<WinterApplication> applicationClass, String... args) {
         ApplicationContext context = ApplicationContext.getApplicationContext();
-        context.run("site.likailee.demo");
-        HttpServer server = new HttpServer();
-        server.start();
+        context.run(applicationClass);
     }
 }

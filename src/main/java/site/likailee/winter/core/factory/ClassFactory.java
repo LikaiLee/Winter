@@ -21,13 +21,13 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ClassFactory {
     public static final Map<Class<? extends Annotation>, Set<Class<?>>> CLASSES = new ConcurrentHashMap<>();
 
-    public static void loadClass(String packageName) {
+    public static void loadClass(String[] packageNames) {
         // 获取所有带有 @RestController 的类
-        Set<Class<?>> restControllers = ReflectionUtils.scan(packageName, RestController.class);
+        Set<Class<?>> restControllers = ReflectionUtils.scanAnnotatedClass(packageNames, RestController.class);
         // 获取所有带有 @Component 的类
-        Set<Class<?>> components = ReflectionUtils.scan(packageName, Component.class);
+        Set<Class<?>> components = ReflectionUtils.scanAnnotatedClass(packageNames, Component.class);
         // 获取所有带有 @Aspect 的类
-        Set<Class<?>> aspects = ReflectionUtils.scan(packageName, Aspect.class);
+        Set<Class<?>> aspects = ReflectionUtils.scanAnnotatedClass(packageNames, Aspect.class);
 
         CLASSES.put(RestController.class, restControllers);
         CLASSES.put(Component.class, components);

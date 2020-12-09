@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 public class InterceptorFactory {
     private static List<Interceptor> interceptors = new ArrayList<>();
 
-    public static void loadInterceptors(String packageName) {
-        Set<Class<? extends Interceptor>> interceptorClasses = ReflectionUtils.getImplClasses(packageName, Interceptor.class);
+    public static void loadInterceptors(String[] packageNames) {
+        Set<Class<? extends Interceptor>> interceptorClasses = ReflectionUtils.getImplClasses(packageNames, Interceptor.class);
         Set<Class<?>> aspects = ClassFactory.CLASSES.get(Aspect.class);
         // 实例化 Interceptor
         for (Class<? extends Interceptor> interceptorCls : interceptorClasses) {

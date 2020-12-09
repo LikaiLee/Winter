@@ -17,8 +17,8 @@ import site.likailee.winter.core.factory.ClassFactory;
 public class BeanFactoryTest {
     @BeforeAll
     static void before_all() {
-        String packageName = "site.likailee.demo";
-        ClassFactory.loadClass(packageName);
+        String[] packageNames = {"site.likailee.demo"};
+        ClassFactory.loadClass(packageNames);
         BeanFactory.loadBeans();
     }
 }

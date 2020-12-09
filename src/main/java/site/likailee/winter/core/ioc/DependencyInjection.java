@@ -33,13 +33,13 @@ public class DependencyInjection {
     /**
      * 为 BEANS 内的 Bean 注入属性
      *
-     * @param packageName
+     * @param packageNames
      */
-    public static void inject(String packageName) {
-        BeanFactory.BEANS.values().forEach(bean -> prepareBean(bean, packageName));
+    public static void inject(String[] packageNames) {
+        BeanFactory.BEANS.values().forEach(bean -> prepareBean(bean, packageNames));
     }
 
-    private static void prepareBean(Object beanInstance, String packageName) {
+    private static void prepareBean(Object beanInstance, String[] packageNames) {
         // beanInstance 已经实例化，但还未注入依赖
         Field[] fields = beanInstance.getClass().getDeclaredFields();
         // 遍历所有属性，为 @Autowired 的属性注入依赖
@@ -62,7 +62,7 @@ public class DependencyInjection {
                 // 如果是接口则获取其实现类
                 if (fieldClass.isInterface()) {
                     @SuppressWarnings("unchecked")
-                    Set<Class<?>> implClasses = ReflectionUtils.getImplClasses(packageName, (Class<Object>) fieldClass);
+                    Set<Class<?>> implClasses = ReflectionUtils.getImplClasses(packageNames, (Class<Object>) fieldClass);
                     if (implClasses.size() == 0) {
                         throw new InterfaceNotImplementedException("interface " + fieldClass.getName() + " does not have implemented");
                     }
@@ -87,7 +87,7 @@ public class DependencyInjection {
                 SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
             }
             if (newSingleton) {
-                prepareBean(beanFieldInstance, packageName);
+                prepareBean(beanFieldInstance, packageNames);
             }
 
             // 进行 AOP 代理
