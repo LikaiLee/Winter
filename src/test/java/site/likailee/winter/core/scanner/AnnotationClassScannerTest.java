@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import site.likailee.winter.annotation.springmvc.RestController;
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.common.util.ReflectionUtils;
 
 import java.util.Set;
 
@@ -19,7 +20,7 @@ import java.util.Set;
 public class AnnotationClassScannerTest {
     @Test
     public void test() {
-        Set<Class<?>> classes = AnnotationClassScanner.scan("site.likailee.winter.core", RestController.class);
+        Set<Class<?>> classes = ReflectionUtils.scan("site.likailee.winter.core", RestController.class);
         Assertions.assertEquals(1, classes.size());
     }
 }

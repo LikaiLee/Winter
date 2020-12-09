@@ -28,17 +28,18 @@ public class InterceptorFactory {
     private static List<Interceptor> interceptors = new ArrayList<>();
 
     public static void loadInterceptors(String packageName) {
+        Set<Class<? extends Interceptor>> interceptorClasses = ReflectionUtils.getImplClasses(packageName, Interceptor.class);
+        Set<Class<?>> aspects = ClassFactory.CLASSES.get(Aspect.class);
         // 实例化 Interceptor
-        Set<Class<? extends Interceptor>> subClasses = ReflectionUtils.getImplClasses(packageName, Interceptor.class);
-        for (Class<? extends Interceptor> subClass : subClasses) {
+        for (Class<? extends Interceptor> interceptorCls : interceptorClasses) {
             try {
-                interceptors.add(subClass.newInstance());
+                interceptors.add(interceptorCls.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new CannotInitializeConstructorException("not init constructor , the interceptor name :" + subClass.getSimpleName());
+                throw new CannotInitializeConstructorException("not init constructor , the interceptor name :" + interceptorCls.getSimpleName());
             }
         }
         // 实例化 Aspect
-        ClassFactory.CLASSES.get(Aspect.class).forEach(aspectCls -> {
+        aspects.forEach(aspectCls -> {
             // 将 Aspect 封装成 Interceptor
             Object aspect = ReflectionUtils.newInstance(aspectCls);
             Interceptor interceptor = new InternallyAspectInterceptor(aspect);
@@ -50,7 +51,7 @@ public class InterceptorFactory {
         });
         // 根据优先级排序
         interceptors = interceptors.stream().sorted(Comparator.comparing(Interceptor::getOrder)).collect(Collectors.toList());
-        log.info("[{}] interceptors: {}", interceptors.size(), interceptors);
+        log.info("Load [{}] interceptors", interceptors.size());
     }
 
     public static List<Interceptor> getInterceptors() {

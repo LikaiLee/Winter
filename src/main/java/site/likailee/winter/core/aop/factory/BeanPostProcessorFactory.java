@@ -13,7 +13,7 @@ import site.likailee.winter.core.aop.intercept.CglibAopProxyBeanPostProcessor;
  * @version BeanPostProcessorFactory.java 2020/12/07 Mon 2:30 PM likai
  */
 public class BeanPostProcessorFactory {
-    public static BeanPostProcessor getBeanPostProcessor(Class<?> beanClass) {
+    public static BeanPostProcessor get(Class<?> beanClass) {
         if (beanClass.isInterface() || beanClass.getInterfaces().length > 0) {
             return new JdkAopProxyBeanPostProcessor();
         } else {

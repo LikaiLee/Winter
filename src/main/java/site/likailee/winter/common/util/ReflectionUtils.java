@@ -6,12 +6,14 @@ package site.likailee.winter.common.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
+import org.reflections.scanners.TypeAnnotationsScanner;
 import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.core.aop.lang.JoinPoint;
 import site.likailee.winter.core.ioc.BeanFactory;
 import site.likailee.winter.exception.CanNotInvokeTargetMethodException;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -100,6 +102,20 @@ public class ReflectionUtils {
     public static <T> Set<Class<? extends T>> getImplClasses(String packageName, Class<T> interfaceClass) {
         Reflections reflections = new Reflections(packageName);
         return reflections.getSubTypesOf(interfaceClass);
+    }
+
+    /**
+     * 扫描包下拥有特定注解的类
+     *
+     * @param packageName
+     * @param annotation
+     * @return
+     */
+    public static Set<Class<?>> scan(String packageName, Class<? extends Annotation> annotation) {
+        Reflections reflections = new Reflections(packageName, new TypeAnnotationsScanner());
+        Set<Class<?>> annotatedClass = reflections.getTypesAnnotatedWith(annotation, true);
+        log.info("Number of class annotated with [@{}]: {}", annotation.getSimpleName(), annotatedClass.size());
+        return annotatedClass;
     }
 
 }
