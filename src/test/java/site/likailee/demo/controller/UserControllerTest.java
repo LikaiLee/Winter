@@ -16,6 +16,8 @@ import site.likailee.winter.serialize.impl.JacksonSerializer;
 import static io.restassured.RestAssured.when;
 import static io.restassured.RestAssured.with;
 import static org.hamcrest.Matchers.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author likailee.llk
@@ -67,17 +69,27 @@ public class UserControllerTest {
     @Test
     void should_print_from_biz() {
         Response response = with().when().get("/user/biz_print?msg=hello_from_biz_print");
-        Assertions.assertEquals(200, response.statusCode());
+        assertEquals(200, response.statusCode());
         log.info(response.getBody().asString());
-        Assertions.assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: hello_from_biz_print"));
+        assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: hello_from_biz_print"));
     }
+
     // test @Qualifier
     @Test
     void should_print_from_sys() {
         Response response = with().when().get("/user/sys_print?msg=hello_from_sys_print");
-        Assertions.assertEquals(200, response.statusCode());
+        assertEquals(200, response.statusCode());
         log.info(response.getBody().asString());
-        Assertions.assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
+        assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
+    }
+
+    // test configuration
+    @Test
+    void should_get_configuration() {
+        Response response = with().when().get("/user/config?name=winter.url");
+        assertEquals(200, response.getStatusCode());
+        log.info(response.getBody().asString());
+        assertEquals("\"https://github.com/LikaiLee/Winter\"", response.getBody().asString());
     }
 
 }

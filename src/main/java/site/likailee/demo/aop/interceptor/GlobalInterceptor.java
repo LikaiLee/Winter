@@ -5,6 +5,7 @@
 package site.likailee.demo.aop.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.demo.service.PrintService;
 import site.likailee.winter.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.aop.intercept.MethodInvocation;
 
@@ -21,8 +22,8 @@ public class GlobalInterceptor extends Interceptor {
 
     @Override
     public boolean supports(Object bean) {
-        // return bean instanceof PrintService;
-        return true;
+        return bean instanceof PrintService;
+        // return true;
     }
 
     @Override

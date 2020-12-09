@@ -49,7 +49,7 @@ public class PostRequestHandler implements RequestHandler {
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
         methodDetail.setQueryParamMap(queryParams);
         Method dispatchMethod = methodDetail.getMethod();
-        log.info("Post request on method [{}] with uri {}, methodDetail: {}", dispatchMethod.getName(), requestUri, methodDetail);
+        log.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 解析 request body 中的数据
         String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
         methodDetail.setRequestBodyJsonStr(jsonStr);

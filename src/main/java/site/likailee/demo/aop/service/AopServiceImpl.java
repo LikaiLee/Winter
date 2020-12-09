@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.demo.aop;
+package site.likailee.demo.aop.service;
 
 import site.likailee.winter.annotation.ioc.Component;
 

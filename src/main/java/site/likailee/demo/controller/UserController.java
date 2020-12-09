@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.annotation.springmvc.*;
+import site.likailee.winter.core.config.ConfigurationManager;
 
 import java.util.List;
 
@@ -22,6 +23,9 @@ import java.util.List;
 @RestController("/user")
 @Slf4j
 public class UserController {
+
+    @Autowired
+    private ConfigurationManager configurationManager;
 
     @Autowired
     private ReadService readService;
@@ -36,6 +40,11 @@ public class UserController {
     @Autowired
     @Qualifier("sysPrintServiceImpl")
     private PrintService sysPrintServiceImpl;
+
+    @GetMapping("/config")
+    public String getConfig(@RequestParam("name") String name) {
+        return configurationManager.getString(name);
+    }
 
     @GetMapping("/{id}")
     public User get(@PathVariable("id") Integer id) {
