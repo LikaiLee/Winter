@@ -5,6 +5,7 @@
 package site.likailee.demo.aop;
 
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.demo.aop.service.AopService;
 import site.likailee.demo.service.PrintService;
 import site.likailee.demo.service.ReadService;
 import site.likailee.winter.annotation.ioc.Autowired;
