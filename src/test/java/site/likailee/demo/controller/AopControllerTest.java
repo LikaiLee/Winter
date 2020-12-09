@@ -6,11 +6,12 @@ package site.likailee.demo.controller;
 
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.with;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author likailee.llk
@@ -25,15 +26,15 @@ public class AopControllerTest {
     @Test
     void should_get_aop_jdk_qualifier() {
         Response response = with().when().get("/aop/test_jdk_qualifier?name=myname");
-        Assertions.assertEquals(200, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         log.info(response.getBody().asString());
-        Assertions.assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: myname test_jdk_qualifier"));
+        assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: myname test_jdk_qualifier"));
     }
 
     @Test
     void should_get_aop_cglib() {
         Response response = with().when().get("/aop/test_cglib");
-        Assertions.assertEquals(200, response.getStatusCode());
+        assertEquals(200, response.getStatusCode());
         log.info(response.getBody().asString());
     }
 

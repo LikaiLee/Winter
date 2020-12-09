@@ -7,15 +7,17 @@ package site.likailee.winter.core.aop.lang;
 import java.util.Arrays;
 
 /**
+ * 适用于 @Before, @After
+ *
  * @author likailee.llk
  * @version JoinPointImpl.java 2020/12/08 Tue 2:20 PM likai
  */
-public class JoinPointImpl implements JoinPoint {
+public class DefaultJoinPoint implements JoinPoint {
     private final Object adviceBean;
     private final Object target;
     private final Object[] args;
 
-    public JoinPointImpl(Object adviceBean, Object target, Object[] args) {
+    public DefaultJoinPoint(Object adviceBean, Object target, Object[] args) {
         this.adviceBean = adviceBean;
         this.target = target;
         this.args = args;

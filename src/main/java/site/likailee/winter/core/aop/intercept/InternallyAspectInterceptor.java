@@ -6,11 +6,13 @@ package site.likailee.winter.core.aop.intercept;
 
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.aop.After;
+import site.likailee.winter.annotation.aop.Around;
 import site.likailee.winter.annotation.aop.Before;
 import site.likailee.winter.annotation.aop.Pointcut;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.core.aop.lang.JoinPoint;
-import site.likailee.winter.core.aop.lang.JoinPointImpl;
+import site.likailee.winter.core.aop.lang.DefaultJoinPoint;
+import site.likailee.winter.core.aop.lang.ProceedingJoinPoint;
 import site.likailee.winter.core.aop.util.PatternMatchUtils;
 
 import java.lang.reflect.Method;
@@ -81,7 +83,7 @@ public class InternallyAspectInterceptor extends Interceptor {
 
     @Override
     public Object intercept(MethodInvocation invocation) {
-        JoinPoint joinPoint = new JoinPointImpl(adviceBean, invocation.getTarget(), invocation.getArgs());
+        JoinPoint joinPoint = new DefaultJoinPoint(adviceBean, invocation.getTarget(), invocation.getArgs());
         // 执行 before 方法
         beforeMethods.forEach(method -> ReflectionUtils.executeMethodNoResult(adviceBean, method, joinPoint));
         Object result = invocation.proceed();
