@@ -8,6 +8,7 @@ Winter is a simple implementation of Spring Boot.
 
 Netty served as default embedded web server, and Winter will start on default port `8080`.
 
+
 ### 2. Http Request
 
 * [x] `@RestController`: define a restful Controller.
@@ -18,14 +19,20 @@ Netty served as default embedded web server, and Winter will start on default po
 * [x] `@PathVariable`: extract parameters from URI path.
 
 
-### 3. IoC
+### 3. Boot
+
+* [x] `@SpringBootApplication`: automatically package scanning
+* [x] `@ComponentScan`: Enables the component-scanning so that the controller class and other components will be automatically registered
+
+
+### 4. IoC
 
 * [x] `@Autowired`: inject a bean class configured as a property of another bean.
 * [x] `@Component`: mark beans as `IoC` managed components. 
 * [x] `@Qualifier`: determine which bean to inject when there are multiple beans of same type.
 
 
-### 4. AOP
+### 5. AOP
 
 * [x] `@Aspect`: declare a class as `aspect`
 * [x] `@Order`: ordering aspects, the lowest number the more important the aspect is, so it will be executed first
@@ -35,3 +42,15 @@ Netty served as default embedded web server, and Winter will start on default po
 * [x] `@After`: annotated methods run exactly `after` the all methods matching with pointcut expression
 * [ ] `@AfterReturning`
 * [ ] `@AfterThrowing`
+
+
+### 6. Interceptor / Aspect
+
+* [x] implement interceptor by JDK Proxy or Cglib Proxy
+* [x] define interceptor orders
+* [x] multiple interceptors
+
+
+### 7. Configuration
+
+* [x] enable read configuration from `*.properties` or `*.yaml` or `*.yml` files 
