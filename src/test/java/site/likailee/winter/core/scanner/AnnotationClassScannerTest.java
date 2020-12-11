@@ -20,7 +20,7 @@ import java.util.Set;
 public class AnnotationClassScannerTest {
     @Test
     public void test() {
-        Set<Class<?>> classes = ReflectionUtils.scanAnnotatedClass(new String[]{"site.likailee.winter.core"}, RestController.class);
-        Assertions.assertEquals(1, classes.size());
+        Set<Class<?>> classes = ReflectionUtils.scanAnnotatedClass(new String[]{"site.likailee.demo"}, RestController.class);
+        Assertions.assertEquals(4, classes.size());
     }
 }

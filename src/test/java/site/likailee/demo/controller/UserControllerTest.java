@@ -83,13 +83,4 @@ public class UserControllerTest {
         assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
     }
 
-    // test configuration
-    @Test
-    void should_get_configuration() {
-        Response response = with().when().get("/user/config?name=winter.url");
-        assertEquals(200, response.getStatusCode());
-        log.info(response.getBody().asString());
-        assertEquals("\"https://github.com/LikaiLee/Winter\"", response.getBody().asString());
-    }
-
 }

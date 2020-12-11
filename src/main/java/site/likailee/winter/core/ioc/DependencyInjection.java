@@ -19,11 +19,7 @@ public class DependencyInjection {
      * @param packageNames
      */
     public static void inject(String[] packageNames) {
-        BeanFactory.BEANS.values().forEach(bean -> prepareBean(bean, packageNames));
-    }
-
-    private static void prepareBean(Object beanInstance, String[] packageNames) {
-        AutowiredBeanProcessor autowiredBeanProcessor = new AutowiredBeanProcessor(packageNames);
-        autowiredBeanProcessor.initialize(beanInstance);
+        AutowiredBeanInitializer autowiredBeanInitializer = new AutowiredBeanInitializer(packageNames);
+        BeanFactory.BEANS.values().forEach(autowiredBeanInitializer::initialize);
     }
 }

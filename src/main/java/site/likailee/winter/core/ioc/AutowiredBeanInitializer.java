@@ -4,12 +4,15 @@
  */
 package site.likailee.winter.core.ioc;
 
+import site.likailee.winter.annotation.config.Value;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Qualifier;
+import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.aop.factory.AopProxyPostProcessorFactory;
 import site.likailee.winter.core.aop.processor.BeanPostProcessor;
+import site.likailee.winter.core.config.ConfigurationManager;
 import site.likailee.winter.exception.InterfaceNotImplementedException;
 import site.likailee.winter.exception.NoUniqueBeanDefinitionException;
 
@@ -23,7 +26,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author likailee.llk
  * @version AutowiredBeanProcessor.java 2020/12/11 Fri 12:52 PM likai
  */
-public class AutowiredBeanProcessor {
+public class AutowiredBeanInitializer {
     private final String[] packageNames;
 
     /**
@@ -31,7 +34,7 @@ public class AutowiredBeanProcessor {
      */
     private static final Map<String, Object> SINGLETON_OBJECTS = new ConcurrentHashMap<>(64);
 
-    public AutowiredBeanProcessor(String[] packageNames) {
+    public AutowiredBeanInitializer(String[] packageNames) {
         this.packageNames = packageNames;
     }
 
@@ -45,39 +48,60 @@ public class AutowiredBeanProcessor {
         Field[] fields = beanInstance.getClass().getDeclaredFields();
         // 遍历所有属性，为 @Autowired 的属性注入依赖
         for (Field field : fields) {
-            if (!field.isAnnotationPresent(Autowired.class)) {
-                continue;
+            if (field.isAnnotationPresent(Autowired.class)) {
+                Object beanFieldInstance = withAutowired(beanInstance, field);
+                // 设置属性对应的实例
+                ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
             }
-            // 获取属性对应的类
-            Class<?> fieldClass = field.getType();
-            String beanFieldName = WinterUtils.getBeanName(fieldClass);
-            // 尝试从二级缓存中获取 Bean
-            Object beanFieldInstance = SINGLETON_OBJECTS.getOrDefault(beanFieldName, null);
-            // 二级缓存不存在
-            // 说明 Bean 还未初始化，需要初始化后放入二级缓存
-            if (Objects.isNull(beanFieldInstance)) {
-                // 如果是接口则获取其实现类
-                if (fieldClass.isInterface()) {
-                    beanFieldName = getImplBeanName(field);
+            if (field.isAnnotationPresent(Value.class)) {
+                String configKey = field.getAnnotation(Value.class).value();
+                ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
+                String value = configurationManager.getString(configKey);
+                if (Objects.isNull(value)) {
+                    throw new IllegalArgumentException("can not get target configuration value for property " + configKey);
                 }
-                beanFieldInstance = BeanFactory.BEANS.get(beanFieldName);
-                // BeanFactory 找不到 Bean
-                if (beanFieldInstance == null) {
-                    throw new NoUniqueBeanDefinitionException("can not inject bean " + beanInstance.getClass().getSimpleName() + " field " + field.getName());
-                }
-                // 放入二级缓存
-                SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
-                // 初始化
-                initialize(beanFieldInstance);
+                Object targetObj = ObjectUtils.convertTo(value, field.getType());
+                ReflectionUtils.setField(beanInstance, field, targetObj);
             }
-
-            // 对依赖进行 AOP 代理
-            // TODO: 目前只能对属性对象进行代理
-            BeanPostProcessor beanPostProcessor = AopProxyPostProcessorFactory.get(fieldClass);
-            beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
-            // 设置属性对应的实例
-            ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
         }
+    }
+
+    /**
+     * 获取 {@code @Autowired} 的依赖
+     *
+     * @param beanInstance
+     * @param field
+     * @return
+     */
+    private Object withAutowired(Object beanInstance, Field field) {
+        // 获取属性对应的类
+        Class<?> fieldClass = field.getType();
+        String beanFieldName = WinterUtils.getBeanName(fieldClass);
+        // 尝试从二级缓存中获取 Bean
+        Object beanFieldInstance = SINGLETON_OBJECTS.getOrDefault(beanFieldName, null);
+        // 二级缓存不存在
+        // 说明 Bean 还未初始化，需要初始化后放入二级缓存
+        if (Objects.isNull(beanFieldInstance)) {
+            // 如果是接口则获取其实现类
+            if (fieldClass.isInterface()) {
+                beanFieldName = getImplBeanName(field);
+            }
+            beanFieldInstance = BeanFactory.BEANS.get(beanFieldName);
+            // BeanFactory 找不到 Bean
+            if (beanFieldInstance == null) {
+                throw new NoUniqueBeanDefinitionException("can not inject bean " + beanInstance.getClass().getSimpleName() + " field " + field.getName());
+            }
+            // 放入二级缓存
+            SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
+            // 初始化
+            initialize(beanFieldInstance);
+        }
+
+        // 对依赖进行 AOP 代理
+        // TODO: 目前只能对属性对象进行代理
+        BeanPostProcessor beanPostProcessor = AopProxyPostProcessorFactory.get(fieldClass);
+        beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
+        return beanFieldInstance;
     }
 
     /**

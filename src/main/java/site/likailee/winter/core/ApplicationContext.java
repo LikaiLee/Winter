@@ -59,12 +59,12 @@ public class ApplicationContext {
         RouteMethodMapper.loadRoutes();
         // 加载并实例化 Bean
         BeanFactory.loadBeans();
+        // 加载配置资源
+        loadResources(applicationClass);
         // 加载拦截器
         InterceptorFactory.loadInterceptors(packageNames);
         // 为 Bean 注入依赖
         DependencyInjection.inject(packageNames);
-        // 加载配置资源
-        loadResources(applicationClass);
         callRunners();
     }
 
