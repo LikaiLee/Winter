@@ -66,37 +66,4 @@ public class UrlUtils {
         return queryParams;
     }
 
-    /**
-     * 正则化原始 URL
-     * 用于匹配 @PathVariable 的 URL
-     *
-     * @param url
-     * @return
-     */
-    public static String formatUrl(String url) {
-        // replace {xxx} placeholders with regular expressions matching Chinese, English letters and numbers, and underscores
-        String originPattern = url.replaceAll("(\\{\\w+})", "[\\\\u4e00-\\\\u9fa5_a-zA-Z0-9]+");
-        String pattern = "^" + originPattern + "/?$";
-        return pattern.replaceAll("/+", "/");
-    }
-
-    /**
-     * 获取 @PathVariable 的 URL 参数
-     *
-     * @param requestPath
-     * @param url
-     * @return
-     */
-    public static Map<String, String> getPathParameterMappings(String requestPath, String url) {
-        String[] requestParams = requestPath.split("/");
-        String[] urlParams = url.split("/");
-        Map<String, String> urlParameterMappings = new HashMap<>();
-        for (int i = 1; i < urlParams.length; i++) {
-            if (!urlParams[i].contains("{") && !urlParams[i].contains("}")) {
-                continue;
-            }
-            urlParameterMappings.put(urlParams[i].replace("{", "").replace("}", ""), requestParams[i]);
-        }
-        return urlParameterMappings;
-    }
 }

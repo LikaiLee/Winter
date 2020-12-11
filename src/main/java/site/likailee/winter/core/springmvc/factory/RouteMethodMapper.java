@@ -45,7 +45,7 @@ public class RouteMethodMapper {
                 if (method.isAnnotationPresent(GetMapping.class)) {
                     // 拼接 URL
                     String url = baseUrl + method.getAnnotation(GetMapping.class).value();
-                    String formattedUrl = UrlUtils.formatUrl(url);
+                    String formattedUrl = formatUrl(url);
                     // 存放的是正则化后的 URL 模式串
                     GET_MAPPINGS.put(formattedUrl, method);
                     GET_URL_MAPPINGS.put(formattedUrl, url);
@@ -53,7 +53,7 @@ public class RouteMethodMapper {
                 // POST Method
                 else if (method.isAnnotationPresent(PostMapping.class)) {
                     String url = baseUrl + method.getAnnotation(PostMapping.class).value();
-                    String formattedUrl = UrlUtils.formatUrl(url);
+                    String formattedUrl = formatUrl(url);
                     POST_MAPPINGS.put(formattedUrl, method);
                     POST_URL_MAPPINGS.put(formattedUrl, url);
                 }
@@ -81,5 +81,20 @@ public class RouteMethodMapper {
             success = methodDetail.build(requestPath, RouteMethodMapper.POST_MAPPINGS, RouteMethodMapper.POST_URL_MAPPINGS);
         }
         return success ? methodDetail : null;
+    }
+
+
+    /**
+     * 正则化原始 URL
+     * 用于匹配 @PathVariable 的 URL
+     *
+     * @param url
+     * @return
+     */
+    private static String formatUrl(String url) {
+        // replace {xxx} placeholders with regular expressions matching Chinese, English letters and numbers, and underscores
+        String originPattern = url.replaceAll("(\\{\\w+})", "[\\\\u4e00-\\\\u9fa5_a-zA-Z0-9]+");
+        String pattern = "^" + originPattern + "/?$";
+        return pattern.replaceAll("/+", "/");
     }
 }

@@ -9,6 +9,7 @@ import lombok.ToString;
 import site.likailee.winter.common.util.UrlUtils;
 
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -51,13 +52,35 @@ public class MethodDetail {
             Pattern pattern = Pattern.compile(patternUrl);
             boolean match = pattern.matcher(requestPath).find();
             if (match) {
+                // 设置方法
                 this.setMethod(entry.getValue());
                 String url = urlMappings.get(patternUrl);
-                Map<String, String> urlParamMap = UrlUtils.getPathParameterMappings(requestPath, url);
+                Map<String, String> urlParamMap = getPathParameterMappings(requestPath, url);
+                // 设置路径参数
                 this.setPathParamMap(urlParamMap);
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 获取 @PathVariable 的 URL 参数
+     *
+     * @param requestPath
+     * @param url
+     * @return
+     */
+    private static Map<String, String> getPathParameterMappings(String requestPath, String url) {
+        String[] requestParams = requestPath.split("/");
+        String[] urlParams = url.split("/");
+        Map<String, String> urlParameterMappings = new HashMap<>();
+        for (int i = 1; i < urlParams.length; i++) {
+            if (!urlParams[i].contains("{") && !urlParams[i].contains("}")) {
+                continue;
+            }
+            urlParameterMappings.put(urlParams[i].replace("{", "").replace("}", ""), requestParams[i]);
+        }
+        return urlParameterMappings;
     }
 }
