@@ -4,6 +4,8 @@
  */
 package site.likailee.winter.server;
 
+import site.likailee.winter.common.util.UrlUtils;
+import site.likailee.winter.core.springmvc.factory.FullHttpResponseFactory;
 import site.likailee.winter.core.springmvc.factory.RequestHandlerFactory;
 import site.likailee.winter.core.springmvc.handler.RequestHandler;
 import io.netty.channel.ChannelFutureListener;
@@ -39,16 +41,16 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             return;
         }
         // 获取对应的请求处理器
-        RequestHandler requestHandler = RequestHandlerFactory.create(fullHttpRequest.method());
-        Object result;
+        RequestHandler requestHandler = RequestHandlerFactory.get(fullHttpRequest.method());
         FullHttpResponse response;
         try {
             // 生成响应数据
-            result = requestHandler.handle(fullHttpRequest);
-            response = site.likailee.winter.server.HttpResponse.ok(result);
+            response = requestHandler.handle(fullHttpRequest);
         } catch (Exception e) {
             log.error("internal server error occurs", e);
-            response = HttpResponse.internalServerError(fullHttpRequest.uri(), e);
+            String url = UrlUtils.getRequestPath(uri);
+            // TODO: 返回不同错误类型
+            response = FullHttpResponseFactory.getErrorResponse(url, e, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
         boolean isKeepAlive = HttpUtil.isKeepAlive(fullHttpRequest);
         if (isKeepAlive) {

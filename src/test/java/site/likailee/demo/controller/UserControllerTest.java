@@ -25,13 +25,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  */
 @Slf4j
 public class UserControllerTest {
-    private static JacksonSerializer serializer;
 
     @BeforeAll
     static void setup() {
         // http://localhost:8080
         RestAssured.baseURI = RestAssured.DEFAULT_URI + ":" + RestAssured.DEFAULT_PORT;
-        serializer = new JacksonSerializer();
     }
 
     // test @PathVariable
@@ -57,7 +55,7 @@ public class UserControllerTest {
     @Test
     void should_add_user() {
         User user = new User("test", 100);
-        with().body(serializer.serialize(user))
+        with().body(user)
                 .header("Content-Type", "application/json")
                 .when()
                 .post("/user")
@@ -81,6 +79,14 @@ public class UserControllerTest {
         assertEquals(200, response.statusCode());
         log.info(response.getBody().asString());
         assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
+    }
+
+    // test void response
+    @Test
+    void should_request_void() {
+        Response response = with().when().get("/user/void");
+        assertEquals(200, response.statusCode());
+        log.info(response.getBody().asString());
     }
 
 }

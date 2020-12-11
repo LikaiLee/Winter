@@ -46,24 +46,35 @@ public class AutowiredBeanInitializer {
     public void initialize(Object beanInstance) {
         // beanInstance 已经实例化，但还未注入依赖
         Field[] fields = beanInstance.getClass().getDeclaredFields();
-        // 遍历所有属性，为 @Autowired 的属性注入依赖
+        // 遍历所有属性，为 @Autowired / @Value 的属性注入依赖
         for (Field field : fields) {
             if (field.isAnnotationPresent(Autowired.class)) {
-                Object beanFieldInstance = withAutowired(beanInstance, field);
+                Object beanFieldInstance = withAutowiredAnnotation(beanInstance, field);
                 // 设置属性对应的实例
                 ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
             }
             if (field.isAnnotationPresent(Value.class)) {
                 String configKey = field.getAnnotation(Value.class).value();
-                ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
-                String value = configurationManager.getString(configKey);
-                if (Objects.isNull(value)) {
-                    throw new IllegalArgumentException("can not get target configuration value for property " + configKey);
-                }
-                Object targetObj = ObjectUtils.convertTo(value, field.getType());
+                Object targetObj = withValueAnnotation(field, configKey);
                 ReflectionUtils.setField(beanInstance, field, targetObj);
             }
         }
+    }
+
+    /**
+     * 获取 {@code @Value} 的属性值
+     *
+     * @param field
+     * @param configKey
+     * @return
+     */
+    private Object withValueAnnotation(Field field, String configKey) {
+        ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
+        String value = configurationManager.getString(configKey);
+        if (Objects.isNull(value)) {
+            throw new IllegalArgumentException("can not get target configuration value for property " + configKey);
+        }
+        return ObjectUtils.convertTo(value, field.getType());
     }
 
     /**
@@ -73,7 +84,7 @@ public class AutowiredBeanInitializer {
      * @param field
      * @return
      */
-    private Object withAutowired(Object beanInstance, Field field) {
+    private Object withAutowiredAnnotation(Object beanInstance, Field field) {
         // 获取属性对应的类
         Class<?> fieldClass = field.getType();
         String beanFieldName = WinterUtils.getBeanName(fieldClass);

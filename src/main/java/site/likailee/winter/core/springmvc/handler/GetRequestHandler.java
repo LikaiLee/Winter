@@ -4,16 +4,19 @@
  */
 package site.likailee.winter.core.springmvc.handler;
 
+import io.netty.handler.codec.http.FullHttpResponse;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.ioc.BeanFactory;
+import site.likailee.winter.core.springmvc.factory.FullHttpResponseFactory;
 import site.likailee.winter.core.springmvc.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.springmvc.factory.RouteMethodMapper;
+import site.likailee.winter.serialize.impl.JacksonSerializer;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -26,8 +29,9 @@ import java.util.Map;
  */
 @Slf4j
 public class GetRequestHandler implements RequestHandler {
+
     @Override
-    public Object handle(FullHttpRequest fullHttpRequest) throws Exception {
+    public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 获取对应方法
         String requestPath = UrlUtils.getRequestPath(requestUri);
@@ -47,6 +51,6 @@ public class GetRequestHandler implements RequestHandler {
         // 调用 URL 对应的方法
         String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
         Object bean = BeanFactory.BEANS.get(beanName);
-        return ReflectionUtils.executeMethod(bean, dispatchMethod, methodArgs);
+        return FullHttpResponseFactory.getSuccessResponse(bean, dispatchMethod, methodArgs);
     }
 }

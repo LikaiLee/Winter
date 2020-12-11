@@ -63,4 +63,9 @@ public class UserController {
     public String sysPrint(@RequestParam("msg") String msg) {
         return sysPrintServiceImpl.print(msg);
     }
+
+    @GetMapping("/void")
+    public void voidResult() {
+        log.info("request on /user/void");
+    }
 }

@@ -4,12 +4,14 @@
  */
 package site.likailee.winter.core.springmvc.handler;
 
+import io.netty.handler.codec.http.FullHttpResponse;
 import site.likailee.winter.common.HttpConstants;
 import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.ioc.BeanFactory;
+import site.likailee.winter.core.springmvc.factory.FullHttpResponseFactory;
 import site.likailee.winter.core.springmvc.factory.ParameterResolverFactory;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
@@ -31,7 +33,7 @@ import java.util.Map;
 public class PostRequestHandler implements RequestHandler {
 
     @Override
-    public Object handle(FullHttpRequest fullHttpRequest) throws Exception {
+    public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
         String contentType = UrlUtils.getContentType(fullHttpRequest);
         if (!HttpConstants.APPLICATION_JSON.equals(contentType)) {
             throw new IllegalAccessException("Post method only accept " + HttpConstants.APPLICATION_JSON);
@@ -58,7 +60,7 @@ public class PostRequestHandler implements RequestHandler {
         // 调用 URL 对应的方法
         String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
         Object bean = BeanFactory.BEANS.get(beanName);
-        return ReflectionUtils.executeMethod(bean, dispatchMethod, methodArgs);
+        return FullHttpResponseFactory.getSuccessResponse(bean, dispatchMethod, methodArgs);
     }
 
 }

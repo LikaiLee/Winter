@@ -5,6 +5,7 @@
 package site.likailee.winter.core.springmvc.handler;
 
 import io.netty.handler.codec.http.FullHttpRequest;
+import io.netty.handler.codec.http.FullHttpResponse;
 
 /**
  * @author likailee.llk
@@ -18,5 +19,5 @@ public interface RequestHandler {
      * @return
      * @throws Exception
      */
-    Object handle(FullHttpRequest fullHttpRequest) throws Exception;
+    FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception;
 }

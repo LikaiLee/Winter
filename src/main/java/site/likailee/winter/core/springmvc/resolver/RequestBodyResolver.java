@@ -15,11 +15,7 @@ import java.lang.reflect.Parameter;
  * @version RequestBodyResolver.java 2020/11/30 Mon 4:23 PM likai
  */
 public class RequestBodyResolver implements ParameterResolver {
-    private static final ObjectMapper OBJECT_MAPPER;
-
-    static {
-        OBJECT_MAPPER = new ObjectMapper();
-    }
+    private static final ObjectMapper OBJECT_MAPPER = new ObjectMapper();
 
     @Override
     public Object resolve(MethodDetail methodDetail, Parameter arg) {

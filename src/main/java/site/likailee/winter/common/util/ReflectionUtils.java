@@ -33,7 +33,7 @@ public class ReflectionUtils {
      * @return
      */
     public static Object executeMethod(Object targetObject, Method method, Object... args) {
-        Object result = null;
+        Object result;
         try {
             // 调用方法
             result = method.invoke(targetObject, args);
