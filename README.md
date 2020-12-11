@@ -1,12 +1,12 @@
 # Winter
 
-Winter is a simple implementation of Spring Boot.
+`Winter` is a simple implementation of Spring Boot.
 
 ## Features
 
 ### 1. Http Server
 
-Netty served as default embedded web server, and Winter will start on default port `8080`.
+`Netty` served as default embedded web server, and `Winter` will start on default port `8080`.
 
 
 ### 2. Http Request
@@ -30,6 +30,7 @@ Netty served as default embedded web server, and Winter will start on default po
 * [x] `@Autowired`: inject a bean class configured as a property of another bean.
 * [x] `@Component`: mark beans as `IoC` managed components. 
 * [x] `@Qualifier`: determine which bean to inject when there are multiple beans of same type.
+* [x] resolve circular dependency
 
 
 ### 5. AOP
@@ -53,4 +54,5 @@ Netty served as default embedded web server, and Winter will start on default po
 
 ### 7. Configuration
 
-* [x] enable read configuration from `*.properties` or `*.yaml` or `*.yml` files 
+* [x] `@Value`: inject value into fields
+* [x] enable read configuration from `*.properties` or `*.yaml` or `*.yml` files

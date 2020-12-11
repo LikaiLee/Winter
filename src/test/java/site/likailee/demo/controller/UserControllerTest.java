@@ -7,11 +7,9 @@ package site.likailee.demo.controller;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import site.likailee.demo.entity.User;
-import site.likailee.winter.serialize.impl.JacksonSerializer;
 
 import static io.restassured.RestAssured.when;
 import static io.restassured.RestAssured.with;

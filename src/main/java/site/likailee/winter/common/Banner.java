@@ -16,7 +16,7 @@ import java.nio.file.Paths;
  * @version Banner.java 2020/11/27 Fri 12:34 PM likai
  */
 public class Banner {
-    public static void printBanner() {
+    public static void print() {
         URL url = Thread.currentThread().getContextClassLoader().getResource(SystemConstants.APPLICATION_BANNER_FILE);
         if (url != null) {
             try {

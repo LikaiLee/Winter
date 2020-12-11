@@ -50,7 +50,7 @@ public class ApplicationContext {
      * @param applicationClass
      */
     public void run(Class<?> applicationClass) {
-        Banner.printBanner();
+        Banner.print();
         // 获取包
         String[] packageNames = getPackageNames(applicationClass);
         // 加载注解类
