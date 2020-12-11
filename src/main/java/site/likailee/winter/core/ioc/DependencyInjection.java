@@ -5,19 +5,6 @@
 package site.likailee.winter.core.ioc;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.annotation.ioc.Autowired;
-import site.likailee.winter.annotation.ioc.Qualifier;
-import site.likailee.winter.common.util.ReflectionUtils;
-import site.likailee.winter.common.util.WinterUtils;
-import site.likailee.winter.core.aop.intercept.BeanPostProcessor;
-import site.likailee.winter.core.aop.factory.BeanPostProcessorFactory;
-import site.likailee.winter.exception.InterfaceNotImplementedException;
-import site.likailee.winter.exception.NoUniqueBeanDefinitionException;
-
-import java.lang.reflect.Field;
-import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author likailee.llk
@@ -25,10 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Slf4j
 public class DependencyInjection {
-    /**
-     * 二级缓存
-     */
-    private static final Map<String, Object> SINGLETON_OBJECTS = new ConcurrentHashMap<>();
 
     /**
      * 为 BEANS 内的 Bean 注入属性
@@ -40,63 +23,7 @@ public class DependencyInjection {
     }
 
     private static void prepareBean(Object beanInstance, String[] packageNames) {
-        // beanInstance 已经实例化，但还未注入依赖
-        Field[] fields = beanInstance.getClass().getDeclaredFields();
-        // 遍历所有属性，为 @Autowired 的属性注入依赖
-        for (Field field : fields) {
-            if (!field.isAnnotationPresent(Autowired.class)) {
-                continue;
-            }
-            // log.info("prepare bean field: {}.{}", beanInstance.getClass().getSimpleName(), field.getName());
-            // 获取属性对应的类
-            Class<?> fieldClass = field.getType();
-            String beanFieldName = WinterUtils.getBeanName(fieldClass);
-            Object beanFieldInstance = null;
-            boolean newSingleton = true;
-            if (SINGLETON_OBJECTS.containsKey(beanFieldName)) {
-                beanFieldInstance = SINGLETON_OBJECTS.get(beanFieldName);
-                newSingleton = false;
-            }
-            // 二级缓存不存在，需要创建
-            if (beanFieldInstance == null) {
-                // 如果是接口则获取其实现类
-                if (fieldClass.isInterface()) {
-                    @SuppressWarnings("unchecked")
-                    Set<Class<?>> implClasses = ReflectionUtils.getImplClasses(packageNames, (Class<Object>) fieldClass);
-                    if (implClasses.size() == 0) {
-                        throw new InterfaceNotImplementedException("interface " + fieldClass.getName() + " does not have implemented");
-                    }
-                    // 只有一个实现类
-                    if (implClasses.size() == 1) {
-                        Class<?> implClass = implClasses.iterator().next();
-                        beanFieldName = WinterUtils.getBeanName(implClass);
-                    }
-                    // 有多个实现类
-                    else {
-                        Qualifier qualifier = field.getDeclaredAnnotation(Qualifier.class);
-                        if (qualifier == null) {
-                            throw new NoUniqueBeanDefinitionException("interface " + fieldClass.getName() + " has more than one implementation");
-                        }
-                        beanFieldName = qualifier.value();
-                    }
-                }
-                beanFieldInstance = BeanFactory.BEANS.get(beanFieldName);
-                if (beanFieldInstance == null) {
-                    throw new NoUniqueBeanDefinitionException("can not inject bean " + beanInstance.getClass().getSimpleName() + " field " + field.getName());
-                }
-                SINGLETON_OBJECTS.put(beanFieldName, beanFieldInstance);
-            }
-            if (newSingleton) {
-                prepareBean(beanFieldInstance, packageNames);
-            }
-
-            // 进行 AOP 代理
-            // TODO: 目前只能对属性对象进行代理
-            BeanPostProcessor beanPostProcessor = BeanPostProcessorFactory.get(fieldClass);
-            beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
-            // 设置属性对应的实例
-            ReflectionUtils.setField(beanInstance, field, beanFieldInstance);
-        }
+        AutowiredBeanProcessor autowiredBeanProcessor = new AutowiredBeanProcessor(packageNames);
+        autowiredBeanProcessor.initialize(beanInstance);
     }
-
 }

@@ -2,10 +2,9 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter.core.aop.intercept;
+package site.likailee.winter.core.aop.processor;
 
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.core.aop.intercept.AbstractAopProxyBeanPostProcessor;
 import site.likailee.winter.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.aop.proxy.JdkAspectProxy;
 

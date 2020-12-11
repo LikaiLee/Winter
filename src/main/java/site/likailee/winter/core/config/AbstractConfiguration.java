@@ -15,7 +15,7 @@ public abstract class AbstractConfiguration implements Configuration {
     /**
      * 存储配置信息
      */
-    private static Map<String, String> config = new ConcurrentHashMap<>(64);
+    private static final Map<String, String> CONFIG = new ConcurrentHashMap<>(64);
 
     @Override
     public int getInt(String id) {
@@ -25,7 +25,7 @@ public abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public String getString(String id) {
-        return config.get(id);
+        return CONFIG.get(id);
     }
 
     @Override
@@ -36,11 +36,11 @@ public abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public void put(String id, String content) {
-        config.put(id, content);
+        CONFIG.put(id, content);
     }
 
     @Override
     public void putAll(Map<String, String> map) {
-        config.putAll(map);
+        CONFIG.putAll(map);
     }
 }

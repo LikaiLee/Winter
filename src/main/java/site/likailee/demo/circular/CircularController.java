@@ -20,14 +20,14 @@ public class CircularController {
     private AService aService;
     @Autowired
     private BService bService;
-    // @Autowired
-    // private CService c;
+    @Autowired
+    private CService cService;
 
     @GetMapping
     public String test() {
         aService.test();
         bService.test();
-        // c.test();
+        cService.test();
         return "circular controller";
     }
 }

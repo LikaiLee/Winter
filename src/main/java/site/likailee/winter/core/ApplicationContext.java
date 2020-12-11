@@ -52,7 +52,7 @@ public class ApplicationContext {
     public void run(Class<?> applicationClass) {
         Banner.printBanner();
         // 获取包
-        String[] packageNames = analyzePackageNames(applicationClass);
+        String[] packageNames = getPackageNames(applicationClass);
         // 加载注解类
         ClassFactory.loadClass(packageNames);
         // 加载路由
@@ -107,7 +107,7 @@ public class ApplicationContext {
      * @param applicationClass
      * @return
      */
-    private String[] analyzePackageNames(Class<?> applicationClass) {
+    private String[] getPackageNames(Class<?> applicationClass) {
         ComponentScan componentScan = applicationClass.getAnnotation(ComponentScan.class);
         return !Objects.isNull(componentScan) ? componentScan.value() : new String[]{applicationClass.getPackage().getName()};
     }

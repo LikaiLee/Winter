@@ -24,7 +24,7 @@ public class ConfigurationManager implements Configuration {
 
     private static final String YML_FILE_EXTENSION = ".yml";
 
-    private Configuration configuration;
+    private final Configuration configuration;
 
     public ConfigurationManager(Configuration configuration) {
         // 继承自 AbstractConfiguration 的配置
