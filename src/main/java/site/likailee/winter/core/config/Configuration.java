@@ -16,7 +16,7 @@ public interface Configuration {
     /**
      * 配置文件名
      */
-    String APPLICATION_CONFIG_NAME = "application";
+    String[] DEFAULT_CONFIG_NAMES = {"application.properties", "application.yaml"};
 
     /**
      * 获取 int

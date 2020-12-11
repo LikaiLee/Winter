@@ -69,24 +69,21 @@ public class ApplicationContext {
     }
 
     private void loadResources(Class<?> applicationClass) {
-        URL url = applicationClass.getClassLoader().getResource("");
-        if (Objects.isNull(url)) {
-            return;
-        }
+        ClassLoader classLoader = applicationClass.getClassLoader();
         List<Path> filePaths = new ArrayList<>();
-        try {
-            Path path = Paths.get(url.toURI());
-            Stream<Path> stream = Files.list(path);
-            stream.forEach(p -> {
-                if (p.getFileName().toString().startsWith(Configuration.APPLICATION_CONFIG_NAME)) {
-                    filePaths.add(p);
-                }
-            });
-            ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
-            configurationManager.loadResources(filePaths);
-        } catch (URISyntaxException | IOException e) {
-            e.printStackTrace();
+        for (String configName : Configuration.DEFAULT_CONFIG_NAMES) {
+            URL url = classLoader.getResource(configName);
+            if (Objects.isNull(url)) {
+                continue;
+            }
+            try {
+                filePaths.add(Paths.get(url.toURI()));
+            } catch (URISyntaxException e) {
+                e.printStackTrace();
+            }
         }
+        ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
+        configurationManager.loadResources(filePaths);
     }
 
     private void callRunners() {
