@@ -13,7 +13,8 @@ package site.likailee.winter.common;
 public class SystemConstants {
     public static final String LOG_PORT_BANNER = "Netty Http Server started on port {}.";
 
-    public static final String APPLICATION_BANNER_FILE = "banner.txt";
+    public static final String DEFAULT_BANNER_FILE = "default-banner.txt";
+    public static final String CUSTOM_BANNER_FILE = "banner.txt";
 
     private SystemConstants() {
     }
