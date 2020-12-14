@@ -56,3 +56,7 @@
 
 * [x] `@Value`: inject value into fields
 * [x] enable read configuration from `*.properties` or `*.yaml` or `*.yml` files
+
+### 8. Exception
+
+* [x] response error message according to the specific exception
