@@ -65,6 +65,8 @@ public class ApplicationContext {
         InterceptorFactory.loadInterceptors(packageNames);
         // 为 Bean 注入依赖
         DependencyInjection.inject(packageNames);
+        // AOP 代理
+        BeanFactory.applyBeanPostProcessors();
         callRunners();
     }
 

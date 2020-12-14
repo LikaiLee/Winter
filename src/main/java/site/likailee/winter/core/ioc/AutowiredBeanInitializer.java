@@ -109,7 +109,6 @@ public class AutowiredBeanInitializer {
         }
 
         // 对依赖进行 AOP 代理
-        // TODO: 目前只能对属性对象进行代理
         BeanPostProcessor beanPostProcessor = AopProxyPostProcessorFactory.get(fieldClass);
         beanFieldInstance = beanPostProcessor.postProcessAfterInitialization(beanFieldInstance);
         return beanFieldInstance;

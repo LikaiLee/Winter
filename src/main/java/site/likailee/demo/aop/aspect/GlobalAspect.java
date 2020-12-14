@@ -16,13 +16,13 @@ import site.likailee.winter.core.aop.lang.JoinPoint;
 @Order(1)
 @Slf4j
 public class GlobalAspect {
-    @Pointcut("site.likailee.demo.*.*Service*")
+    @Pointcut("site.likailee.demo.*.*Controller*")
     public void pointcut() {
     }
 
     @Before
     public void before(JoinPoint joinPoint) {
-        log.info("before global aspect");
+        log.info("before global aspect on class {}", joinPoint.getTarget().getClass().getName());
     }
 
     @After

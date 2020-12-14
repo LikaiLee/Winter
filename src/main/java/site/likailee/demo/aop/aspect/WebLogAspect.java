@@ -13,7 +13,7 @@ import site.likailee.winter.core.aop.lang.ProceedingJoinPoint;
  * @author likailee.llk
  * @version WebLogAspect.java 2020/12/07 Mon 3:18 PM likai
  */
-@Aspect
+// @Aspect
 @Order(2)
 @Slf4j
 public class WebLogAspect {

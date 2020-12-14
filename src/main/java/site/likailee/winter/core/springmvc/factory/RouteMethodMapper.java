@@ -24,10 +24,10 @@ import java.util.Set;
  */
 @Slf4j
 public class RouteMethodMapper {
-    public static final Map<String, Method> GET_MAPPINGS = new HashMap<>();
-    public static final Map<String, Method> POST_MAPPINGS = new HashMap<>();
-    public static final Map<String, String> GET_URL_MAPPINGS = new HashMap<>();
-    public static final Map<String, String> POST_URL_MAPPINGS = new HashMap<>();
+    public static final Map<String, Method> URL_TO_GET_REQUEST_METHOD = new HashMap<>();
+    public static final Map<String, Method> URL_TO_POST_REQUEST_METHOD = new HashMap<>();
+    public static final Map<String, String> GET_URL_MAP = new HashMap<>();
+    public static final Map<String, String> POST_URL_MAP = new HashMap<>();
 
     /**
      * 加载路由
@@ -46,21 +46,27 @@ public class RouteMethodMapper {
                     // 拼接 URL
                     String url = baseUrl + method.getAnnotation(GetMapping.class).value();
                     String formattedUrl = formatUrl(url);
+                    if (URL_TO_GET_REQUEST_METHOD.containsKey(formattedUrl)) {
+                        throw new IllegalArgumentException(String.format("duplicate GET request handler for url: %s", url));
+                    }
                     // 存放的是正则化后的 URL 模式串
-                    GET_MAPPINGS.put(formattedUrl, method);
-                    GET_URL_MAPPINGS.put(formattedUrl, url);
+                    URL_TO_GET_REQUEST_METHOD.put(formattedUrl, method);
+                    GET_URL_MAP.put(formattedUrl, url);
                 }
                 // POST Method
                 else if (method.isAnnotationPresent(PostMapping.class)) {
                     String url = baseUrl + method.getAnnotation(PostMapping.class).value();
                     String formattedUrl = formatUrl(url);
-                    POST_MAPPINGS.put(formattedUrl, method);
-                    POST_URL_MAPPINGS.put(formattedUrl, url);
+                    if (URL_TO_POST_REQUEST_METHOD.containsKey(formattedUrl)) {
+                        throw new IllegalArgumentException(String.format("duplicate POST request handler for url: %s", url));
+                    }
+                    URL_TO_POST_REQUEST_METHOD.put(formattedUrl, method);
+                    POST_URL_MAP.put(formattedUrl, url);
                 }
             }
         }
-        log.info("Load GET mappings: {}", GET_URL_MAPPINGS.values());
-        log.info("Load POST mappings: {}", POST_URL_MAPPINGS.values());
+        log.info("Load GET mappings: {}", GET_URL_MAP.values());
+        log.info("Load POST mappings: {}", POST_URL_MAP.values());
     }
 
 
@@ -75,10 +81,10 @@ public class RouteMethodMapper {
         boolean success = false;
         MethodDetail methodDetail = new MethodDetail();
         if (HttpMethod.GET.equals(httpMethod)) {
-            success = methodDetail.build(requestPath, RouteMethodMapper.GET_MAPPINGS, RouteMethodMapper.GET_URL_MAPPINGS);
+            success = methodDetail.build(requestPath, RouteMethodMapper.URL_TO_GET_REQUEST_METHOD, RouteMethodMapper.GET_URL_MAP);
         }
         if (HttpMethod.POST.equals(httpMethod)) {
-            success = methodDetail.build(requestPath, RouteMethodMapper.POST_MAPPINGS, RouteMethodMapper.POST_URL_MAPPINGS);
+            success = methodDetail.build(requestPath, RouteMethodMapper.URL_TO_POST_REQUEST_METHOD, RouteMethodMapper.POST_URL_MAP);
         }
         return success ? methodDetail : null;
     }

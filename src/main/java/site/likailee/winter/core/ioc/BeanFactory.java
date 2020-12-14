@@ -10,6 +10,8 @@ import site.likailee.winter.annotation.ioc.Component;
 import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
+import site.likailee.winter.core.aop.factory.AopProxyPostProcessorFactory;
+import site.likailee.winter.core.aop.processor.BeanPostProcessor;
 import site.likailee.winter.core.config.ConfigurationFactory;
 import site.likailee.winter.core.config.ConfigurationManager;
 import site.likailee.winter.core.factory.ClassFactory;
@@ -67,5 +69,15 @@ public class BeanFactory {
             throw new DoGetBeanException("can not get bean of type " + type.getName());
         }
         return type.cast(beans.get(0));
+    }
+
+    /**
+     * 为 {@code @RestController 和 @Component} 进行 AOP 代理
+     */
+    public static void applyBeanPostProcessors() {
+        BEANS.replaceAll((beanName, beanInstance) -> {
+            BeanPostProcessor beanPostProcessor = AopProxyPostProcessorFactory.get(beanInstance.getClass());
+            return beanPostProcessor.postProcessAfterInitialization(beanInstance);
+        });
     }
 }
