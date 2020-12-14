@@ -47,6 +47,17 @@ public class MethodDetail {
      * @param urlMappings
      */
     public boolean build(String requestPath, Map<String, Method> methodMappings, Map<String, String> urlMappings) {
+        // 不带路径参数
+        for (Map.Entry<String, String> entry : urlMappings.entrySet()) {
+            String rawUrl = entry.getValue();
+            if (rawUrl.equals(requestPath)) {
+                String patternUrl = entry.getKey();
+                Method method = methodMappings.get(patternUrl);
+                this.setMethod(method);
+                return true;
+            }
+        }
+        // 带有路径参数
         for (Map.Entry<String, Method> entry : methodMappings.entrySet()) {
             String patternUrl = entry.getKey();
             Pattern pattern = Pattern.compile(patternUrl);

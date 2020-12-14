@@ -38,12 +38,12 @@ public class UserController {
     @Qualifier("sysPrintServiceImpl")
     private PrintService sysPrintServiceImpl;
 
-    @GetMapping("/getById/{id}")
+    @GetMapping("/{id}")
     public User get(@PathVariable("id") Integer id) {
         return userService.getById(id);
     }
 
-    @GetMapping("/get")
+    @GetMapping
     public User get(@RequestParam(value = "name", required = true, defaultValue = "default name") String name,
                     @RequestParam(value = "age", defaultValue = "0") Integer age) {
         // TODO: /user/{id} conflict with /user/get
