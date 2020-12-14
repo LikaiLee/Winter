@@ -22,7 +22,9 @@ public class RequestParamResolver implements ParameterResolver {
         // 从 URL 中获取 方法所需要的参数
         String requestParameter = requestParam.value();
         String requestParameterVal = methodDetail.getQueryParamMap().get(requestParameter);
+        // 没有特定参数
         if (Objects.isNull(requestParameterVal)) {
+            // required && 无默认值
             if (requestParam.required() && requestParam.defaultValue().isEmpty()) {
                 throw new IllegalArgumentException("The specified parameter [" + requestParameter + "] can not be null!");
             }

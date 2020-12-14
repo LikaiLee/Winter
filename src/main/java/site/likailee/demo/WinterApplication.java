@@ -2,7 +2,7 @@
  * https://likailee.site
  * CopyRight (c) 2020
  */
-package site.likailee.winter;
+package site.likailee.demo;
 
 import site.likailee.winter.annotation.boot.ComponentScan;
 import site.likailee.winter.annotation.boot.SpringBootApplication;
