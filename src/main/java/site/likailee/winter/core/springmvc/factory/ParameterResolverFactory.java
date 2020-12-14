@@ -4,6 +4,7 @@
  */
 package site.likailee.winter.core.springmvc.factory;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.annotation.springmvc.PathVariable;
 import site.likailee.winter.annotation.springmvc.RequestBody;
 import site.likailee.winter.annotation.springmvc.RequestParam;
@@ -12,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.springmvc.resolver.PathVariableResolver;
 import site.likailee.winter.core.springmvc.resolver.RequestBodyResolver;
 import site.likailee.winter.core.springmvc.resolver.RequestParamResolver;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
@@ -34,7 +36,7 @@ public class ParameterResolverFactory {
      * @param methodDetail
      * @return
      */
-    public static Object[] getParameters(Method method, MethodDetail methodDetail) {
+    public static Object[] resolveMethodArgs(Method method, MethodDetail methodDetail) {
         Parameter[] methodArgs = method.getParameters();
         List<Object> args = new ArrayList<>();
         for (Parameter arg : methodArgs) {
@@ -64,6 +66,7 @@ public class ParameterResolverFactory {
 
         // TODO: 有注解有值，直接用注解值，注解无值或无注解，直接用方法参数名取值
         // 没有注解
-        throw new IllegalArgumentException("Annotation for parameter [" + arg.getName() + "] is required for method " + methodDetail.getMethod().getName());
+        String errMsg = String.format("Annotation for parameter [%s] is required for method [%s]", arg.getName(), methodDetail.getMethod().getName());
+        throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }
 }

@@ -13,6 +13,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.exception.ResponseException;
 
 
 import static site.likailee.winter.common.HttpConstants.*;
@@ -35,7 +36,6 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest fullHttpRequest) throws Exception {
-        // log.info("Handle HTTP request: {}", fullHttpRequest);
         String uri = fullHttpRequest.uri();
         if (FAVICON.equals(uri)) {
             return;
@@ -46,11 +46,9 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
         try {
             // 生成响应数据
             response = requestHandler.handle(fullHttpRequest);
-        } catch (Exception e) {
-            // log.error("internal server error occurs", e);
+        } catch (ResponseException e) {
             String url = UrlUtils.getRequestPath(uri);
-            // TODO: 返回不同错误类型
-            response = FullHttpResponseFactory.getErrorResponse(url, e, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+            response = FullHttpResponseFactory.getErrorResponse(url, e, e.getHttpResponseStatus());
         }
         boolean isKeepAlive = HttpUtil.isKeepAlive(fullHttpRequest);
         if (isKeepAlive) {

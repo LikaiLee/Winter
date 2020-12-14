@@ -4,7 +4,9 @@
  */
 package site.likailee.winter.common.util;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -28,8 +30,8 @@ public class ObjectUtils {
             constructor.setAccessible(true);
             return constructor.newInstance(str);
         } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
-            log.error("can not convert [{}] to target method type [{}]", str, targetType, e);
+            String errMsg = String.format("can not convert [%s] to target method type [%s]", str, targetType);
+            throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
-        throw new IllegalArgumentException("can not convert [" + str + "] to target method type [" + targetType + "]");
     }
 }

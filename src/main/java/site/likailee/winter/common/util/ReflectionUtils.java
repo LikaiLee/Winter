@@ -4,6 +4,7 @@
  */
 package site.likailee.winter.common.util;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -12,6 +13,7 @@ import site.likailee.winter.annotation.springmvc.RestController;
 import site.likailee.winter.core.aop.lang.JoinPoint;
 import site.likailee.winter.core.ioc.BeanFactory;
 import site.likailee.winter.exception.CanNotInvokeTargetMethodException;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -56,8 +58,8 @@ public class ReflectionUtils {
             // 调用方法
             method.invoke(targetObject, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
-            log.error("error occurs while invoke method [{}]", method.getName(), e);
-            throw new CanNotInvokeTargetMethodException(e.toString());
+            String errMsg = String.format("can not execute method [%s.%s]", targetObject.getClass().getSimpleName(), method.getName());
+            throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

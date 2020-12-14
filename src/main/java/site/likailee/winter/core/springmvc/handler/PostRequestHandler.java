@@ -5,9 +5,9 @@
 package site.likailee.winter.core.springmvc.handler;
 
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.common.HttpConstants;
 import site.likailee.winter.common.util.UrlUtils;
-import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.ioc.BeanFactory;
@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.codec.Charsets;
 import site.likailee.winter.core.springmvc.factory.RouteMethodMapper;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -36,7 +37,7 @@ public class PostRequestHandler implements RequestHandler {
     public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
         String contentType = UrlUtils.getContentType(fullHttpRequest);
         if (!HttpConstants.APPLICATION_JSON.equals(contentType)) {
-            throw new IllegalAccessException(String.format("Post method only accept %s", HttpConstants.APPLICATION_JSON));
+            throw new ResponseException(String.format("POST method only accept Content-Type for [%s]", HttpConstants.APPLICATION_JSON), HttpResponseStatus.BAD_REQUEST);
         }
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 从路由表中获取对应方法
@@ -44,8 +45,7 @@ public class PostRequestHandler implements RequestHandler {
         MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.POST);
         // 没有可以匹配该 URL 的方法
         if (methodDetail == null) {
-            log.error("Post request on URL [{}] mapping failed!", requestPath);
-            throw new NoSuchMethodException("Post request on URL [" + requestPath + "] mapping failed!");
+            throw new ResponseException(String.format("POST request on URL [%s] mapping failed!", requestPath), HttpResponseStatus.NOT_FOUND);
         }
         // 解析 URL 中的参数
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
@@ -56,7 +56,7 @@ public class PostRequestHandler implements RequestHandler {
         String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
         methodDetail.setRequestBodyJsonStr(jsonStr);
         // 获取方法中的参数
-        Object[] methodArgs = ParameterResolverFactory.getParameters(dispatchMethod, methodDetail);
+        Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法
         String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
         Object bean = BeanFactory.BEANS.get(beanName);

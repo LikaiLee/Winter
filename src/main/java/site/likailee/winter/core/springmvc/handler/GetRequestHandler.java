@@ -5,8 +5,8 @@
 package site.likailee.winter.core.springmvc.handler;
 
 import io.netty.handler.codec.http.FullHttpResponse;
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.common.util.UrlUtils;
-import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.core.ioc.BeanFactory;
@@ -16,7 +16,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpMethod;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.springmvc.factory.RouteMethodMapper;
-import site.likailee.winter.serialize.impl.JacksonSerializer;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -38,8 +38,7 @@ public class GetRequestHandler implements RequestHandler {
         MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.GET);
         // 没有可以匹配该 URL 的方法
         if (methodDetail == null) {
-            log.error("Get request on URL [{}] mapping failed!", requestPath);
-            throw new NoSuchMethodException("Get request on URL [" + requestPath + "] mapping failed!");
+            throw new ResponseException(String.format("GET request on URL [%s] mapping failed!", requestPath), HttpResponseStatus.NOT_FOUND);
         }
         // 解析 URL 中的参数
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
@@ -47,7 +46,7 @@ public class GetRequestHandler implements RequestHandler {
         Method dispatchMethod = methodDetail.getMethod();
         log.info("GET request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 获取方法中的参数
-        Object[] methodArgs = ParameterResolverFactory.getParameters(dispatchMethod, methodDetail);
+        Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法
         String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
         Object bean = BeanFactory.BEANS.get(beanName);
