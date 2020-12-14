@@ -44,8 +44,8 @@ public class UserController {
     }
 
     @GetMapping("/get")
-    public User get(@RequestParam("name") String name,
-                    @RequestParam("age") Integer age) {
+    public User get(@RequestParam(value = "name", required = true, defaultValue = "default name") String name,
+                    @RequestParam(value = "age", defaultValue = "0") Integer age) {
         // TODO: /user/{id} conflict with /user/get
         return new User(name, age);
     }

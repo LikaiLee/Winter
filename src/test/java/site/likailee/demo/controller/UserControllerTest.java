@@ -42,11 +42,16 @@ public class UserControllerTest {
     // test @RequestParam
     @Test
     void should_get_user() {
-        when().get("/user/get?name=name111&age=20")
+        when().get("/user/get?age=20")
                 .then()
                 .statusCode(200)
-                .body("name", equalTo("name111"))
+                .body("name", equalTo("default name"))
                 .body("age", equalTo(20));
+        when().get("/user/get")
+                .then()
+                .statusCode(200)
+                .body("name", equalTo("default name"))
+                .body("age", equalTo(0));
     }
 
     // test @RequestBody

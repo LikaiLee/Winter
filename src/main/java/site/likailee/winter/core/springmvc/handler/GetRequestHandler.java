@@ -33,7 +33,7 @@ public class GetRequestHandler implements RequestHandler {
     @Override
     public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
         String requestUri = fullHttpRequest.uri();
-        // 根据 URL 获取对应方法
+        // 根据 URL 获取对应方法，解析地址栏参数
         String requestPath = UrlUtils.getRequestPath(requestUri);
         MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.GET);
         // 没有可以匹配该 URL 的方法

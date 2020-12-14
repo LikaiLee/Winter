@@ -9,6 +9,7 @@ import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 
 import java.lang.reflect.Parameter;
+import java.util.Objects;
 
 /**
  * @author likailee.llk
@@ -21,8 +22,11 @@ public class RequestParamResolver implements ParameterResolver {
         // 从 URL 中获取 方法所需要的参数
         String requestParameter = requestParam.value();
         String requestParameterVal = methodDetail.getQueryParamMap().get(requestParameter);
-        if (requestParameterVal == null) {
-            throw new IllegalArgumentException("The specified parameter [" + requestParameter + "] can not be null!");
+        if (Objects.isNull(requestParameterVal)) {
+            if (requestParam.required() && requestParam.defaultValue().isEmpty()) {
+                throw new IllegalArgumentException("The specified parameter [" + requestParameter + "] can not be null!");
+            }
+            requestParameterVal = requestParam.defaultValue();
         }
         // 将参数转为 方法需要的类型
         // TODO: 参数类型可能有基本类型，List, Map，Set 等
