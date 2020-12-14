@@ -42,7 +42,6 @@ public class UrlUtils {
         if (contentTypeStr == null) {
             throw new UnsupportedOperationException("unsupported content-type for uri: " + fullHttpRequest.uri());
         }
-        System.out.println(fullHttpRequest.headers());
         String[] contentTypes = contentTypeStr.split(";");
         return contentTypes[0];
     }

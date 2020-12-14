@@ -36,7 +36,7 @@ public class PostRequestHandler implements RequestHandler {
     public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
         String contentType = UrlUtils.getContentType(fullHttpRequest);
         if (!HttpConstants.APPLICATION_JSON.equals(contentType)) {
-            throw new IllegalAccessException("Post method only accept " + HttpConstants.APPLICATION_JSON);
+            throw new IllegalAccessException(String.format("Post method only accept %s", HttpConstants.APPLICATION_JSON));
         }
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 从路由表中获取对应方法

@@ -12,7 +12,7 @@ import site.likailee.winter.core.aop.lang.JoinPoint;
  * @author likailee.llk
  * @version GlobalAspect.java 2020/12/07 Mon 3:21 PM likai
  */
-@Aspect
+// @Aspect
 @Order(1)
 @Slf4j
 public class GlobalAspect {

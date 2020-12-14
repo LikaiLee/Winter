@@ -24,17 +24,28 @@ import java.util.Set;
  */
 @Slf4j
 public class RouteMethodMapper {
-    public static final Map<String, Method> URL_TO_GET_REQUEST_METHOD = new HashMap<>();
-    public static final Map<String, Method> URL_TO_POST_REQUEST_METHOD = new HashMap<>();
-    public static final Map<String, String> GET_URL_MAP = new HashMap<>();
-    public static final Map<String, String> POST_URL_MAP = new HashMap<>();
+    public static final HttpMethod[] SUPPORTED_METHODS = {HttpMethod.GET, HttpMethod.POST};
+    /**
+     * HttpMethod => Map(模板化 URL -> 原始 URL)
+     */
+    private static final Map<HttpMethod, Map<String, String>> REQUEST_URL_MAP = new HashMap<>(2);
+    /**
+     * HttpMethod => Map(模板化 URL -> 控制器方法)
+     */
+    private static final Map<HttpMethod, Map<String, Method>> REQUEST_METHOD_MAP = new HashMap<>(2);
+
+    static {
+        for (HttpMethod httpMethod : SUPPORTED_METHODS) {
+            REQUEST_URL_MAP.put(httpMethod, new HashMap<>(128));
+            REQUEST_METHOD_MAP.put(httpMethod, new HashMap<>(128));
+        }
+    }
 
     /**
      * 加载路由
      */
     public static void loadRoutes() {
         Set<Class<?>> classes = ClassFactory.CLASSES.get(RestController.class);
-
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
             String baseUrl = clazz.getAnnotation(RestController.class).value();
@@ -45,30 +56,16 @@ public class RouteMethodMapper {
                 if (method.isAnnotationPresent(GetMapping.class)) {
                     // 拼接 URL
                     String url = baseUrl + method.getAnnotation(GetMapping.class).value();
-                    String formattedUrl = formatUrl(url);
-                    if (URL_TO_GET_REQUEST_METHOD.containsKey(formattedUrl)) {
-                        throw new IllegalArgumentException(String.format("duplicate GET request handler for url: %s", url));
-                    }
-                    // 存放的是正则化后的 URL 模式串
-                    URL_TO_GET_REQUEST_METHOD.put(formattedUrl, method);
-                    GET_URL_MAP.put(formattedUrl, url);
+                    mapUrlToMethod(url, method, HttpMethod.GET);
                 }
                 // POST Method
                 else if (method.isAnnotationPresent(PostMapping.class)) {
                     String url = baseUrl + method.getAnnotation(PostMapping.class).value();
-                    String formattedUrl = formatUrl(url);
-                    if (URL_TO_POST_REQUEST_METHOD.containsKey(formattedUrl)) {
-                        throw new IllegalArgumentException(String.format("duplicate POST request handler for url: %s", url));
-                    }
-                    URL_TO_POST_REQUEST_METHOD.put(formattedUrl, method);
-                    POST_URL_MAP.put(formattedUrl, url);
+                    mapUrlToMethod(url, method, HttpMethod.POST);
                 }
             }
         }
-        log.info("Load GET mappings: {}", GET_URL_MAP.values());
-        log.info("Load POST mappings: {}", POST_URL_MAP.values());
     }
-
 
     /**
      * 根据请求路径和请求方法获取控制器的方法
@@ -78,17 +75,10 @@ public class RouteMethodMapper {
      * @return
      */
     public static MethodDetail getMethodDetail(String requestPath, HttpMethod httpMethod) {
-        boolean success = false;
         MethodDetail methodDetail = new MethodDetail();
-        if (HttpMethod.GET.equals(httpMethod)) {
-            success = methodDetail.build(requestPath, RouteMethodMapper.URL_TO_GET_REQUEST_METHOD, RouteMethodMapper.GET_URL_MAP);
-        }
-        if (HttpMethod.POST.equals(httpMethod)) {
-            success = methodDetail.build(requestPath, RouteMethodMapper.URL_TO_POST_REQUEST_METHOD, RouteMethodMapper.POST_URL_MAP);
-        }
+        boolean success = methodDetail.build(requestPath, REQUEST_METHOD_MAP.get(httpMethod), REQUEST_URL_MAP.get(httpMethod));
         return success ? methodDetail : null;
     }
-
 
     /**
      * 正则化原始 URL
@@ -102,5 +92,24 @@ public class RouteMethodMapper {
         String originPattern = url.replaceAll("(\\{\\w+})", "[\\\\u4e00-\\\\u9fa5_a-zA-Z0-9]+");
         String pattern = "^" + originPattern + "/?$";
         return pattern.replaceAll("/+", "/");
+    }
+
+    /**
+     * 将 URL 与 Method 建立映射
+     *
+     * @param url
+     * @param method
+     * @param httpMethod
+     */
+    private static void mapUrlToMethod(String url, Method method, HttpMethod httpMethod) {
+        String formattedUrl = formatUrl(url);
+        Map<String, Method> urlToMethod = REQUEST_METHOD_MAP.get(httpMethod);
+        if (urlToMethod.containsKey(formattedUrl)) {
+            throw new IllegalArgumentException(String.format("duplicate GET request handler for url: %s", url));
+        }
+        Map<String, String> formattedUrlToUrl = REQUEST_URL_MAP.get(httpMethod);
+        // 存放的是正则化后的 URL 模式串
+        urlToMethod.put(formattedUrl, method);
+        formattedUrlToUrl.put(formattedUrl, url);
     }
 }

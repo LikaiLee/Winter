@@ -33,7 +33,7 @@ public class UserControllerTest {
     // test @PathVariable
     @Test
     void should_get_user_by_id() {
-        when().get("/user/{id}", 1)
+        when().get("/user/getById/{id}", 1)
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("name0"));
@@ -42,7 +42,7 @@ public class UserControllerTest {
     // test @RequestParam
     @Test
     void should_get_user() {
-        when().get("/user?name=name111&age=20")
+        when().get("/user/get?name=name111&age=20")
                 .then()
                 .statusCode(200)
                 .body("name", equalTo("name111"))

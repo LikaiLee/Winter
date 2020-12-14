@@ -47,7 +47,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             // 生成响应数据
             response = requestHandler.handle(fullHttpRequest);
         } catch (Exception e) {
-            log.error("internal server error occurs", e);
+            // log.error("internal server error occurs", e);
             String url = UrlUtils.getRequestPath(uri);
             // TODO: 返回不同错误类型
             response = FullHttpResponseFactory.getErrorResponse(url, e, HttpResponseStatus.INTERNAL_SERVER_ERROR);

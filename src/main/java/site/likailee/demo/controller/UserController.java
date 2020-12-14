@@ -38,14 +38,15 @@ public class UserController {
     @Qualifier("sysPrintServiceImpl")
     private PrintService sysPrintServiceImpl;
 
-    @GetMapping("/{id}")
+    @GetMapping("/getById/{id}")
     public User get(@PathVariable("id") Integer id) {
         return userService.getById(id);
     }
 
-    @GetMapping
+    @GetMapping("/get")
     public User get(@RequestParam("name") String name,
                     @RequestParam("age") Integer age) {
+        // TODO: /user/{id} conflict with /user/get
         return new User(name, age);
     }
 
