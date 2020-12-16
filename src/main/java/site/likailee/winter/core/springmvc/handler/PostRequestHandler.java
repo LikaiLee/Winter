@@ -35,12 +35,8 @@ public class PostRequestHandler implements RequestHandler {
 
     @Override
     public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
-        String contentType = UrlUtils.getContentType(fullHttpRequest);
-        if (!HttpConstants.APPLICATION_JSON.equals(contentType)) {
-            throw new ResponseException(String.format("POST method only accept Content-Type for [%s]", HttpConstants.APPLICATION_JSON), HttpResponseStatus.BAD_REQUEST);
-        }
         String requestUri = fullHttpRequest.uri();
-        // 根据 URL 从路由表中获取对应方法
+        // 根据 URL 获取对应方法，解析地址栏参数
         String requestPath = UrlUtils.getRequestPath(requestUri);
         MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.POST);
         // 没有可以匹配该 URL 的方法
@@ -52,9 +48,13 @@ public class PostRequestHandler implements RequestHandler {
         methodDetail.setQueryParamMap(queryParams);
         Method dispatchMethod = methodDetail.getMethod();
         log.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
-        // 解析 request body 中的数据
-        String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
-        methodDetail.setRequestBodyJsonStr(jsonStr);
+        // 解析 Body 参数
+        String contentType = UrlUtils.getContentType(fullHttpRequest);
+        if (HttpConstants.APPLICATION_JSON.equals(contentType)) {
+            // 解析 request body 中的数据
+            String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
+            methodDetail.setRequestBodyJsonStr(jsonStr);
+        }
         // 获取方法中的参数
         Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法

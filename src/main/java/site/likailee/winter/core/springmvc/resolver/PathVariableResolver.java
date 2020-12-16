@@ -4,9 +4,11 @@
  */
 package site.likailee.winter.core.springmvc.resolver;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.annotation.springmvc.PathVariable;
 import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Parameter;
 
@@ -22,7 +24,8 @@ public class PathVariableResolver implements ParameterResolver {
         // 获取地址参数
         String pathParamVal = methodDetail.getPathParamMap().get(pathParam);
         if (pathParamVal == null) {
-            throw new IllegalArgumentException("The specified path variable [" + pathParam + "] can not be null!");
+            String errMsg = String.format("The specified path variable [%s] can not be null!", pathParam);
+            throw new ResponseException(errMsg, HttpResponseStatus.BAD_REQUEST);
         }
         return ObjectUtils.convertTo(pathParamVal, arg.getType());
     }

@@ -64,8 +64,6 @@ public class ParameterResolverFactory {
             return PATH_VARIABLE_RESOLVER.resolve(methodDetail, arg);
         }
 
-        // TODO: 有注解有值，直接用注解值，注解无值或无注解，直接用方法参数名取值
-        // 没有注解
         String errMsg = String.format("Annotation for parameter [%s] is required for method [%s]", arg.getName(), methodDetail.getMethod().getName());
         throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
     }

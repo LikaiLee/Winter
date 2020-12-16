@@ -68,4 +68,11 @@ public class UserController {
     public void voidResult() {
         log.info("request on /user/void");
     }
+
+    @GetMapping("/post")
+    public String post(@RequestBody User user, @RequestParam("msg") String msg) {
+        log.info(user.toString());
+        log.info(msg);
+        return user.toString();
+    }
 }

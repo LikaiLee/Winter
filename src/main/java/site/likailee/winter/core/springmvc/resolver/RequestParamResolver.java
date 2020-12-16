@@ -4,9 +4,11 @@
  */
 package site.likailee.winter.core.springmvc.resolver;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.annotation.springmvc.RequestParam;
 import site.likailee.winter.common.util.ObjectUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
+import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Parameter;
 import java.util.Objects;
@@ -26,7 +28,8 @@ public class RequestParamResolver implements ParameterResolver {
         if (Objects.isNull(requestParameterVal)) {
             // required && 无默认值
             if (requestParam.required() && requestParam.defaultValue().isEmpty()) {
-                throw new IllegalArgumentException("The specified parameter [" + requestParameter + "] can not be null!");
+                String errMsg = String.format("The specified parameter [%s] can not be null!", requestParameter);
+                throw new ResponseException(errMsg, HttpResponseStatus.BAD_REQUEST);
             }
             requestParameterVal = requestParam.defaultValue();
         }

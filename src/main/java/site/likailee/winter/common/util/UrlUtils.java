@@ -40,7 +40,7 @@ public class UrlUtils {
     public static String getContentType(FullHttpRequest fullHttpRequest) {
         String contentTypeStr = fullHttpRequest.headers().get(HttpConstants.CONTENT_TYPE);
         if (contentTypeStr == null) {
-            throw new UnsupportedOperationException("unsupported content-type for uri: " + fullHttpRequest.uri());
+            return null;
         }
         String[] contentTypes = contentTypeStr.split(";");
         return contentTypes[0];
