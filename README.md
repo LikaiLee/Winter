@@ -17,7 +17,7 @@
 * [x] `@RequestParam`: get parameters from url query string for `Get` request.
 * [x] `@RequestBody`: get request entity from `Post` request body.
 * [x] `@PathVariable`: extract parameters from URI path.
-
+* [x] support multiple parameter type
 
 ### 3. Boot
 
@@ -32,7 +32,6 @@
 * [x] `@Qualifier`: determine which bean to inject when there are multiple beans of same type.
 * [x] resolve circular dependency
 
-
 ### 5. AOP
 
 * [x] `@Aspect`: declare a class as `aspect`
@@ -41,8 +40,6 @@
 * [x] `@Around`: ensures that an advice can run before and after the method execution 
 * [x] `@Before`: annotated methods run exactly `before` the all methods matching with pointcut expression
 * [x] `@After`: annotated methods run exactly `after` the all methods matching with pointcut expression
-* [ ] `@AfterReturning`
-* [ ] `@AfterThrowing`
 
 
 ### 6. Interceptor / Aspect

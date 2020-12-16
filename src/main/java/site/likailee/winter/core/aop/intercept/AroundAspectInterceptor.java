@@ -48,7 +48,7 @@ public class AroundAspectInterceptor extends Interceptor {
         // 获取 Aspect 的匹配表达式
         for (Method method : adviceBean.getClass().getMethods()) {
             Pointcut pointcut = method.getAnnotation(Pointcut.class);
-            if (!Objects.isNull(pointcut)) {
+            if (Objects.nonNull(pointcut)) {
                 expressionUrls.add(pointcut.value());
             }
         }
@@ -56,7 +56,7 @@ public class AroundAspectInterceptor extends Interceptor {
 
     @Override
     public boolean supports(Object bean) {
-        if (expressionUrls.isEmpty() || adviceMethod == null) {
+        if (expressionUrls.isEmpty() || Objects.isNull(adviceMethod)) {
             return false;
         }
         for (String expression : expressionUrls) {
