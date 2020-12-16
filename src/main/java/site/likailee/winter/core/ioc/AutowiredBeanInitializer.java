@@ -7,7 +7,7 @@ package site.likailee.winter.core.ioc;
 import site.likailee.winter.annotation.config.Value;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Qualifier;
-import site.likailee.winter.common.util.ObjectUtils;
+import site.likailee.winter.core.factory.ConverterFactory;
 import site.likailee.winter.common.util.ReflectionUtils;
 import site.likailee.winter.common.util.WinterUtils;
 import site.likailee.winter.core.aop.factory.AopProxyPostProcessorFactory;
@@ -74,7 +74,7 @@ public class AutowiredBeanInitializer {
         if (Objects.isNull(value)) {
             throw new IllegalArgumentException("can not get target configuration value for property " + configKey);
         }
-        return ObjectUtils.convertTo(value, field.getType());
+        return ConverterFactory.convertTo(value, field.getType());
     }
 
     /**

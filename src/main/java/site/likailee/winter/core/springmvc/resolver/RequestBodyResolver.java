@@ -24,7 +24,8 @@ public class RequestBodyResolver implements ParameterResolver {
     public Object resolve(MethodDetail methodDetail, Parameter arg) {
         try {
             if (Objects.isNull(methodDetail.getRequestBodyJsonStr())) {
-                throw new ResponseException(String.format("can not get parameter [%s]", arg.getName()), HttpResponseStatus.BAD_REQUEST);
+                String errMsg = String.format("can not get parameter [%s]", arg.getName());
+                throw new ResponseException(errMsg, HttpResponseStatus.BAD_REQUEST);
             }
             // 将请求体转为 Java 对象
             return OBJECT_MAPPER.readValue(methodDetail.getRequestBodyJsonStr(), arg.getType());

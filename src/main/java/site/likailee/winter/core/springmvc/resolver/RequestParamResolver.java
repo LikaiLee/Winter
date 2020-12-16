@@ -5,8 +5,9 @@
 package site.likailee.winter.core.springmvc.resolver;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
+import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.springmvc.RequestParam;
-import site.likailee.winter.common.util.ObjectUtils;
+import site.likailee.winter.core.factory.ConverterFactory;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.exception.ResponseException;
 
@@ -17,6 +18,7 @@ import java.util.Objects;
  * @author likailee.llk
  * @version RequestParamResolver.java 2020/11/30 Mon 4:04 PM likai
  */
+@Slf4j
 public class RequestParamResolver implements ParameterResolver {
     @Override
     public Object resolve(MethodDetail methodDetail, Parameter arg) {
@@ -34,7 +36,7 @@ public class RequestParamResolver implements ParameterResolver {
             requestParameterVal = requestParam.defaultValue();
         }
         // 将参数转为 方法需要的类型
-        // TODO: 参数类型可能有基本类型，List, Map，Set 等
-        return ObjectUtils.convertTo(requestParameterVal, arg.getType());
+        // TODO: 参数类型可能有 List, Map，Set 等
+        return ConverterFactory.convertTo(requestParameterVal, arg.getType());
     }
 }

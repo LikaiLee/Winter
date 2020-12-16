@@ -69,10 +69,31 @@ public class UserController {
         log.info("request on /user/void");
     }
 
-    @GetMapping("/post")
-    public String post(@RequestBody User user, @RequestParam("msg") String msg) {
-        log.info(user.toString());
-        log.info(msg);
-        return user.toString();
+    @GetMapping("/dataType")
+    public String dataType(@RequestParam("int") int int0,
+                       @RequestParam("Integer") Integer int1,
+                       @RequestParam("long") long long0,
+                       @RequestParam("Long") Long long1,
+                       @RequestParam("float") float float0,
+                       @RequestParam("Float") Float float1,
+                       @RequestParam("double") double double0,
+                       @RequestParam("Double") Double double1,
+                       @RequestParam("boolean") boolean boolean0,
+                       @RequestParam("Boolean") Boolean boolean1,
+                       @RequestParam("byte") Byte byte0,
+                       @RequestParam("Byte") Byte byte1,
+                       @RequestParam("char") char char0,
+                       @RequestParam("Character") Character char1,
+                       @RequestParam("short") short short0,
+                       @RequestParam("Short") Short short1
+    ) {
+        return int0 + ", " + int1 + ", " +
+                long0 + ", " + long1 + ", " +
+                float0 + ", " + float1 + ", " +
+                double0 + ", " + double1 + ", " +
+                boolean0 + ", " + boolean1 + ", " +
+                byte0 + ", " + byte1 + ", " +
+                char0 + ", " + char1 + ", " +
+                short0 + ", " + short1;
     }
 }

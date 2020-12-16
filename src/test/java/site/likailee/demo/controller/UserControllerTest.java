@@ -92,4 +92,12 @@ public class UserControllerTest {
         log.info(response.getBody().asString());
     }
 
+    // test type converter
+    @Test
+    void should_convert_type() {
+        Response response = with().when().get("/user/dataType?int=1&Integer=2&long=3&Long=4&float=1.1&Float=1.0&double=2.0&Double=2.1&boolean=true&Boolean=false&byte=1&Byte=2&char=a&Character=b&short=0&Short=1");
+        assertEquals(200, response.statusCode());
+        assertTrue(response.getBody().asString().contains("1, 2, 3, 4, 1.1, 1.0, 2.0, 2.1, true, false, 1, 2, a, b, 0, 1"));
+    }
+
 }

@@ -6,7 +6,7 @@ package site.likailee.winter.core.springmvc.resolver;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.annotation.springmvc.PathVariable;
-import site.likailee.winter.common.util.ObjectUtils;
+import site.likailee.winter.core.factory.ConverterFactory;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.exception.ResponseException;
 
@@ -27,6 +27,6 @@ public class PathVariableResolver implements ParameterResolver {
             String errMsg = String.format("The specified path variable [%s] can not be null!", pathParam);
             throw new ResponseException(errMsg, HttpResponseStatus.BAD_REQUEST);
         }
-        return ObjectUtils.convertTo(pathParamVal, arg.getType());
+        return ConverterFactory.convertTo(pathParamVal, arg.getType());
     }
 }
