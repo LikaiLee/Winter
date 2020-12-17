@@ -12,6 +12,11 @@ import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Parameter;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -26,7 +31,14 @@ public class RequestParamResolver implements ParameterResolver {
         // 从 URL 中获取 方法所需要的参数
         String requestParameter = requestParam.value();
         String requestParameterVal = methodDetail.getQueryParamMap().get(requestParameter);
-        // 没有特定参数
+        // @RequestParam 没有值
+        if (requestParameter.isEmpty()) {
+            // 类型为 Map，则存放所有的 query string
+            if (Map.class.isAssignableFrom(arg.getType())) {
+                return methodDetail.getQueryParamMap();
+            }
+        }
+        // query string 没有特定参数
         if (Objects.isNull(requestParameterVal)) {
             // required && 无默认值
             if (requestParam.required() && requestParam.defaultValue().isEmpty()) {
@@ -36,7 +48,6 @@ public class RequestParamResolver implements ParameterResolver {
             requestParameterVal = requestParam.defaultValue();
         }
         // 将参数转为 方法需要的类型
-        // TODO: 参数类型可能有 Map
         return ConverterFactory.convertTo(requestParameterVal, arg.getType(), arg.getParameterizedType());
     }
 }

@@ -29,7 +29,7 @@ public class ConverterFactory {
      * @return 转换后的对象
      */
     public static Object convertTo(String str, Class<?> targetType, Type genericType) {
-        if (targetType == String.class) {
+        if (targetType == String.class || targetType == Object.class) {
             return str;
         }
         Object converted = ParameterConverterFactory.convert(str, targetType, genericType);

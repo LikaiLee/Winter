@@ -17,7 +17,7 @@
 * [x] `@RequestParam`: get parameters from url query string for `Get` request.
 * [x] `@RequestBody`: get request entity from `Post` request body.
 * [x] `@PathVariable`: extract parameters from URI path.
-* [x] support multiple parameter type
+* [x] support multiple query parameter type: `List`, `Set`, `Map`... 
 
 ### 3. Boot
 
