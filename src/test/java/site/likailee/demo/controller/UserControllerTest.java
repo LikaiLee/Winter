@@ -11,11 +11,9 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import site.likailee.demo.entity.User;
 
-import static io.restassured.RestAssured.when;
-import static io.restassured.RestAssured.with;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author likailee.llk
@@ -98,6 +96,18 @@ public class UserControllerTest {
         Response response = with().when().get("/user/dataType?int=1&Integer=2&long=3&Long=4&float=1.1&Float=1.0&double=2.0&Double=2.1&boolean=true&Boolean=false&byte=1&Byte=2&char=a&Character=b&short=0&Short=1");
         assertEquals(200, response.statusCode());
         assertTrue(response.getBody().asString().contains("1, 2, 3, 4, 1.1, 1.0, 2.0, 2.1, true, false, 1, 2, a, b, 0, 1"));
+    }
+
+    @Test
+    void should_convert_list_set() {
+        given()
+                .contentType("application/json")
+                .body("{\"a\": 1, \"b\": 2}")
+                .when()
+                .get("user/list?list=true,false,false&set=1,1,2,3,3")
+                .then()
+                .statusCode(200)
+                .body(equalTo("[1,2,3]"));
     }
 
 }

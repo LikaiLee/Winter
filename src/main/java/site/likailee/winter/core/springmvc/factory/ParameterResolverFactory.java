@@ -4,10 +4,15 @@
  */
 package site.likailee.winter.core.springmvc.factory;
 
+import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
+import org.apache.commons.codec.CharEncoding;
+import org.apache.commons.codec.Charsets;
 import site.likailee.winter.annotation.springmvc.PathVariable;
 import site.likailee.winter.annotation.springmvc.RequestBody;
 import site.likailee.winter.annotation.springmvc.RequestParam;
+import site.likailee.winter.common.HttpConstants;
+import site.likailee.winter.common.util.UrlUtils;
 import site.likailee.winter.core.springmvc.entity.MethodDetail;
 import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.springmvc.resolver.PathVariableResolver;
@@ -66,5 +71,21 @@ public class ParameterResolverFactory {
 
         String errMsg = String.format("Annotation for parameter [%s] is required for method [%s]", arg.getName(), methodDetail.getMethod().getName());
         throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    /**
+     * 获取 request body 中的参数
+     *
+     * @param fullHttpRequest
+     * @param methodDetail
+     * @return
+     */
+    public static void resolveBodyParams(FullHttpRequest fullHttpRequest, MethodDetail methodDetail) {
+        String contentType = UrlUtils.getContentType(fullHttpRequest);
+        if (HttpConstants.APPLICATION_JSON.equals(contentType)) {
+            // 解析 request body 中的数据
+            String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
+            methodDetail.setRequestBodyJsonStr(jsonStr);
+        }
     }
 }

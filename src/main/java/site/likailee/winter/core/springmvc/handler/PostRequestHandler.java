@@ -49,12 +49,7 @@ public class PostRequestHandler implements RequestHandler {
         Method dispatchMethod = methodDetail.getMethod();
         log.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 解析 Body 参数
-        String contentType = UrlUtils.getContentType(fullHttpRequest);
-        if (HttpConstants.APPLICATION_JSON.equals(contentType)) {
-            // 解析 request body 中的数据
-            String jsonStr = fullHttpRequest.content().toString(Charsets.toCharset(CharEncoding.UTF_8));
-            methodDetail.setRequestBodyJsonStr(jsonStr);
-        }
+        ParameterResolverFactory.resolveBodyParams(fullHttpRequest, methodDetail);
         // 获取方法中的参数
         Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, methodDetail);
         // 调用 URL 对应的方法

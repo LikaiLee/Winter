@@ -97,12 +97,12 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public Map<String, String> listParam(@RequestParam("list") LinkedList<Boolean> list,
-                                         @RequestParam("set") Set<String> set,
-                                         @RequestBody Map<String, String> bodyMap) {
+    public Set<Integer> listParam(@RequestParam("list") LinkedList<Boolean> list,
+                                 @RequestParam("set") Set<Integer> set,
+                                 @RequestBody Map<String, String> bodyMap) {
         log.info(list.toString());
         log.info(set.toString());
         log.info(bodyMap.toString());
-        return bodyMap;
+        return set;
     }
 }

@@ -44,8 +44,5 @@ public class ConverterFactory {
             String errMsg = String.format("can not convert [%s] to target method type [%s]", str, targetType);
             throw new ResponseException(errMsg, HttpResponseStatus.INTERNAL_SERVER_ERROR);
         }
-
     }
-
-
 }
