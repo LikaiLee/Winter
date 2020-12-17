@@ -4,8 +4,8 @@
  */
 package site.likailee.winter.core.springmvc.converter;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * @author likailee.llk
@@ -41,7 +41,18 @@ public class ParameterConverterFactory {
         TYPE_CONVERTER.put(Boolean.class, new BooleanConverter());
     }
 
-    public static Converter getConverter(Class<?> type) {
-        return TYPE_CONVERTER.get(type);
+    public static Converter getConverter(Class<?> targetType) {
+        return TYPE_CONVERTER.get(targetType);
+    }
+
+    public static Object convert(String str, Class<?> targetType, Type genericType) {
+        Converter basicConverter = getConverter(targetType);
+        if (Objects.nonNull(basicConverter)) {
+            return basicConverter.convert(str);
+        }
+        if (Collection.class.isAssignableFrom(targetType)) {
+            return CollectionConverter.convert(str, targetType, genericType);
+        }
+        return null;
     }
 }

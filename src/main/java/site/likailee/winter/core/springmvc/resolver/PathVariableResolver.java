@@ -27,6 +27,6 @@ public class PathVariableResolver implements ParameterResolver {
             String errMsg = String.format("The specified path variable [%s] can not be null!", pathParam);
             throw new ResponseException(errMsg, HttpResponseStatus.BAD_REQUEST);
         }
-        return ConverterFactory.convertTo(pathParamVal, arg.getType());
+        return ConverterFactory.convertTo(pathParamVal, arg.getType(), arg.getParameterizedType());
     }
 }

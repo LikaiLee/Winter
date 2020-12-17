@@ -12,9 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.annotation.ioc.Autowired;
 import site.likailee.winter.annotation.ioc.Qualifier;
 import site.likailee.winter.annotation.springmvc.*;
-import site.likailee.winter.core.config.ConfigurationManager;
 
-import java.util.List;
+import java.util.*;
 
 /**
  * @author likailee.llk
@@ -71,21 +70,21 @@ public class UserController {
 
     @GetMapping("/dataType")
     public String dataType(@RequestParam("int") int int0,
-                       @RequestParam("Integer") Integer int1,
-                       @RequestParam("long") long long0,
-                       @RequestParam("Long") Long long1,
-                       @RequestParam("float") float float0,
-                       @RequestParam("Float") Float float1,
-                       @RequestParam("double") double double0,
-                       @RequestParam("Double") Double double1,
-                       @RequestParam("boolean") boolean boolean0,
-                       @RequestParam("Boolean") Boolean boolean1,
-                       @RequestParam("byte") Byte byte0,
-                       @RequestParam("Byte") Byte byte1,
-                       @RequestParam("char") char char0,
-                       @RequestParam("Character") Character char1,
-                       @RequestParam("short") short short0,
-                       @RequestParam("Short") Short short1
+                           @RequestParam("Integer") Integer int1,
+                           @RequestParam("long") long long0,
+                           @RequestParam("Long") Long long1,
+                           @RequestParam("float") float float0,
+                           @RequestParam("Float") Float float1,
+                           @RequestParam("double") double double0,
+                           @RequestParam("Double") Double double1,
+                           @RequestParam("boolean") boolean boolean0,
+                           @RequestParam("Boolean") Boolean boolean1,
+                           @RequestParam("byte") Byte byte0,
+                           @RequestParam("Byte") Byte byte1,
+                           @RequestParam("char") char char0,
+                           @RequestParam("Character") Character char1,
+                           @RequestParam("short") short short0,
+                           @RequestParam("Short") Short short1
     ) {
         return int0 + ", " + int1 + ", " +
                 long0 + ", " + long1 + ", " +
@@ -95,5 +94,15 @@ public class UserController {
                 byte0 + ", " + byte1 + ", " +
                 char0 + ", " + char1 + ", " +
                 short0 + ", " + short1;
+    }
+
+    @GetMapping("/list")
+    public Map<String, String> listParam(@RequestParam("list") LinkedList<Boolean> list,
+                                         @RequestParam("set") Set<String> set,
+                                         @RequestBody Map<String, String> bodyMap) {
+        log.info(list.toString());
+        log.info(set.toString());
+        log.info(bodyMap.toString());
+        return bodyMap;
     }
 }

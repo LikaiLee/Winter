@@ -74,7 +74,7 @@ public class AutowiredBeanInitializer {
         if (Objects.isNull(value)) {
             throw new IllegalArgumentException("can not get target configuration value for property " + configKey);
         }
-        return ConverterFactory.convertTo(value, field.getType());
+        return ConverterFactory.convertTo(value, field.getType(), field.getGenericType());
     }
 
     /**

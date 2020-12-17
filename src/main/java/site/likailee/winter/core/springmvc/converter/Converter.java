@@ -12,7 +12,7 @@ public interface Converter {
     /**
      * 将字符串转为方法需要的参数类型
      *
-     * @param str 参数字符串
+     * @param str
      * @return
      */
     Object convert(String str);

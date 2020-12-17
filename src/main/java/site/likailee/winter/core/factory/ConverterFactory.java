@@ -6,13 +6,13 @@ package site.likailee.winter.core.factory;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
 import lombok.extern.slf4j.Slf4j;
-import site.likailee.winter.core.springmvc.converter.Converter;
 import site.likailee.winter.core.springmvc.converter.ParameterConverterFactory;
 import site.likailee.winter.exception.ResponseException;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Objects;
+import java.lang.reflect.Type;
+import java.util.*;
 
 /**
  * @author likailee.llk
@@ -23,17 +23,18 @@ public class ConverterFactory {
     /**
      * 将字符串转为特定类型
      *
-     * @param str        需要转换的字符串
-     * @param targetType 目标类型
+     * @param str         需要转换的字符串
+     * @param targetType  目标类型
+     * @param genericType
      * @return 转换后的对象
      */
-    public static Object convertTo(String str, Class<?> targetType) {
+    public static Object convertTo(String str, Class<?> targetType, Type genericType) {
         if (targetType == String.class) {
             return str;
         }
-        Converter converter = ParameterConverterFactory.getConverter(targetType);
-        if (!Objects.isNull(converter)) {
-            return converter.convert(str);
+        Object converted = ParameterConverterFactory.convert(str, targetType, genericType);
+        if (Objects.nonNull(converted)) {
+            return converted;
         }
         try {
             Constructor<?> constructor = targetType.getConstructor(String.class);
@@ -45,4 +46,6 @@ public class ConverterFactory {
         }
 
     }
+
+
 }

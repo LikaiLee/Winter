@@ -36,7 +36,7 @@ public class RequestParamResolver implements ParameterResolver {
             requestParameterVal = requestParam.defaultValue();
         }
         // 将参数转为 方法需要的类型
-        // TODO: 参数类型可能有 List, Map，Set 等
-        return ConverterFactory.convertTo(requestParameterVal, arg.getType());
+        // TODO: 参数类型可能有 Map
+        return ConverterFactory.convertTo(requestParameterVal, arg.getType(), arg.getParameterizedType());
     }
 }
