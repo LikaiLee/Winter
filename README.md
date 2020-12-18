@@ -12,6 +12,7 @@
 ### 2. Http Request
 
 * [x] `@RestController`: define a restful Controller.
+* [x] `@RequestMapping`: can be applied to class-level and/or method-level in a controller with specific HTTP method.
 * [x] `@GetMapping`: handle `Get` request.
 * [x] `@PostMapping`: handle `Post` request.
 * [x] `@RequestParam`: get parameters from url query string for `Get` request.
