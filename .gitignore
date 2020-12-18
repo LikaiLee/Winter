@@ -3,6 +3,7 @@
 
 ### Java ###
 /target/
+/**/target
 *.class
 *.jar
 *.war
