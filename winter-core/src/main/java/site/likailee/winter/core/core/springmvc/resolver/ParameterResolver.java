@@ -4,7 +4,7 @@
  */
 package site.likailee.winter.core.core.springmvc.resolver;
 
-import site.likailee.winter.core.core.springmvc.entity.MethodDetail;
+import site.likailee.winter.core.core.springmvc.entity.RouteDefinition;
 
 import java.lang.reflect.Parameter;
 
@@ -16,9 +16,9 @@ public interface ParameterResolver {
     /**
      * 解析方法的参数
      *
-     * @param methodDetail
+     * @param routeDefinition
      * @param parameter
      * @return
      */
-    Object resolve(MethodDetail methodDetail, Parameter parameter);
+    Object resolve(RouteDefinition routeDefinition, Parameter parameter);
 }

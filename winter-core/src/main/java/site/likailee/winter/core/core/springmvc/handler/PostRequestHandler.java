@@ -6,14 +6,14 @@ package site.likailee.winter.core.core.springmvc.handler;
 
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
-import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.common.util.UrlUtils;
 import site.likailee.winter.core.common.util.WinterUtils;
 import site.likailee.winter.core.core.ioc.BeanFactory;
-import site.likailee.winter.core.core.springmvc.entity.MethodDetail;
+import site.likailee.winter.core.core.springmvc.entity.RouteDefinition;
+import site.likailee.winter.core.core.springmvc.enums.RequestMethod;
 import site.likailee.winter.core.core.springmvc.factory.FullHttpResponseFactory;
 import site.likailee.winter.core.core.springmvc.factory.ParameterResolverFactory;
 import site.likailee.winter.core.core.springmvc.factory.RouteMethodMapper;
@@ -37,22 +37,18 @@ public class PostRequestHandler implements RequestHandler {
         String requestUri = fullHttpRequest.uri();
         // 根据 URL 获取对应方法，解析地址栏参数
         String requestPath = UrlUtils.getRequestPath(requestUri);
-        MethodDetail methodDetail = RouteMethodMapper.getMethodDetail(requestPath, HttpMethod.POST);
-        // 没有可以匹配该 URL 的方法
-        if (Objects.isNull(methodDetail)) {
-            throw new ResponseException(String.format("POST request on URL [%s] mapping failed!", requestPath), HttpResponseStatus.NOT_FOUND);
-        }
+        RouteDefinition routeDefinition = RouteMethodMapper.getMethodDefinition(requestPath, RequestMethod.POST);
         // 解析 URL 中的参数
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
-        methodDetail.setQueryParamMap(queryParams);
-        Method dispatchMethod = methodDetail.getMethod();
+        routeDefinition.setQueryParamMap(queryParams);
+        Method dispatchMethod = routeDefinition.getMethod();
         LOGGER.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 解析 Body 参数
-        ParameterResolverFactory.resolveBodyParams(fullHttpRequest, methodDetail);
+        ParameterResolverFactory.resolveBodyParams(fullHttpRequest, routeDefinition);
         // 获取方法中的参数
-        Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, methodDetail);
+        Object[] methodArgs = ParameterResolverFactory.resolveMethodArgs(dispatchMethod, routeDefinition);
         // 调用 URL 对应的方法
-        String beanName = WinterUtils.getBeanName(methodDetail.getMethod().getDeclaringClass());
+        String beanName = WinterUtils.getBeanName(routeDefinition.getMethod().getDeclaringClass());
         Object bean = BeanFactory.BEANS.get(beanName);
         return FullHttpResponseFactory.getSuccessResponse(bean, dispatchMethod, methodArgs);
     }
