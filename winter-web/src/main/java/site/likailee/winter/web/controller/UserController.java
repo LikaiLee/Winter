@@ -23,7 +23,8 @@ import java.util.Set;
  * @author likailee.llk
  * @version UserController.java 2020/11/27 Fri 1:04 PM likai
  */
-@RestController("/user")
+@RestController
+@RequestMapping("/user")
 public class UserController {
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 

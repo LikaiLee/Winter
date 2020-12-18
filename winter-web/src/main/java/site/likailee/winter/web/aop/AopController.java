@@ -7,6 +7,7 @@ package site.likailee.winter.web.aop;
 import site.likailee.winter.core.annotation.ioc.Autowired;
 import site.likailee.winter.core.annotation.ioc.Qualifier;
 import site.likailee.winter.core.annotation.springmvc.GetMapping;
+import site.likailee.winter.core.annotation.springmvc.RequestMapping;
 import site.likailee.winter.core.annotation.springmvc.RequestParam;
 import site.likailee.winter.core.annotation.springmvc.RestController;
 import site.likailee.winter.web.aop.service.AopService;
@@ -17,7 +18,8 @@ import site.likailee.winter.web.service.ReadService;
  * @author likailee.llk
  * @version AopController.java 2020/12/04 Fri 12:01 PM likai
  */
-@RestController("/aop")
+@RestController
+@RequestMapping("/aop")
 public class AopController {
     @Autowired
     private AopService aopService;

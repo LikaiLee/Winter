@@ -8,6 +8,7 @@ package site.likailee.winter.web.config;
 import site.likailee.winter.core.annotation.config.Value;
 import site.likailee.winter.core.annotation.ioc.Autowired;
 import site.likailee.winter.core.annotation.springmvc.GetMapping;
+import site.likailee.winter.core.annotation.springmvc.RequestMapping;
 import site.likailee.winter.core.annotation.springmvc.RequestParam;
 import site.likailee.winter.core.annotation.springmvc.RestController;
 import site.likailee.winter.core.core.config.ConfigurationManager;
@@ -16,7 +17,8 @@ import site.likailee.winter.core.core.config.ConfigurationManager;
  * @author likailee.llk
  * @version ConfigController.java 2020/12/11 Fri 2:50 PM likai
  */
-@RestController("/config")
+@RestController
+@RequestMapping("/config")
 public class ConfigController {
 
     @Autowired

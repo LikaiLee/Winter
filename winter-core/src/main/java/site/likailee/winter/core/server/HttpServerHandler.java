@@ -49,6 +49,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
             String url = UrlUtils.getRequestPath(uri);
             response = FullHttpResponseFactory.getErrorResponse(url, e, e.getHttpResponseStatus());
         }
+
         boolean isKeepAlive = HttpUtil.isKeepAlive(fullHttpRequest);
         if (isKeepAlive) {
             response.headers().set(CONNECTION, KEEP_ALIVE);

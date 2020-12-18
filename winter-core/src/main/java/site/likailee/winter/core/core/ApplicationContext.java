@@ -4,6 +4,7 @@
  */
 package site.likailee.winter.core.core;
 
+import io.netty.handler.codec.http.HttpResponseStatus;
 import site.likailee.winter.core.annotation.boot.ComponentScan;
 import site.likailee.winter.core.common.Banner;
 import site.likailee.winter.core.core.aop.factory.InterceptorFactory;
@@ -14,6 +15,7 @@ import site.likailee.winter.core.core.factory.ClassFactory;
 import site.likailee.winter.core.core.ioc.BeanFactory;
 import site.likailee.winter.core.core.ioc.DependencyInjection;
 import site.likailee.winter.core.core.springmvc.factory.RouteMethodMapper;
+import site.likailee.winter.core.exception.ResponseException;
 import site.likailee.winter.core.server.HttpServer;
 
 import java.net.URISyntaxException;
@@ -76,7 +78,7 @@ public class ApplicationContext {
             try {
                 filePaths.add(Paths.get(url.toURI()));
             } catch (URISyntaxException e) {
-                e.printStackTrace();
+                throw new ResponseException("failed to read config file path", HttpResponseStatus.INTERNAL_SERVER_ERROR);
             }
         }
         ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);

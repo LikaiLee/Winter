@@ -7,9 +7,11 @@ package site.likailee.winter.core.core.springmvc.factory;
 import io.netty.handler.codec.http.HttpMethod;
 import site.likailee.winter.core.annotation.springmvc.GetMapping;
 import site.likailee.winter.core.annotation.springmvc.PostMapping;
+import site.likailee.winter.core.annotation.springmvc.RequestMapping;
 import site.likailee.winter.core.annotation.springmvc.RestController;
 import site.likailee.winter.core.core.factory.ClassFactory;
 import site.likailee.winter.core.core.springmvc.entity.MethodDetail;
+import sun.misc.Request;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -45,7 +47,10 @@ public class RouteMethodMapper {
         Set<Class<?>> classes = ClassFactory.CLASSES.get(RestController.class);
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
-            String baseUrl = clazz.getAnnotation(RestController.class).value();
+            String baseUrl = "";
+            if (clazz.isAnnotationPresent(RequestMapping.class)) {
+                baseUrl += clazz.getAnnotation(RequestMapping.class).value();
+            }
             // 解析控制器下的所有方法
             Method[] methods = clazz.getDeclaredMethods();
             for (Method method : methods) {
