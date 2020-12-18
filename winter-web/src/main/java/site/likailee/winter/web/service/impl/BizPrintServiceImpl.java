@@ -4,8 +4,10 @@
  */
 package site.likailee.winter.web.service.impl;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.ioc.Component;
+
 import site.likailee.winter.web.service.PrintService;
 
 /**
@@ -13,11 +15,12 @@ import site.likailee.winter.web.service.PrintService;
  * @version BizPrintServiceImpl.java 2020/12/02 Wed 2:47 PM likai
  */
 @Component(name = "bizPrintServiceImpl")
-@Slf4j
 public class BizPrintServiceImpl implements PrintService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BizPrintServiceImpl.class);
+
     @Override
     public String print(String msg) {
-        log.info("### request on BizPrintServiceImpl.print() ###");
+        LOGGER.info("### request on BizPrintServiceImpl.print() ###");
         return "BizPrintServiceImpl: " + msg;
     }
 }

@@ -5,7 +5,6 @@
 package likailee.demo.controller;
 
 import io.restassured.response.Response;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.with;
@@ -15,8 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @author likailee.llk
  * @version ConfigControllerTest.java 2020/12/11 Fri 3:09 PM likai
  */
-@Slf4j
 public class ConfigControllerTest {
+
     @Test
     void should_get_config() {
         Response response = with().when().get("/config");

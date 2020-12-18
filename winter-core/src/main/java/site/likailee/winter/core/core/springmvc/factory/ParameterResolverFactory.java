@@ -6,7 +6,6 @@ package site.likailee.winter.core.core.springmvc.factory;
 
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.CharEncoding;
 import org.apache.commons.codec.Charsets;
 import site.likailee.winter.core.annotation.springmvc.PathVariable;
@@ -29,7 +28,6 @@ import java.util.List;
  * @author likailee.llk
  * @version ParameterResolverFactory.java 2020/11/30 Mon 3:54 PM likai
  */
-@Slf4j
 public class ParameterResolverFactory {
     private static final RequestParamResolver REQUEST_PARAM_RESOLVER = new RequestParamResolver();
     private static final RequestBodyResolver REQUEST_BODY_RESOLVER = new RequestBodyResolver();

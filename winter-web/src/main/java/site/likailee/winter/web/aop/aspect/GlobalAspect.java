@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.web.aop.aspect;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.aop.After;
 import site.likailee.winter.core.annotation.aop.Before;
 import site.likailee.winter.core.annotation.aop.Order;
@@ -17,19 +18,20 @@ import site.likailee.winter.core.core.aop.lang.JoinPoint;
  */
 // @Aspect
 @Order(1)
-@Slf4j
 public class GlobalAspect {
+    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalAspect.class);
+
     @Pointcut("site.likailee.demo.*.*Controller*")
     public void pointcut() {
     }
 
     @Before
     public void before(JoinPoint joinPoint) {
-        log.info("before global aspect on class {}", joinPoint.getTarget().getClass().getName());
+        LOGGER.info("before global aspect on class {}", joinPoint.getTarget().getClass().getName());
     }
 
     @After
     public void after(Object result, JoinPoint joinPoint) {
-        log.info("after global aspect");
+        LOGGER.info("after global aspect");
     }
 }

@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.core.core.aop.intercept;
 
-import lombok.Getter;
 import site.likailee.winter.core.common.util.ReflectionUtils;
 
 import java.lang.reflect.Method;
@@ -15,7 +14,6 @@ import java.lang.reflect.Method;
  * @author likailee.llk
  * @version Invocation.java 2020/12/04 Fri 10:48 AM likai
  */
-@Getter
 public class MethodInvocation {
     /**
      * 被代理对象
@@ -43,5 +41,17 @@ public class MethodInvocation {
      */
     public Object proceed() {
         return ReflectionUtils.executeMethod(target, method, args);
+    }
+
+    public Object getTarget() {
+        return target;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public Object[] getArgs() {
+        return args;
     }
 }

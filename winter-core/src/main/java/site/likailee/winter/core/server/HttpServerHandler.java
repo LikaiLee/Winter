@@ -10,7 +10,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.common.util.UrlUtils;
 import site.likailee.winter.core.core.springmvc.factory.FullHttpResponseFactory;
 import site.likailee.winter.core.core.springmvc.factory.RequestHandlerFactory;
@@ -25,7 +24,6 @@ import static site.likailee.winter.core.common.HttpConstants.*;
  * @author likailee.llk
  * @version HttpServerHandler.java 2020/11/26 Thu 3:47 PM likai
  */
-@Slf4j
 public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     /**

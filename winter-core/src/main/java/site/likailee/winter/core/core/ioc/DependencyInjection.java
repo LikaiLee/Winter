@@ -4,13 +4,10 @@
  */
 package site.likailee.winter.core.core.ioc;
 
-import lombok.extern.slf4j.Slf4j;
-
 /**
  * @author likailee.llk
  * @version DependencyInjection.java 2020/12/01 Tue 3:04 PM likai
  */
-@Slf4j
 public class DependencyInjection {
 
     /**

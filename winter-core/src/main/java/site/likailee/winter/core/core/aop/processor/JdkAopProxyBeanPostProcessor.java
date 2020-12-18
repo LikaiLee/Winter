@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.core.core.aop.processor;
 
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.core.aop.proxy.JdkAspectProxy;
 
@@ -12,7 +11,6 @@ import site.likailee.winter.core.core.aop.proxy.JdkAspectProxy;
  * @author likailee.llk
  * @version JdkAopProxyBeanPostProcessor.java 2020/12/04 Fri 10:37 AM likai
  */
-@Slf4j
 public class JdkAopProxyBeanPostProcessor extends AbstractAopProxyBeanPostProcessor {
 
     @Override

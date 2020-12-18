@@ -5,7 +5,6 @@
 package site.likailee.winter.core.core.springmvc.factory;
 
 import io.netty.handler.codec.http.HttpMethod;
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.annotation.springmvc.GetMapping;
 import site.likailee.winter.core.annotation.springmvc.PostMapping;
 import site.likailee.winter.core.annotation.springmvc.RestController;
@@ -21,7 +20,6 @@ import java.util.Set;
  * @author likailee.llk
  * @version RouterFactory.java 2020/12/01 Tue 1:42 PM likai
  */
-@Slf4j
 public class RouteMethodMapper {
     public static final HttpMethod[] SUPPORTED_METHODS = {HttpMethod.GET, HttpMethod.POST};
     /**

@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.web.circular;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.ioc.Autowired;
 import site.likailee.winter.core.annotation.ioc.Component;
 
@@ -13,12 +14,12 @@ import site.likailee.winter.core.annotation.ioc.Component;
  * @version BService.java 2020/12/03 Thu 8:39 PM likai
  */
 @Component(name = "BService")
-@Slf4j
 public class BService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BService.class);
     @Autowired
     private CService aService;
 
     public void test() {
-        log.info("BBBB test()");
+        LOGGER.info("BBBB test()");
     }
 }

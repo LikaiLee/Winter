@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.web.aop.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.core.aop.intercept.MethodInvocation;
 
@@ -12,8 +13,9 @@ import site.likailee.winter.core.core.aop.intercept.MethodInvocation;
  * @author likailee.llk
  * @version CheckInterceptor.java 2020/12/04 Fri 12:06 PM likai
  */
-@Slf4j
 public class CheckInterceptor extends Interceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CheckInterceptor.class);
+
     @Override
     public int getOrder() {
         return 1;
@@ -27,10 +29,10 @@ public class CheckInterceptor extends Interceptor {
 
     @Override
     public Object intercept(MethodInvocation invocation) {
-        log.info("-----> before CheckInterceptor");
-        log.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
+        LOGGER.info("-----> before CheckInterceptor");
+        LOGGER.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
         Object result = invocation.proceed();
-        log.info("CheckInterceptor after <----- ");
+        LOGGER.info("CheckInterceptor after <----- ");
         return result;
     }
 }

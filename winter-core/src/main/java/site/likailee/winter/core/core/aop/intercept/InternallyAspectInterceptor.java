@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.core.core.aop.intercept;
 
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.annotation.aop.After;
 import site.likailee.winter.core.annotation.aop.Before;
 import site.likailee.winter.core.annotation.aop.Pointcut;
@@ -20,7 +19,6 @@ import java.util.*;
  * @author likailee.llk
  * @version InternallyAspectInterceptor.java 2020/12/08 Tue 1:58 PM likai
  */
-@Slf4j
 public class InternallyAspectInterceptor extends Interceptor {
     /**
      * 切面类

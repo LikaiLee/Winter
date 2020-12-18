@@ -4,9 +4,6 @@
  */
 package site.likailee.winter.core.core.springmvc.entity;
 
-import lombok.Data;
-import lombok.ToString;
-
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +15,7 @@ import java.util.regex.Pattern;
  * @author likailee.llk
  * @version MethodDetail.java 2020/11/30 Mon 2:56 PM likai
  */
-@Data
-@ToString
+
 public class MethodDetail {
     /**
      * 实际应该调用的方法
@@ -92,5 +88,47 @@ public class MethodDetail {
             urlParameterMappings.put(urlParams[i].replace("{", "").replace("}", ""), requestParams[i]);
         }
         return urlParameterMappings;
+    }
+
+    public Method getMethod() {
+        return method;
+    }
+
+    public void setMethod(Method method) {
+        this.method = method;
+    }
+
+    public Map<String, String> getPathParamMap() {
+        return pathParamMap;
+    }
+
+    public void setPathParamMap(Map<String, String> pathParamMap) {
+        this.pathParamMap = pathParamMap;
+    }
+
+    public Map<String, String> getQueryParamMap() {
+        return queryParamMap;
+    }
+
+    public void setQueryParamMap(Map<String, String> queryParamMap) {
+        this.queryParamMap = queryParamMap;
+    }
+
+    public String getRequestBodyJsonStr() {
+        return requestBodyJsonStr;
+    }
+
+    public void setRequestBodyJsonStr(String requestBodyJsonStr) {
+        this.requestBodyJsonStr = requestBodyJsonStr;
+    }
+
+    @Override
+    public String toString() {
+        return "MethodDetail{" +
+                "method=" + method +
+                ", pathParamMap=" + pathParamMap +
+                ", queryParamMap=" + queryParamMap +
+                ", requestBodyJsonStr='" + requestBodyJsonStr + '\'' +
+                '}';
     }
 }

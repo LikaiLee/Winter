@@ -15,15 +15,16 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpRequestDecoder;
 import io.netty.handler.codec.http.HttpResponseEncoder;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.common.SystemConstants;
 
 /**
  * @author likailee.llk
  * @version HttpServer.java 2020/11/26 Thu 3:32 PM likai
  */
-@Slf4j
 public class HttpServer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
     private static final int PORT = 8080;
 
     public void start() {
@@ -55,12 +56,12 @@ public class HttpServer {
                         }
                     });
             Channel channel = bootstrap.bind(PORT).sync().channel();
-            log.info(SystemConstants.LOG_PORT_BANNER, PORT);
+            LOGGER.info(SystemConstants.LOG_PORT_BANNER, PORT);
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
-            log.error("exception occurs when server start: " + e);
+            LOGGER.error("exception occurs when server start: " + e);
         } finally {
-            log.error("shut down bossGroup and workerGroup");
+            LOGGER.error("shut down bossGroup and workerGroup");
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
         }

@@ -8,7 +8,8 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.HttpMethod;
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.common.util.UrlUtils;
 import site.likailee.winter.core.common.util.WinterUtils;
 import site.likailee.winter.core.core.ioc.BeanFactory;
@@ -28,8 +29,8 @@ import java.util.Objects;
  * @author likailee.llk
  * @version PostRequestHandler.java 2020/11/26 Thu 4:28 PM likai
  */
-@Slf4j
 public class PostRequestHandler implements RequestHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(PostRequestHandler.class);
 
     @Override
     public FullHttpResponse handle(FullHttpRequest fullHttpRequest) throws Exception {
@@ -45,7 +46,7 @@ public class PostRequestHandler implements RequestHandler {
         Map<String, String> queryParams = UrlUtils.getQueryParams(requestUri);
         methodDetail.setQueryParamMap(queryParams);
         Method dispatchMethod = methodDetail.getMethod();
-        log.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
+        LOGGER.info("Post request on method [{}#{}] with uri {}", dispatchMethod.getDeclaringClass().getSimpleName(), dispatchMethod.getName(), requestUri);
         // 解析 Body 参数
         ParameterResolverFactory.resolveBodyParams(fullHttpRequest, methodDetail);
         // 获取方法中的参数

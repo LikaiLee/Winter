@@ -5,7 +5,6 @@
 package site.likailee.winter.core.core.springmvc.converter;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.core.factory.ConverterFactory;
 import site.likailee.winter.core.exception.ResponseException;
 
@@ -19,7 +18,6 @@ import java.util.*;
  * @author likailee.llk
  * @version CollectionConverter.java 2020/12/17 Thu 3:04 PM likai
  */
-@Slf4j
 public class CollectionConverter {
     /**
      * 生成方法需要的容器数据

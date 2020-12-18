@@ -4,8 +4,8 @@
  */
 package site.likailee.winter.web.aop.aspect;
 
-
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.aop.*;
 import site.likailee.winter.core.core.aop.lang.JoinPoint;
 import site.likailee.winter.core.core.aop.lang.ProceedingJoinPoint;
@@ -16,27 +16,27 @@ import site.likailee.winter.core.core.aop.lang.ProceedingJoinPoint;
  */
 // @Aspect
 @Order(2)
-@Slf4j
 public class WebLogAspect {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
     @Pointcut("site.likailee.demo.*.*Service*")
     public void pointcut() {
     }
 
     @Before
     public void before(JoinPoint joinPoint) {
-        log.info("before web log aspect");
+        LOGGER.info("before web log aspect");
     }
 
     @After
     public void after(Object result, JoinPoint joinPoint) {
-        log.info("after web log aspect");
+        LOGGER.info("after web log aspect");
     }
 
     @Around
     public Object around(ProceedingJoinPoint proceedingJoinPoint) {
-        log.info("around begin");
+        LOGGER.info("around begin");
         Object result = proceedingJoinPoint.proceed();
-        log.info("around end");
+        LOGGER.info("around end");
         return result;
     }
 }

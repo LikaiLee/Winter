@@ -49,13 +49,6 @@
             <version>5.6.2</version>
             <scope>test</scope>
         </dependency>
-        <!-- lombok -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.8</version>
-            <scope>provided</scope>
-        </dependency>
         <!--commons-codec-->
         <dependency>
             <groupId>commons-codec</groupId>

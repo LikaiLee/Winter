@@ -4,8 +4,8 @@
  */
 package site.likailee.winter.web.aop.interceptor;
 
-
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.core.aop.intercept.Interceptor;
 import site.likailee.winter.core.core.aop.intercept.MethodInvocation;
 
@@ -13,8 +13,9 @@ import site.likailee.winter.core.core.aop.intercept.MethodInvocation;
  * @author likailee.llk
  * @version WebLogInterceptor.java 2020/12/04 Fri 10:45 AM likai
  */
-@Slf4j
 public class WebLogInterceptor extends Interceptor {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WebLogInterceptor.class);
+
     @Override
     public int getOrder() {
         return 0;
@@ -29,11 +30,11 @@ public class WebLogInterceptor extends Interceptor {
 
     @Override
     public Object intercept(MethodInvocation invocation) {
-        log.info("-----> before WebLogInterceptor <----- ");
-        log.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
+        LOGGER.info("-----> before WebLogInterceptor <----- ");
+        LOGGER.info("call method [{}#{}]", invocation.getTarget().getClass().getSimpleName(), invocation.getMethod().getName());
         Object result = invocation.proceed();
         result += " ## this is from WebLogInterceptor";
-        log.info("-----> WebLogInterceptor after <----- ");
+        LOGGER.info("-----> WebLogInterceptor after <----- ");
         return result;
     }
 }

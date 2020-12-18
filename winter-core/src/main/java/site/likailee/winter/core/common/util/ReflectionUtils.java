@@ -5,9 +5,10 @@
 package site.likailee.winter.core.common.util;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.TypeAnnotationsScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.exception.ResponseException;
 
 import java.lang.annotation.Annotation;
@@ -20,8 +21,9 @@ import java.util.Set;
  * @author likailee.llk
  * @version ReflectionUtils.java 2020/11/27 Fri 5:10 PM likai
  */
-@Slf4j
 public class ReflectionUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReflectionUtils.class);
+
     /**
      * 执行方法并返回结果
      *
@@ -68,7 +70,7 @@ public class ReflectionUtils {
         try {
             return clazz.newInstance();
         } catch (IllegalAccessException | InstantiationException e) {
-            log.error("new instance [{}] failed", clazz, e);
+            LOGGER.error("new instance [{}] failed", clazz, e);
         }
         return null;
     }
@@ -85,7 +87,7 @@ public class ReflectionUtils {
         try {
             field.set(bean, fieldInstance);
         } catch (IllegalAccessException e) {
-            log.error("set bean [{}] field [{}] failed", bean, field, e);
+            LOGGER.error("set bean [{}] field [{}] failed", bean, field, e);
         }
     }
 
@@ -111,7 +113,7 @@ public class ReflectionUtils {
     public static Set<Class<?>> scanAnnotatedClass(String[] packageNames, Class<? extends Annotation> annotation) {
         Reflections reflections = new Reflections(packageNames, new TypeAnnotationsScanner());
         Set<Class<?>> annotatedClass = reflections.getTypesAnnotatedWith(annotation, true);
-        log.info("Number of class annotated with [@{}]: {}", annotation.getSimpleName(), annotatedClass.size());
+        LOGGER.info("Number of class annotated with [@{}]: {}", annotation.getSimpleName(), annotatedClass.size());
         return annotatedClass;
     }
 

@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.core.core.aop.factory;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.aop.Around;
 import site.likailee.winter.core.annotation.aop.Aspect;
 import site.likailee.winter.core.annotation.aop.Order;
@@ -26,8 +27,9 @@ import java.util.stream.Collectors;
  * @author likailee.llk
  * @version InterceptorFactory.java 2020/12/04 Fri 4:24 PM likai
  */
-@Slf4j
 public class InterceptorFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(InterceptorFactory.class);
+
     private static List<Interceptor> interceptors = new ArrayList<>();
 
     /**
@@ -63,7 +65,7 @@ public class InterceptorFactory {
         });
         // 根据优先级排序
         interceptors = interceptors.stream().sorted(Comparator.comparing(Interceptor::getOrder)).collect(Collectors.toList());
-        log.info("Load [{}] interceptors: {}", interceptors.size(), interceptors);
+        LOGGER.info("Load [{}] interceptors: {}", interceptors.size(), interceptors);
     }
 
     private static List<Interceptor> getAroundInterceptors(Object aspect, Class<?> aspectCls) {

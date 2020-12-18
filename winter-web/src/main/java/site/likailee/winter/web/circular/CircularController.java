@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.web.circular;
 
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.annotation.ioc.Autowired;
 import site.likailee.winter.core.annotation.springmvc.GetMapping;
 import site.likailee.winter.core.annotation.springmvc.RestController;
@@ -15,7 +14,6 @@ import site.likailee.winter.core.annotation.springmvc.RestController;
  * @version TestController.java 2020/12/03 Thu 8:48 PM likai
  */
 @RestController("/circular")
-@Slf4j
 public class CircularController {
     @Autowired
     private AService aService;

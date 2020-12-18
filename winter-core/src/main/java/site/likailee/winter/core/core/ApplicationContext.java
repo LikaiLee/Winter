@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.core.core;
 
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.annotation.boot.ComponentScan;
 import site.likailee.winter.core.common.Banner;
 import site.likailee.winter.core.core.aop.factory.InterceptorFactory;
@@ -30,7 +29,6 @@ import java.util.Objects;
  * @author likailee.llk
  * @version ApplicationContext.java 2020/11/30 Mon 2:19 PM likai
  */
-@Slf4j
 public class ApplicationContext {
     private static final ApplicationContext APPLICATION_CONTEXT = new ApplicationContext();
 

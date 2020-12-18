@@ -4,7 +4,6 @@
  */
 package likailee.winter.core.config;
 
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import site.likailee.winter.core.core.config.resource.property.PropertyResourceLoader;
@@ -18,7 +17,6 @@ import java.util.Map;
  * @author likailee.llk
  * @version PropertyResourceLoaderTest.java 2020/12/09 Wed 2:53 PM likai
  */
-@Slf4j
 public class PropertyResourceLoaderTest {
     @Test
     void should_load_resource() throws IOException {

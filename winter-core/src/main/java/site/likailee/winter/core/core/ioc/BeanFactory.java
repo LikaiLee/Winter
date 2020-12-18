@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.core.core.ioc;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.ioc.Component;
 import site.likailee.winter.core.annotation.springmvc.RestController;
 import site.likailee.winter.core.common.util.ReflectionUtils;
@@ -25,8 +26,8 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author likailee.llk
  * @version BeanFactory.java 2020/12/01 Tue 2:29 PM likai
  */
-@Slf4j
 public class BeanFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BeanFactory.class);
     /**
      * 存放所有 Bean 实例
      */
@@ -49,7 +50,7 @@ public class BeanFactory {
         });
         // ConfigurationManager
         BEANS.put(ConfigurationManager.class.getName(), new ConfigurationManager(ConfigurationFactory.getConfig()));
-        log.info("Load [{}] beans: {}", BEANS.size(), BEANS.keySet());
+        LOGGER.info("Load [{}] beans: {}", BEANS.size(), BEANS.keySet());
     }
 
     /**

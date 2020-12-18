@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.web.service;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.ioc.Component;
 
 /**
@@ -12,10 +13,11 @@ import site.likailee.winter.core.annotation.ioc.Component;
  * @version ReadService.java 2020/12/02 Wed 3:13 PM likai
  */
 @Component(name = "ReadService")
-@Slf4j
 public class ReadService {
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadService.class);
+
     public String read() {
-        log.info("reading");
+        LOGGER.info("reading");
         return "reading";
     }
 }

@@ -5,7 +5,6 @@
 package site.likailee.winter.core.core.springmvc.resolver;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.annotation.springmvc.RequestParam;
 import site.likailee.winter.core.core.factory.ConverterFactory;
 import site.likailee.winter.core.core.springmvc.entity.MethodDetail;
@@ -19,7 +18,6 @@ import java.util.Objects;
  * @author likailee.llk
  * @version RequestParamResolver.java 2020/11/30 Mon 4:04 PM likai
  */
-@Slf4j
 public class RequestParamResolver implements ParameterResolver {
     @Override
     public Object resolve(MethodDetail methodDetail, Parameter arg) {

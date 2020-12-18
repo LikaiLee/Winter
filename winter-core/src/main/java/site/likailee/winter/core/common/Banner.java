@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.core.common;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,8 +18,8 @@ import java.nio.file.Paths;
  * @author likailee.llk
  * @version Banner.java 2020/11/27 Fri 12:34 PM likai
  */
-@Slf4j
 public class Banner {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Banner.class);
 
     public static void print() {
         URL url = Thread.currentThread().getContextClassLoader().getResource(SystemConstants.CUSTOM_BANNER_FILE);
@@ -30,7 +31,7 @@ public class Banner {
             Path path = Paths.get(url.toURI());
             Files.lines(path).forEach(System.out::println);
         } catch (URISyntaxException | IOException e) {
-            log.info("read banner error", e);
+            LOGGER.info("read banner error", e);
         }
     }
 }

@@ -6,9 +6,10 @@ package likailee.demo.controller;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.web.entity.User;
 
 import static io.restassured.RestAssured.*;
@@ -20,8 +21,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author likailee.llk
  * @version UserControllerTest.java 2020/12/01 Tue 3:56 PM likai
  */
-@Slf4j
 public class UserControllerTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserControllerTest.class);
 
     @BeforeAll
     static void setup() {
@@ -70,7 +72,7 @@ public class UserControllerTest {
     void should_print_from_biz() {
         Response response = with().when().get("/user/biz_print?msg=hello_from_biz_print");
         assertEquals(200, response.statusCode());
-        log.info(response.getBody().asString());
+        LOGGER.info(response.getBody().asString());
         assertTrue(response.getBody().asString().contains("BizPrintServiceImpl: hello_from_biz_print"));
     }
 
@@ -79,7 +81,7 @@ public class UserControllerTest {
     void should_print_from_sys() {
         Response response = with().when().get("/user/sys_print?msg=hello_from_sys_print");
         assertEquals(200, response.statusCode());
-        log.info(response.getBody().asString());
+        LOGGER.info(response.getBody().asString());
         assertTrue(response.getBody().asString().contains("SysPrintServiceImpl: hello_from_sys_print"));
     }
 
@@ -88,7 +90,7 @@ public class UserControllerTest {
     void should_request_void() {
         Response response = with().when().get("/user/void");
         assertEquals(200, response.statusCode());
-        log.info(response.getBody().asString());
+        LOGGER.info(response.getBody().asString());
     }
 
     // test type converter
@@ -105,7 +107,7 @@ public class UserControllerTest {
                 .contentType("application/json")
                 .body("{\"a\": 1, \"b\": 2}")
                 .when()
-                .get("user/list?list=true,false,false&set=1,1,2,3,3")
+                .get("user/list?list=true,false,false&set=1,1,2,3,3&obj=object")
                 .then()
                 .statusCode(200)
                 .body("list", equalTo("true,false,false"));

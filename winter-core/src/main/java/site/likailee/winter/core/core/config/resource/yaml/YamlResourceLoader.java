@@ -4,7 +4,6 @@
  */
 package site.likailee.winter.core.core.config.resource.yaml;
 
-import lombok.extern.slf4j.Slf4j;
 import org.yaml.snakeyaml.Yaml;
 import site.likailee.winter.core.core.config.resource.ResourceLoader;
 
@@ -21,7 +20,6 @@ import java.util.Map;
  * @author likailee.llk
  * @version YamlResourceLoader.java 2020/12/09 Wed 2:29 PM likai
  */
-@Slf4j
 public class YamlResourceLoader implements ResourceLoader {
 
     @Override

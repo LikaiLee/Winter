@@ -5,7 +5,6 @@
 package site.likailee.winter.core.core.factory;
 
 import io.netty.handler.codec.http.HttpResponseStatus;
-import lombok.extern.slf4j.Slf4j;
 import site.likailee.winter.core.core.springmvc.converter.ParameterConverterFactory;
 import site.likailee.winter.core.exception.ResponseException;
 
@@ -18,7 +17,6 @@ import java.util.Objects;
  * @author likailee.llk
  * @version ConverterFactory.java 2020/11/27 Fri 5:06 PM likai
  */
-@Slf4j
 public class ConverterFactory {
     /**
      * 将字符串转为特定类型

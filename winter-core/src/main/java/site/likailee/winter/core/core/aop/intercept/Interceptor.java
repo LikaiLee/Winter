@@ -4,17 +4,12 @@
  */
 package site.likailee.winter.core.core.aop.intercept;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * 方法拦截器
  *
  * @author likailee.llk
  * @version Interceptor.java 2020/12/04 Fri 10:47 AM likai
  */
-@Getter
-@Setter
 public abstract class Interceptor {
     private int order = -1;
 
@@ -30,4 +25,11 @@ public abstract class Interceptor {
      */
     public abstract Object intercept(MethodInvocation invocation);
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
 }

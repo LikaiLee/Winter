@@ -4,7 +4,8 @@
  */
 package site.likailee.winter.web.controller;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import site.likailee.winter.core.annotation.ioc.Autowired;
 import site.likailee.winter.core.annotation.ioc.Qualifier;
 import site.likailee.winter.core.annotation.springmvc.*;
@@ -23,8 +24,9 @@ import java.util.Set;
  * @version UserController.java 2020/11/27 Fri 1:04 PM likai
  */
 @RestController("/user")
-@Slf4j
 public class UserController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     private ReadService readService;
 
@@ -67,7 +69,7 @@ public class UserController {
 
     @GetMapping("/void")
     public void voidResult() {
-        log.info("request on /user/void");
+        LOGGER.info("request on /user/void");
     }
 
     @GetMapping("/dataType")
@@ -104,11 +106,11 @@ public class UserController {
                                          @RequestParam("obj") Object o,
                                          @RequestParam Map<String, Object> paramsMap,
                                          @RequestBody Map<String, String> bodyMap) {
-        log.info(list.toString());
-        log.info(set.toString());
-        log.info(o.toString());
-        log.info(bodyMap.toString());
-        log.info(paramsMap.toString());
+        LOGGER.info(list.toString());
+        LOGGER.info(set.toString());
+        LOGGER.info(o.toString());
+        LOGGER.info(bodyMap.toString());
+        LOGGER.info(paramsMap.toString());
         return paramsMap;
     }
 }

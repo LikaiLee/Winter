@@ -4,9 +4,6 @@
  */
 package site.likailee.winter.core.exception;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import site.likailee.winter.core.common.util.DateUtils;
 
 /**
@@ -15,9 +12,6 @@ import site.likailee.winter.core.common.util.DateUtils;
  * @author likailee.llk
  * @version ErrorResponse.java 2020/11/27 Fri 9:18 PM likai
  */
-@Data
-@NoArgsConstructor
-@ToString
 public class ErrorResponse {
     /**
      * 发生错误的错误时间
@@ -48,4 +42,46 @@ public class ErrorResponse {
         this.timeStamp = DateUtils.now();
     }
 
+    public ErrorResponse() {
+    }
+
+    public String getTimeStamp() {
+        return timeStamp;
+    }
+
+    public void setTimeStamp(String timeStamp) {
+        this.timeStamp = timeStamp;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
 }
