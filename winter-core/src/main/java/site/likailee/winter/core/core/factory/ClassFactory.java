@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version ClassFactory.java 2020/12/01 Tue 2:19 PM likai
  */
 public class ClassFactory {
-    public static final Map<Class<? extends Annotation>, Set<Class<?>>> CLASSES = new ConcurrentHashMap<>();
+    private static final Map<Class<? extends Annotation>, Set<Class<?>>> CLASSES = new ConcurrentHashMap<>();
 
     public static void loadClass(String[] packageNames) {
         // 获取所有带有 @RestController 的类
@@ -32,5 +32,17 @@ public class ClassFactory {
         CLASSES.put(RestController.class, restControllers);
         CLASSES.put(Component.class, components);
         CLASSES.put(Aspect.class, aspects);
+    }
+
+    public static Set<Class<?>> getRestControllers() {
+        return CLASSES.get(RestController.class);
+    }
+
+    public static Set<Class<?>> getComponents() {
+        return CLASSES.get(Component.class);
+    }
+
+    public static Set<Class<?>> getAspects() {
+        return CLASSES.get(Aspect.class);
     }
 }

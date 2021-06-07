@@ -39,16 +39,16 @@ public class InterceptorFactory {
      */
     public static void loadInterceptors(String[] packageNames) {
         Set<Class<? extends Interceptor>> interceptorClasses = ReflectionUtils.getImplClasses(packageNames, Interceptor.class);
-        Set<Class<?>> aspects = ClassFactory.CLASSES.get(Aspect.class);
         // 实例化 Interceptor
         for (Class<? extends Interceptor> interceptorCls : interceptorClasses) {
             try {
                 interceptors.add(interceptorCls.newInstance());
             } catch (InstantiationException | IllegalAccessException e) {
-                throw new CannotInitializeConstructorException("not init constructor, the interceptor name :" + interceptorCls.getSimpleName());
+                throw new CannotInitializeConstructorException("can not init constructor, the interceptor name: " + interceptorCls.getSimpleName());
             }
         }
         // 实例化 Aspect
+        Set<Class<?>> aspects = ClassFactory.getAspects();
         aspects.forEach(aspectCls -> {
             // 将 Aspect 封装成 Interceptor
             Object aspect = ReflectionUtils.newInstance(aspectCls);

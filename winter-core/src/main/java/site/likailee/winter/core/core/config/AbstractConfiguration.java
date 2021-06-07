@@ -5,6 +5,7 @@
 package site.likailee.winter.core.core.config;
 
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -19,8 +20,8 @@ public abstract class AbstractConfiguration implements Configuration {
 
     @Override
     public int getInt(String id) {
-        String str = getString(id);
-        return Integer.parseInt(str);
+        String port = getString(id);
+        return Objects.isNull(port) ? Integer.MIN_VALUE : Integer.parseInt(port);
     }
 
     @Override

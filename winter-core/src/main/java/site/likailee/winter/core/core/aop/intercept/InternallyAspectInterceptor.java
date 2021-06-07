@@ -49,15 +49,15 @@ public class InternallyAspectInterceptor extends Interceptor {
     private void init() {
         for (Method method : adviceBean.getClass().getMethods()) {
             Pointcut pointcut = method.getAnnotation(Pointcut.class);
-            if (!Objects.isNull(pointcut)) {
+            if (Objects.nonNull(pointcut)) {
                 expressionUrls.add(pointcut.value());
             }
             Before before = method.getAnnotation(Before.class);
-            if (!Objects.isNull(before)) {
+            if (Objects.nonNull(before)) {
                 beforeMethods.add(method);
             }
             After after = method.getAnnotation(After.class);
-            if (!Objects.isNull(after)) {
+            if (Objects.nonNull(after)) {
                 afterMethods.add(method);
             }
         }

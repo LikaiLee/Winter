@@ -53,6 +53,11 @@ public class ConfigurationManager implements Configuration {
         });
     }
 
+    public int getPort() {
+        int port = configuration.getInt(CONFIG_PORT);
+        return port == Integer.MIN_VALUE ? DEFAULT_PORT : port;
+    }
+
     @Override
     public int getInt(String id) {
         return configuration.getInt(id);

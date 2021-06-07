@@ -38,15 +38,16 @@ public class BeanFactory {
      */
     public static void loadBeans() {
         // @Component
-        ClassFactory.CLASSES.get(Component.class).forEach(componentCls -> {
+        ClassFactory.getComponents().forEach(componentCls -> {
             String beanName = WinterUtils.getBeanName(componentCls);
             Object bean = ReflectionUtils.newInstance(componentCls);
             BEANS.put(beanName, bean);
         });
         // @RestController
-        ClassFactory.CLASSES.get(RestController.class).forEach(ctrlClass -> {
+        ClassFactory.getRestControllers().forEach(ctrlClass -> {
+            String beanName = WinterUtils.getBeanName(ctrlClass);
             Object bean = ReflectionUtils.newInstance(ctrlClass);
-            BEANS.put(ctrlClass.getName(), bean);
+            BEANS.put(beanName, bean);
         });
         // ConfigurationManager
         BEANS.put(ConfigurationManager.class.getName(), new ConfigurationManager(ConfigurationFactory.getConfig()));

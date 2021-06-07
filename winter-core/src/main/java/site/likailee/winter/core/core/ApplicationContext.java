@@ -86,10 +86,12 @@ public class ApplicationContext {
     }
 
     private void callRunners() {
+        ConfigurationManager configurationManager = BeanFactory.getBeanForType(ConfigurationManager.class);
+        int port = configurationManager.getPort();
         List<ApplicationRunner> runners = new ArrayList<>();
         runners.add(() -> {
             HttpServer server = new HttpServer();
-            server.start();
+            server.start(port);
         });
         for (Object runner : new LinkedHashSet<>(runners)) {
             ((ApplicationRunner) runner).run();
@@ -105,6 +107,6 @@ public class ApplicationContext {
      */
     private String[] getPackageNames(Class<?> applicationClass) {
         ComponentScan componentScan = applicationClass.getAnnotation(ComponentScan.class);
-        return !Objects.isNull(componentScan) ? componentScan.value() : new String[]{applicationClass.getPackage().getName()};
+        return Objects.nonNull(componentScan) ? componentScan.value() : new String[]{applicationClass.getPackage().getName()};
     }
 }

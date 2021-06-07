@@ -18,6 +18,9 @@ public interface Configuration {
      */
     String[] DEFAULT_CONFIG_NAMES = {"application.properties", "application.yaml"};
 
+    static final String CONFIG_PORT = "winter.port";
+    static final Integer DEFAULT_PORT = 8080;
+
     /**
      * 获取 int
      *

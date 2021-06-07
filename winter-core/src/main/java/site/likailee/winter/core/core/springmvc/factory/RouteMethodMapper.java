@@ -27,10 +27,12 @@ import java.util.regex.Pattern;
  */
 public class RouteMethodMapper {
     private static final Logger LOGGER = LoggerFactory.getLogger(RouteMethodMapper.class);
+
     /**
      * Map(模板化 URL -> 原始 URL)
      */
     private static final Map<String, String> REQUEST_URL_MAP = new HashMap<>(64);
+
     /**
      * (模板化 URL -> 路由表 Map<请求方法，对应的处理方法>)
      * <p>
@@ -44,12 +46,11 @@ public class RouteMethodMapper {
      */
     private static final Map<String, Map<RequestMethod, Method>> URL_TO_ROUTE_MAP = new HashMap<>(64);
 
-
     /**
      * 加载路由
      */
     public static void loadRoutes() {
-        Set<Class<?>> classes = ClassFactory.CLASSES.get(RestController.class);
+        Set<Class<?>> classes = ClassFactory.getRestControllers();
         for (Class<?> clazz : classes) {
             // 解析控制器的 URL
             String baseUrl = "";

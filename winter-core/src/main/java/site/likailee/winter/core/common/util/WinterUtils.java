@@ -12,7 +12,7 @@ import site.likailee.winter.core.annotation.ioc.Component;
  */
 public class WinterUtils {
     /**
-     * 若 @Component 有值则取值，否则取类名
+     * 若 {@link site.likailee.winter.core.annotation.ioc.Component} 有值则取值，否则取类名
      *
      * @param clazz
      * @return

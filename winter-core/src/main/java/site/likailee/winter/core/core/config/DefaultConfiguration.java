@@ -11,4 +11,5 @@ package site.likailee.winter.core.core.config;
  * @version DefaultConfiguration.java 2020/12/09 Wed 2:22 PM likai
  */
 public class DefaultConfiguration extends AbstractConfiguration {
+
 }

@@ -18,6 +18,7 @@ import site.likailee.winter.core.core.aop.lang.ProceedingJoinPoint;
 @Order(2)
 public class WebLogAspect {
     private static final Logger LOGGER = LoggerFactory.getLogger(WebLogAspect.class);
+
     @Pointcut("site.likailee.demo.*.*Service*")
     public void pointcut() {
     }

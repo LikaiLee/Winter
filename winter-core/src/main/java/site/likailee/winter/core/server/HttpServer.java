@@ -25,9 +25,8 @@ import site.likailee.winter.core.common.SystemConstants;
  */
 public class HttpServer {
     private static final Logger LOGGER = LoggerFactory.getLogger(HttpServer.class);
-    private static final int PORT = 8080;
 
-    public void start() {
+    public void start(int port) {
         // 用于处理客户端的 TCP 连接请求
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         // 负责每一条连接的具体读写数据的处理逻辑，真正负责 I/O 读写操作，交由对应的 Handler 处理。
@@ -55,8 +54,8 @@ public class HttpServer {
 
                         }
                     });
-            Channel channel = bootstrap.bind(PORT).sync().channel();
-            LOGGER.info(SystemConstants.LOG_PORT_BANNER, PORT);
+            Channel channel = bootstrap.bind(port).sync().channel();
+            LOGGER.info(SystemConstants.LOG_PORT_BANNER, port);
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
             LOGGER.error("exception occurs when server start: " + e);
